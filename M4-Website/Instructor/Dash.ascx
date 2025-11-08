@@ -76,7 +76,6 @@
             <asp:CommandField ShowSelectButton="True"></asp:CommandField>
             <asp:BoundField DataField="BookingID" HeaderText="BookingID" ReadOnly="True" InsertVisible="False" SortExpression="BookingID"></asp:BoundField>
             <asp:BoundField DataField="StudentID" HeaderText="StudentID" SortExpression="StudentID"></asp:BoundField>
-            <asp:BoundField DataField="InstructorID" HeaderText="InstructorID" SortExpression="InstructorID"></asp:BoundField>
             <asp:BoundField DataField="VehicleID" HeaderText="VehicleID" SortExpression="VehicleID"></asp:BoundField>
             <asp:BoundField DataField="PackageID" HeaderText="PackageID" SortExpression="PackageID"></asp:BoundField>
             <asp:BoundField DataField="TimeSlotID" HeaderText="TimeSlotID" SortExpression="TimeSlotID"></asp:BoundField>
