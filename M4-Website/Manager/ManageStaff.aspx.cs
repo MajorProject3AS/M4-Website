@@ -11,7 +11,17 @@ namespace M4_Website.Manager
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                BindGridView();
+            }
         }
+             private void BindGridView()
+             {
+            // Get data from your data source
+
+           GVstaff.DataBind();
+              }
+
     }
 }
