@@ -356,6 +356,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Instructor\Attendance.ascx.cs">
       <DependentUpon>Attendance.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Instructor\Attendance.ascx.designer.cs">
       <DependentUpon>Attendance.ascx</DependentUpon>
@@ -376,6 +377,7 @@
     </Compile>
     <Compile Include="Instructor\Dash.ascx.cs">
       <DependentUpon>Dash.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Instructor\Dash.ascx.designer.cs">
       <DependentUpon>Dash.ascx</DependentUpon>
@@ -464,6 +466,7 @@
     </Compile>
     <Compile Include="Site.Mobile.Master.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
@@ -471,12 +474,14 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Instructor\StudentProgress.ascx.cs">
       <DependentUpon>StudentProgress.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Instructor\StudentProgress.ascx.designer.cs">
       <DependentUpon>StudentProgress.ascx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
