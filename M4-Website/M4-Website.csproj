@@ -183,6 +183,8 @@
     <Content Include="FAQ.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="images\62EDC056-D437-46C9-BAAC-D7BDB89B6DFC.PNG" />
+    <Content Include="images\7DCCB743-16EC-4B54-A8D3-4336A997FF45.PNG" />
     <Content Include="Login.aspx" />
     <Content Include="Manager\ManagerDefault.aspx" />
     <Content Include="Manager\ManageInstructors.aspx" />

@@ -99,14 +99,14 @@
  </div>
          <!-- Sidebar -->
  <div class="sidebar">
-     <img src="image/62EDC056-D437-46C9-BAAC-D7BDB89B6DFC.PNG" alt="TLG Driving Academy Logo" />
+     <img src="../images/62EDC056-D437-46C9-BAAC-D7BDB89B6DFC.PNG" alt="TLG Driving Academy Logo" />
      <h2>MANAGER</h2>
-     <a href="WebForm1.aspx">Dashboard</a>
-     <a href="WebForm2.aspx">Instructors</a>
-     <a href="Vehicles.aspx">Vehicles</a>
-     <a href="Staff.aspx">General Staff</a>
-     <a href="Reports.aspx">Reports</a>
-     <a href="Settings.aspx">Settings</a>
+     <a href="ManagerDefault.aspx">Dashboard</a>
+     <a href="ManageInstructors.aspx">Instructors</a>
+     <a href="ManageVehicles.aspx">Vehicles</a>
+     <a href="ManageStaff.aspx">General Staff</a>
+   
+   
  </div>
         <div>
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">

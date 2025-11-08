@@ -115,7 +115,7 @@ body {
   padding: 12px 16px !important;
 }
         /* Status colors */
-        .status-confirmed {
+        .status-scheduled {
             color: green !important;
             font-weight: bold !important;
         }

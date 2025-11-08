@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -11,7 +12,18 @@ namespace M4_Website.Manager
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                BindGridView();
+            }
         }
+        private void BindGridView()
+        {
+            // Get data from your data source
+
+            GVvehichles.DataBind();
+        }
+
+       
     }
 }
