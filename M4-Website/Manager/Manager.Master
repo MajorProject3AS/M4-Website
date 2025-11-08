@@ -6,12 +6,111 @@
 <head runat="server">
     <title></title>
     <asp:ContentPlaceHolder ID="head" runat="server">
+                <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background-color: #ffffff;
+        }
+
+        /* Header */
+        
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            height: 100vh;
+            background-color: #000000;
+            color: white;
+            padding-top: 20px;
+        }
+
+        .sidebar img {
+            width: 160px;
+            display: block;
+            margin: 0 auto 20px auto;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px 20px;
+            color: #fff;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover {
+            background-color: #343a40;
+        }
+
+        /* Main content */
+        .main-content {
+  margin-left: 250px;
+  padding: 32px 40px 40px 40px;
+  width: 100%;
+}
+
+        /* Common styles for content pages */
+        .cards {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            flex: 1;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            min-width: 200px;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 14px;
+        }
+
+       
+    </style>
     </asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
+         <!-- Header -->
+ <div class=" main-content">
+     <h1>Welcome Sfiso</h1>
+ </div>
+         <!-- Sidebar -->
+ <div class="sidebar">
+     <img src="image/62EDC056-D437-46C9-BAAC-D7BDB89B6DFC.PNG" alt="TLG Driving Academy Logo" />
+     <h2>MANAGER</h2>
+     <a href="WebForm1.aspx">Dashboard</a>
+     <a href="WebForm2.aspx">Instructors</a>
+     <a href="Vehicles.aspx">Vehicles</a>
+     <a href="Staff.aspx">General Staff</a>
+     <a href="Reports.aspx">Reports</a>
+     <a href="Settings.aspx">Settings</a>
+ </div>
         <div>
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                 <p>Welcome to TLG Manager Dashboard</p>
             </asp:ContentPlaceHolder>
         </div>
     </form>
