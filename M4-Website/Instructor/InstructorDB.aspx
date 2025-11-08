@@ -16,7 +16,11 @@
     background-color: #c00; /* Red */
     color: white;
     padding: 20px;
+     height: 80px;
+    display: flex;
     text-align: center;
+    font-size: 24px;
+
 }
 
 .content-wrapper {
@@ -53,12 +57,12 @@
     overflow-y: auto;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .user-control-panel {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
 }
 </style>
 
