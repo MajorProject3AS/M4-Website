@@ -22,8 +22,9 @@
             <asp:ControlParameter ControlID="Calendar1" Name="date" PropertyName="SelectedDate" />
         </SelectParameters>
     </asp:SqlDataSource>
-    <asp:Button ID="PresentBtn" runat="server" Text="Present" />
-    <asp:Button ID="AbsentBtn" runat="server" Text="Absent" />
+    <asp:Button ID="PresentBtn" runat="server" Text="Present" OnClick="PresentBtn_Click" />
+    <asp:Button ID="AbsentBtn" runat="server" Text="Absent" OnClick="AbsentBtn_Click" />
+    <asp:Label ID="statusLbl" runat="server" Text=" "></asp:Label>
 </div>
 <br /><br /><br /><br /><br /><br />
 <div style="float:inline-end; margin-top: 241px;">
