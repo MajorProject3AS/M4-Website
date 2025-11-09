@@ -52,6 +52,8 @@
                          <li class="nav-item"><a class="nav-link" runat="server" href="~/FAQ">FAQ</a></li>
                          <li class="nav-item"><a class="nav-link" runat="server" href="~/About">About</a></li>
                          <li class="nav-item"><a class="nav-link" runat="server" href="~/Contact">Contact</a></li>
+                         <li class="nav-item"><a class="nav-link" runat="server" id="PrivateManager" Visible ="false" href="~/Manager/ManagerDefault">Manager</a></li>
+                         <li class="nav-item"><a class="nav-link" runat="server" id="PrivateInstructor" visible ="false" href="~/Instructor/InstructorDB">Instructor Dasboard</a></li>
                          <li class="nav-item"><a class="nav-link" runat="server" href="~/Manager/ManagerDefault">Manager</a></li>
                          <li class="nav-item"><a class="nav-link" runat="server" href="~/Instructor/InstructorDB">Instructor Dasboard</a></li>
                      </ul>
