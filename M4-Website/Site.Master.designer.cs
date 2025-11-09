@@ -33,6 +33,15 @@ namespace M4_Website
         protected global::System.Web.UI.HtmlControls.HtmlAnchor PrivateInstructor;
 
         /// <summary>
+        /// StudentDashboard control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor StudentDashboard;
+
+        /// <summary>
         /// MainContent control.
         /// </summary>
         /// <remarks>

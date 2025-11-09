@@ -206,10 +206,13 @@ namespace M4_Website.Payment
 
                     using (SqlConnection conn = new SqlConnection(connectionString))
                     {
+                        conn.Open();
+
+                        // Insert payment record with Status = 'Processing'
                         string query = @"INSERT INTO PaymentMJ 
-                                        (PaymentDate, AmountPaid, AmountDue, PaymentMethod, StudentID) 
+                                        (PaymentDate, AmountPaid, AmountDue, PaymentMethod, StudentID, Status) 
                                         VALUES 
-                                        (@PaymentDate, @AmountPaid, @AmountDue, @PaymentMethod, @StudentID)";
+                                        (@PaymentDate, @AmountPaid, @AmountDue, @PaymentMethod, @StudentID, @Status)";
 
                         using (SqlCommand cmd = new SqlCommand(query, conn))
                         {
@@ -218,9 +221,18 @@ namespace M4_Website.Payment
                             cmd.Parameters.AddWithValue("@AmountDue", 0.00); // Full payment, no amount due
                             cmd.Parameters.AddWithValue("@PaymentMethod", paymentMethod);
                             cmd.Parameters.AddWithValue("@StudentID", studentId);
+                            cmd.Parameters.AddWithValue("@Status", "Processing"); // Set default status to Processing
 
-                            conn.Open();
                             cmd.ExecuteNonQuery();
+                        }
+
+                        // Update student status to Active after payment submission
+                        string updateStatusQuery = "UPDATE StudentMJ SET Status = 'Active' WHERE StudentID = @StudentID";
+                        
+                        using (SqlCommand updateCmd = new SqlCommand(updateStatusQuery, conn))
+                        {
+                            updateCmd.Parameters.AddWithValue("@StudentID", studentId);
+                            updateCmd.ExecuteNonQuery();
                         }
                     }
 

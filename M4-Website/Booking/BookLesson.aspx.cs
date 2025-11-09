@@ -121,9 +121,9 @@ namespace M4_Website.Booking
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    // Check if student exists and get their info
+                    // Check if student exists and get their info including payment status
                     string query = @"SELECT s.StudentID, s.Name, s.Surname, s.PackageName,
-                                    CASE WHEN p.PaymentID IS NOT NULL THEN 'Paid' ELSE 'Not Paid' END as PaymentStatus
+                                    p.PaymentID, p.Status as PaymentStatus
                                     FROM StudentMJ s
                                     LEFT JOIN PaymentMJ p ON s.StudentID = p.StudentID
                                     WHERE s.StudentID = @StudentID";
@@ -137,23 +137,39 @@ namespace M4_Website.Booking
                         {
                             if (reader.Read())
                             {
-                                string paymentStatus = reader["PaymentStatus"].ToString();
+                                bool hasPayment = reader["PaymentID"] != DBNull.Value;
+                                string paymentStatus = hasPayment ? reader["PaymentStatus"].ToString() : "";
 
-                                if (paymentStatus == "Not Paid")
+                                if (!hasPayment)
                                 {
                                     // Student hasn't paid, ask if they want to pay
                                     string script = @"
                                         if (confirm('You have not paid for your package yet.\n\nWould you like to proceed to payment now?')) {
                                             window.location.href = '/Payment/Payment.aspx?studentId=" + studentId + @"';
+                                        } else {
+                                            window.location.href = '/Default.aspx';
                                         }
                                     ";
                                     ClientScript.RegisterStartupScript(this.GetType(), "PaymentPrompt", script, true);
                                     pnlLogin.Visible = true;
                                     pnlStudentInfo.Visible = false;
+                                    return;
+                                }
+                                else if (paymentStatus != "Paid")
+                                {
+                                    // Payment is still processing
+                                    string script = @"
+                                        alert('Your payment is currently being processed.\n\nStatus: " + paymentStatus + @"\n\nYou will be able to book lessons once your payment has been confirmed by our receptionist.\n\nPlease check back later or contact us for more information.');
+                                        window.location.href = '/Default.aspx';
+                                    ";
+                                    ClientScript.RegisterStartupScript(this.GetType(), "PaymentProcessing", script, true);
+                                    pnlLogin.Visible = true;
+                                    pnlStudentInfo.Visible = false;
+                                    return;
                                 }
                                 else
                                 {
-                                    // Student has paid, show booking form
+                                    // Payment is confirmed as Paid, show booking form
                                     hfStudentID.Value = reader["StudentID"].ToString();
                                     lblStudentName.Text = reader["Name"].ToString() + " " + reader["Surname"].ToString();
                                     lblPackage.Text = reader["PackageName"].ToString();

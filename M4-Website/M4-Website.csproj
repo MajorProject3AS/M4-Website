@@ -183,6 +183,7 @@
     <Content Include="Booking\Web.config" />
     <Content Include="Payment\Payment.aspx" />
     <Content Include="Payment\Web.config" />
+    <Content Include="Student\Dashboard.aspx" />
     <Content Include="Instructor\Attendance.ascx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\Site.css" />
@@ -409,6 +410,13 @@
     </Compile>
     <Compile Include="Payment\Payment.aspx.designer.cs">
       <DependentUpon>Payment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Student\Dashboard.aspx.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Student\Dashboard.aspx.designer.cs">
+      <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

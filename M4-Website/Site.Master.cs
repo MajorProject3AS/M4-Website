@@ -83,6 +83,7 @@ namespace M4_Website
                 // Reset both first
                 PrivateManager.Visible = false;
                 PrivateInstructor.Visible = false;
+                StudentDashboard.Visible = false;
 
                 // Then set based on roles
                 if (Context.User.IsInRole("Manager"))
@@ -93,11 +94,17 @@ namespace M4_Website
                 {
                     PrivateInstructor.Visible = true;
                 }
+                else
+                {
+                    // Regular logged-in user (student) - show dashboard
+                    StudentDashboard.Visible = true;
+                }
             }
             else
             {
                 PrivateManager.Visible = false;
                 PrivateInstructor.Visible = false;
+                StudentDashboard.Visible = false;
             }
         }
             
