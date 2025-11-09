@@ -190,12 +190,10 @@
     <Content Include="images\62EDC056-D437-46C9-BAAC-D7BDB89B6DFC.PNG" />
     <Content Include="images\7DCCB743-16EC-4B54-A8D3-4336A997FF45.PNG" />
     <Content Include="Instructor\InstructorDB.aspx" />
-    <Content Include="Login.aspx" />
     <Content Include="Manager\ManagerDefault.aspx" />
     <Content Include="Manager\ManageInstructors.aspx" />
     <Content Include="Manager\ManageVehicles.aspx" />
     <Content Include="Manager\ManageStaff.aspx" />
-    <Content Include="Register.aspx" />
     <Content Include="Account\Web.config" />
     <Content Include="Manager\Manager.Master" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -204,6 +202,8 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Manager\ManagerWeb.config" />
+    <Content Include="Instructor\InstructorWeb.config" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -356,6 +356,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Instructor\Attendance.ascx.cs">
       <DependentUpon>Attendance.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Instructor\Attendance.ascx.designer.cs">
       <DependentUpon>Attendance.ascx</DependentUpon>
@@ -376,6 +377,7 @@
     </Compile>
     <Compile Include="Instructor\Dash.ascx.cs">
       <DependentUpon>Dash.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Instructor\Dash.ascx.designer.cs">
       <DependentUpon>Dash.ascx</DependentUpon>
@@ -403,13 +405,6 @@
     </Compile>
     <Compile Include="Instructor\InstructorDB.aspx.designer.cs">
       <DependentUpon>InstructorDB.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Login.aspx.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Login.aspx.designer.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manager\Manager.Master.cs">
       <DependentUpon>Manager.Master</DependentUpon>
@@ -448,13 +443,6 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Register.aspx.cs">
-      <DependentUpon>Register.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Register.aspx.designer.cs">
-      <DependentUpon>Register.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -464,6 +452,7 @@
     </Compile>
     <Compile Include="Site.Mobile.Master.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
@@ -471,12 +460,14 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Instructor\StudentProgress.ascx.cs">
       <DependentUpon>StudentProgress.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Instructor\StudentProgress.ascx.designer.cs">
       <DependentUpon>StudentProgress.ascx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
