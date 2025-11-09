@@ -15,7 +15,7 @@
         </p>
 
         <div class="hero-buttons">
-            <a href="Login.aspx" class="btn btn-red me-3">Book Your Lesson</a>
+            <a href="/Booking/BookLesson.aspx" class="btn btn-red me-3">Book Your Lesson</a>
             <a href="Courses.aspx" class="btn btn-outline-red">View Services</a>
         </div>
 

@@ -277,7 +277,7 @@
                 <p>CODE 08 - Light Motor Vehicle</p>
                 <p>R1300.00</p>
                 <p>Theory Training, Practical Lessons, Road Safety, Basic Maneuvers</p>
-                <a href="#" class="course-btn">Book This Package</a>
+                <a href="/Booking/BookPackage.aspx?package=Steward's Package - 10 Lessons&code=CODE 08 - Light Motor Vehicle&price=R1300.00" class="course-btn">Book This Package</a>
             </div>
 
             <div class="course-card">
@@ -286,7 +286,7 @@
                 <p>CODE 08 - Light Motor Vehicle</p>
                 <p>R1700.00</p>
                 <p>Extended Practice, Theory Training, Test Preparation, Confidence Building</p>
-                <a href="#" class="course-btn">Book This Package</a>
+                <a href="/Booking/BookPackage.aspx?package=Royalty Package - 15 Lessons&code=CODE 08 - Light Motor Vehicle&price=R1700.00" class="course-btn">Book This Package</a>
             </div>
 
             <div class="course-card">
@@ -295,7 +295,7 @@
                 <p>CODE 08 - Light Motor Vehicle</p>
                 <p>R2000.00</p>
                 <p>Comprehensive Training, Advanced Techniques, Multiple Test Routes, Full Support</p>
-                <a href="#" class="course-btn">Book This Package</a>
+                <a href="/Booking/BookPackage.aspx?package=Prince's Package - 20 Lessons&code=CODE 08 - Light Motor Vehicle&price=R2000.00" class="course-btn">Book This Package</a>
             </div>
 
             <div class="course-card">
@@ -304,7 +304,7 @@
                 <p>CODE 08 - Light Motor Vehicle</p>
                 <p>R3200.00</p>
                 <p>Start to Finish, All Inclusive, Guaranteed Support, Unlimited Practice</p>
-                <a href="#" class="course-btn">Book This Package</a>
+                <a href="/Booking/BookPackage.aspx?package=Full Course - Complete&code=CODE 08 - Light Motor Vehicle&price=R3200.00" class="course-btn">Book This Package</a>
             </div>
         </section>
 
@@ -321,7 +321,7 @@
                 <p>CODE 10 - Light Truck</p>
                 <p>R1700.00</p>
                 <p>Theory Training, Practical Lessons, Road Safety, Basic Maneuvers</p>
-                <a href="#" class="course-btn">Book This Package</a>
+                <a href="/Booking/BookPackage.aspx?package=Steward's Package - 10 Lessons&code=CODE 10 - Light Truck&price=R1700.00" class="course-btn">Book This Package</a>
             </div>
 
             <div class="course-card">
@@ -330,7 +330,7 @@
                 <p>CODE 10 - Light Truck</p>
                 <p>R2100.00</p>
                 <p>Extended Practice, Theory Training, Test Preparation, Confidence Building</p>
-                <a href="#" class="course-btn">Book This Package</a>
+                <a href="/Booking/BookPackage.aspx?package=Royalty Package - 15 Lessons&code=CODE 10 - Light Truck&price=R2100.00" class="course-btn">Book This Package</a>
             </div>
 
             <div class="course-card">
@@ -339,7 +339,7 @@
                 <p>CODE 10 - Light Truck</p>
                 <p>R2500.00</p>
                 <p>Comprehensive Training, Advanced Techniques, Multiple Test Routes, Full Support</p>
-                <a href="#" class="course-btn">Book This Package</a>
+                <a href="/Booking/BookPackage.aspx?package=Prince's Package - 20 Lessons&code=CODE 10 - Light Truck&price=R2500.00" class="course-btn">Book This Package</a>
             </div>
 
             <div class="course-card">
@@ -348,7 +348,7 @@
                 <p>CODE 10 - Light Truck</p>
                 <p>R3000.00</p>
                 <p>Premium Training, Extra Practice, Personalized Attention, Priority Booking</p>
-                <a href="#" class="course-btn">Book This Package</a>
+                <a href="/Booking/BookPackage.aspx?package=Princess's Package - 25 Lessons&code=CODE 10 - Light Truck&price=R3000.00" class="course-btn">Book This Package</a>
             </div>
         </section>
 

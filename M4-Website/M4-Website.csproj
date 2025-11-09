@@ -178,6 +178,11 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Booking\BookPackage.aspx" />
+    <Content Include="Booking\BookLesson.aspx" />
+    <Content Include="Booking\Web.config" />
+    <Content Include="Payment\Payment.aspx" />
+    <Content Include="Payment\Web.config" />
     <Content Include="Instructor\Attendance.ascx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\Site.css" />
@@ -383,6 +388,27 @@
     </Compile>
     <Compile Include="Instructor\Dash.ascx.designer.cs">
       <DependentUpon>Dash.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Booking\BookPackage.aspx.cs">
+      <DependentUpon>BookPackage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Booking\BookPackage.aspx.designer.cs">
+      <DependentUpon>BookPackage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Booking\BookLesson.aspx.cs">
+      <DependentUpon>BookLesson.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Booking\BookLesson.aspx.designer.cs">
+      <DependentUpon>BookLesson.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Payment\Payment.aspx.cs">
+      <DependentUpon>Payment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Payment\Payment.aspx.designer.cs">
+      <DependentUpon>Payment.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
