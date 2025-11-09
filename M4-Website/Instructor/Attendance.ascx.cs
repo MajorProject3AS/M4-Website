@@ -56,7 +56,7 @@ namespace M4_Website
                 try
                 {
                     string date = DateTime.Now.ToString("yyyy-MM-dd");
-                    string attendance = "Present";
+                    string attendanc = "Absent";
                     DSAttendance.InsertParameters["BookingID"].DefaultValue = BKPac.SelectedRow.Cells[1].Text;
                     DSAttendance.InsertParameters["StudentID"].DefaultValue = BKPac.SelectedRow.Cells[2].Text;
                     DSAttendance.InsertParameters["StudentName"].DefaultValue = BKPac.SelectedRow.Cells[3].Text;
@@ -64,7 +64,7 @@ namespace M4_Website
                     DSAttendance.InsertParameters["instructorId"].DefaultValue = Id.ToString();
                     DSAttendance.InsertParameters["BookingDate"].DefaultValue = BKPac.SelectedRow.Cells[6].Text;
                     DSAttendance.InsertParameters["BookingTime"].DefaultValue = BKPac.SelectedRow.Cells[7].Text;
-                    DSAttendance.InsertParameters["Attendance"].DefaultValue = attendance;
+                    DSAttendance.InsertParameters["Attendance"].DefaultValue = attendanc;
                     DSAttendance.InsertParameters["Date"].DefaultValue = date;
                     DSAttendance.InsertParameters["PackageID"].DefaultValue = BKPac.SelectedRow.Cells[8].Text;
                     DSAttendance.Insert();
