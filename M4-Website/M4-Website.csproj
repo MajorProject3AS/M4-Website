@@ -194,6 +194,8 @@
     <Content Include="Manager\ManageInstructors.aspx" />
     <Content Include="Manager\ManageVehicles.aspx" />
     <Content Include="Manager\ManageStaff.aspx" />
+    <Content Include="Manager\Reports.aspx" />
+    <Content Include="Register.aspx" />
     <Content Include="Account\Web.config" />
     <Content Include="Manager\Manager.Master" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -440,6 +442,13 @@
     </Compile>
     <Compile Include="Manager\ManageStaff.aspx.designer.cs">
       <DependentUpon>ManageStaff.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manager\Reports.aspx.cs">
+      <DependentUpon>Reports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manager\Reports.aspx.designer.cs">
+      <DependentUpon>Reports.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
