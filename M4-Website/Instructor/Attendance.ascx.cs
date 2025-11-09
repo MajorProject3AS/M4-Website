@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -9,15 +11,43 @@ namespace M4_Website
 {
     public partial class Attendance : System.Web.UI.UserControl
     {
-        public int Id = 1;
+        public int Id;
         protected void Page_Load(object sender, EventArgs e)
         {
-            DSBP.SelectParameters["instructorId"].DefaultValue = Id.ToString();
+            
+                string username = HttpContext.Current.User.Identity.Name;
+                Id = GetStaffIdByUsername(username);
+               
+                Session["InstructorID"] = Id; // Store for later use
+            
+            string instructorID = Id.ToString();
+            if (string.IsNullOrEmpty(instructorID)) return;
+
+            DSBP.SelectParameters["instructorId"].DefaultValue = instructorID.ToString();
             BKPac.DataBind();
-            DSAttendance.SelectParameters["instructorId"].DefaultValue = Id.ToString();
+            DSAttendance.SelectParameters["instructorId"].DefaultValue = instructorID.ToString();
             AttendanceGV.DataBind();
         }
+        private int GetStaffIdByUsername(string username)
+        {
+            int InstructorId = -1;
+            string connSt = ConfigurationManager.ConnectionStrings["WstGrp24ConnectionString"].ConnectionString;
 
+            using (SqlConnection conn = new SqlConnection(connSt))
+            using (SqlCommand cmd = new SqlCommand("SELECT InstructorID FROM InstructorMJ WHERE Email = @Username", conn))
+            {
+                cmd.Parameters.AddWithValue("@Username", username);
+                conn.Open();
+
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    InstructorId = Convert.ToInt32(result);
+                }
+            }
+
+            return InstructorId;
+        }
         protected void PresentBtn_Click(object sender, EventArgs e)
         {
             if (BKPac.SelectedIndex > -1)
@@ -26,11 +56,14 @@ namespace M4_Website
                 {
                 string date = DateTime.Now.ToString("yyyy-MM-dd");
                 string attendance = "Present";
-                DSAttendance.InsertParameters["BookingID"].DefaultValue = BKPac.SelectedRow.Cells[1].Text;
+                    string instructorID = Id.ToString();
+                    if (string.IsNullOrEmpty(instructorID)) return;
+
+                    DSAttendance.InsertParameters["BookingID"].DefaultValue = BKPac.SelectedRow.Cells[1].Text;
                 DSAttendance.InsertParameters["StudentID"].DefaultValue = BKPac.SelectedRow.Cells[2].Text;
                 DSAttendance.InsertParameters["StudentName"].DefaultValue = BKPac.SelectedRow.Cells[3].Text;
                 DSAttendance.InsertParameters["StudentSurname"].DefaultValue = BKPac.SelectedRow.Cells[4].Text;
-                DSAttendance.InsertParameters["InstructorId"].DefaultValue = Id.ToString();
+                DSAttendance.InsertParameters["InstructorId"].DefaultValue = instructorID;
                 DSAttendance.InsertParameters["BookingDate"].DefaultValue = BKPac.SelectedRow.Cells[6].Text;
                 DSAttendance.InsertParameters["BookingTime"].DefaultValue = BKPac.SelectedRow.Cells[7].Text;
                 DSAttendance.InsertParameters["Attendance"].DefaultValue = attendance;
@@ -57,11 +90,14 @@ namespace M4_Website
                 {
                     string date = DateTime.Now.ToString("yyyy-MM-dd");
                     string attendanc = "Absent";
+                    string instructorID = Id.ToString();
+                    if (string.IsNullOrEmpty(instructorID)) return;
+
                     DSAttendance.InsertParameters["BookingID"].DefaultValue = BKPac.SelectedRow.Cells[1].Text;
                     DSAttendance.InsertParameters["StudentID"].DefaultValue = BKPac.SelectedRow.Cells[2].Text;
                     DSAttendance.InsertParameters["StudentName"].DefaultValue = BKPac.SelectedRow.Cells[3].Text;
                     DSAttendance.InsertParameters["StudentSurname"].DefaultValue = BKPac.SelectedRow.Cells[4].Text;
-                    DSAttendance.InsertParameters["instructorId"].DefaultValue = Id.ToString();
+                    DSAttendance.InsertParameters["instructorId"].DefaultValue = instructorID;
                     DSAttendance.InsertParameters["BookingDate"].DefaultValue = BKPac.SelectedRow.Cells[6].Text;
                     DSAttendance.InsertParameters["BookingTime"].DefaultValue = BKPac.SelectedRow.Cells[7].Text;
                     DSAttendance.InsertParameters["Attendance"].DefaultValue = attendanc;
