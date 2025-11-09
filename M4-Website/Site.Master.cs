@@ -69,8 +69,38 @@ namespace M4_Website
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            //if (Context.User.Identity.IsAuthenticated)
+            //{
+            //    PrivateManager.Visible = true;
+            //}
+            //if (Context.User.IsInRole("Instructor"))
+            //{
+            //    PrivateInstructor.Visible = true;
+            //    PrivateManager.Visible = false;
+            //}
+            if (Context.User.Identity.IsAuthenticated)
+            {
+                // Reset both first
+                PrivateManager.Visible = false;
+                PrivateInstructor.Visible = false;
 
+                // Then set based on roles
+                if (Context.User.IsInRole("Manager"))
+                {
+                    PrivateManager.Visible = true;
+                }
+                else if (Context.User.IsInRole("Instructor"))
+                {
+                    PrivateInstructor.Visible = true;
+                }
+            }
+            else
+            {
+                PrivateManager.Visible = false;
+                PrivateInstructor.Visible = false;
+            }
         }
+            
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
         {
