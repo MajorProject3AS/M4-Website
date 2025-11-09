@@ -12,10 +12,18 @@ namespace M4_Website
 {
     public partial class Dash : System.Web.UI.UserControl
     {
-        public int InstructorId = 1;
+        //string username = HttpContext.Current.User.Identity.Name;
+        public int InstructorId;
         protected void Page_Load(object sender, EventArgs e)
         {
-           
+            
+            
+                string username = HttpContext.Current.User.Identity.Name;
+                InstructorId = GetStaffIdByUsername(username);
+                //Label1.Text = InstructorId.ToString();
+                Session["InstructorID"] = InstructorId; // Store for later use
+            
+
 
             string instructorID = InstructorId.ToString() ;
             if (string.IsNullOrEmpty(instructorID)) return;
@@ -24,6 +32,27 @@ namespace M4_Website
             BindMonthlySummary(instructorID);
             BindStudentSummary(instructorID);
             DSBookings.SelectParameters["instructorId"].DefaultValue = instructorID;
+        }
+
+        private int GetStaffIdByUsername(string username)
+        {
+            int InstructorId = -1;
+            string connStr = ConfigurationManager.ConnectionStrings["WstGrp24ConnectionString"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(connStr))
+            using (SqlCommand cmd = new SqlCommand("SELECT InstructorID FROM InstructorMJ WHERE Email = @Username", con))
+            {
+                cmd.Parameters.AddWithValue("@Username", username);
+                con.Open();
+
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    InstructorId = Convert.ToInt32(result);
+                }
+            }
+
+            return InstructorId;
         }
 
         private void BindTodaySummary(string instructorID)
