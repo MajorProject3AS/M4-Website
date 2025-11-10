@@ -140,6 +140,11 @@
              </asp:DropDownList>
  </span>
         
+        <span style="float:right;width:40%;">
+            <asp:TextBox ID="TextBox1" runat="server" Height="55px" TextMode="MultiLine" Width="363px"></asp:TextBox>
+           <asp:Button ID="Button1" runat="server" Text="Submit Comment" OnClick="Button1_Click" />
+        </span>
+        
     </div>
 </div>
 
