@@ -39,15 +39,21 @@ namespace M4_Website
 
         protected void btnAttendance_Click(object sender, EventArgs e)
         {
+            
             Session["CurrentControl"] = "~/Instructor/Attendance.ascx";
             LoadUserControl("~/Instructor/Attendance.ascx");
+            
+               
 
         }
 
         protected void btnProgress_Click(object sender, EventArgs e)
         {
+            
             Session["CurrentControl"] = "~/Instructor/StudentProgress.ascx";
             LoadUserControl("~/Instructor/StudentProgress.ascx");
+            
+            
 
         }
         private void LoadUserControl(string controlPath)

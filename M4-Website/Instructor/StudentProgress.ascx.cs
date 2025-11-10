@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -12,10 +14,15 @@ namespace M4_Website
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                GVProgress.DataSource = DSProgress; // your data source
+                GVProgress.DataBind();
+            }
 
         }
 
-       
+
 
         protected void Addbtn_Click1(object sender, EventArgs e)
         {
@@ -34,6 +41,54 @@ namespace M4_Website
                 catch (Exception ex)
                 {
                     StatusLbl.Text = "Error: " + ex.Message;
+                }
+            }
+        }
+
+        protected void SubmitBtn_Click(object sender, EventArgs e)
+        {
+            if (GVProgress.SelectedIndex < 0)
+            {
+                StatusLbl.Text = "Please select a student first.";
+                return;
+            }
+
+            int studentID = Convert.ToInt32(GVProgress.SelectedRow.Cells[1].Text);
+            string skillColumn = SkillDDL.SelectedValue;
+            string rating = RatingDDL.SelectedValue;
+
+            UpdateStudentProgress(studentID, skillColumn, rating);
+            //GVProgress.DataBind();
+
+        }
+
+        private void UpdateStudentProgress(int studentID, string skillColumn, string rating)
+        {
+            string updateQuery = $"UPDATE StudentProgress SET {skillColumn} = @Rating WHERE StudentID = @StudentID";
+
+            using (SqlConnection connec = new SqlConnection(ConfigurationManager.ConnectionStrings["WstGrp24ConnectionString"].ConnectionString))
+            using (SqlCommand cmd = new SqlCommand(updateQuery, connec))
+            {
+                cmd.Parameters.AddWithValue("@StudentID", studentID);
+                cmd.Parameters.AddWithValue("@Rating", rating);
+
+                try
+                {
+                    connec.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        StatusLbl.Text = "Skill updated successfully.";
+                    }
+                    else
+                    {
+                        StatusLbl.Text = "No matching student found.";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    StatusLbl.Text = "Error updating skill: " + ex.Message;
                 }
             }
         }
