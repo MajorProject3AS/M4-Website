@@ -38,7 +38,7 @@ namespace M4_Website.Receptionist
                             p.Status
                         FROM PaymentMJ p
                         INNER JOIN StudentMJ s ON p.StudentID = s.StudentID
-                        WHERE 1=1";
+                        WHERE p.PaymentMethod = 'Bank Transfer'";
 
                     // Apply status filter
                     string statusFilter = ddlStatusFilter.SelectedValue;

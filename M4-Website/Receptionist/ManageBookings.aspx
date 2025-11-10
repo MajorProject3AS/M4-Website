@@ -81,11 +81,13 @@
                                 <ItemTemplate>
                                     <asp:Button ID="btnComplete" runat="server" 
                                         Text="Mark Complete" 
-                                        CssClass="btn btn-success btn-sm me-1" 
+                                        CssClass='<%# IsBookingDatePassed(Eval("Date")) ? "btn btn-success btn-sm me-1" : "btn btn-secondary btn-sm me-1" %>'
                                         CommandName="CompleteBooking" 
                                         CommandArgument='<%# Eval("BookingID") %>'
                                         Visible='<%# Eval("Status").ToString() == "Confirmed" %>'
-                                        OnClientClick="return confirm('Mark this booking as completed?');" />
+                                        Enabled='<%# IsBookingDatePassed(Eval("Date")) %>'
+                                        OnClientClick="return confirm('Mark this booking as completed?');" 
+                                        ToolTip='<%# IsBookingDatePassed(Eval("Date")) ? "Mark as complete" : "Cannot complete future bookings" %>' />
                                     <asp:Button ID="btnCancel" runat="server" 
                                         Text="Cancel" 
                                         CssClass="btn btn-danger btn-sm me-1" 

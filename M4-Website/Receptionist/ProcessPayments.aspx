@@ -12,6 +12,11 @@
 
         <asp:Label ID="lblMessage" runat="server" CssClass="mb-3" Visible="false"></asp:Label>
 
+        <!-- Info Alert -->
+        <div class="alert alert-info" role="alert">
+            <i class="bi bi-info-circle"></i> <strong>Note:</strong> Only Bank Transfer payments require manual approval. Credit Card payments are automatically processed and students can proceed with booking lessons immediately upon successful payment.
+        </div>
+
         <!-- Filter Section -->
         <div class="card mb-4">
             <div class="card-header bg-primary text-white">

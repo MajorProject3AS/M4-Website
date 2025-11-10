@@ -208,7 +208,11 @@ namespace M4_Website.Payment
                     {
                         conn.Open();
 
-                        // Insert payment record with Status = 'Processing'
+                        // Determine payment status based on payment method
+                        // Credit Card & Debit Card = Paid (auto-approved), Bank Transfer = Processing (needs receptionist approval)
+                        string paymentStatus = (paymentMethod == "Credit Card" || paymentMethod == "Debit Card") ? "Paid" : "Processing";
+
+                        // Insert payment record
                         string query = @"INSERT INTO PaymentMJ 
                                         (PaymentDate, AmountPaid, AmountDue, PaymentMethod, StudentID, Status) 
                                         VALUES 
@@ -221,12 +225,12 @@ namespace M4_Website.Payment
                             cmd.Parameters.AddWithValue("@AmountDue", 0.00); // Full payment, no amount due
                             cmd.Parameters.AddWithValue("@PaymentMethod", paymentMethod);
                             cmd.Parameters.AddWithValue("@StudentID", studentId);
-                            cmd.Parameters.AddWithValue("@Status", "Processing"); // Set default status to Processing
+                            cmd.Parameters.AddWithValue("@Status", paymentStatus);
 
                             cmd.ExecuteNonQuery();
                         }
 
-                        // Update student status to Active after payment submission
+                        // Update student status to Active after payment submission (for both payment types)
                         string updateStatusQuery = "UPDATE StudentMJ SET Status = 'Active' WHERE StudentID = @StudentID";
                         
                         using (SqlCommand updateCmd = new SqlCommand(updateStatusQuery, conn))
@@ -239,9 +243,13 @@ namespace M4_Website.Payment
                     // Clear session
                     Session.Remove("LastStudentID");
 
-                    // Show success message and redirect
+                    // Show success message based on payment method
+                    string successMessage = (paymentMethod == "Credit Card" || paymentMethod == "Debit Card") 
+                        ? "Payment processed successfully!\n\nAmount Paid: R" + amountPaid.ToString("N2") + "\nPayment Method: " + paymentMethod + "\n\nYou can now book your lessons!"
+                        : "Payment submitted successfully!\n\nAmount Paid: R" + amountPaid.ToString("N2") + "\nPayment Method: " + paymentMethod + "\n\nStatus: Processing\n\nYou will be able to book lessons once your payment has been confirmed by our receptionist.\n\nPlease check back later or contact us for more information.";
+
                     string script = @"
-                        alert('Payment processed successfully!\n\nAmount Paid: R" + amountPaid.ToString("N2") + @"\nPayment Method: " + paymentMethod + @"\n\nThank you for your payment!');
+                        alert('" + successMessage + @"');
                         window.location.href = '/Default.aspx';
                     ";
                     ClientScript.RegisterStartupScript(this.GetType(), "PaymentSuccess", script, true);

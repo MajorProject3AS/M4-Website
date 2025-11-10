@@ -118,6 +118,25 @@ namespace M4_Website.Receptionist
             }
         }
 
+        protected bool IsBookingDatePassed(object bookingDate)
+        {
+            try
+            {
+                if (bookingDate == null || bookingDate == DBNull.Value)
+                    return false;
+
+                DateTime date = Convert.ToDateTime(bookingDate);
+                DateTime today = DateTime.Today;
+
+                // Return true if booking date is today or in the past
+                return date.Date <= today;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         protected void gvBookings_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             int bookingId = Convert.ToInt32(e.CommandArgument);

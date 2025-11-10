@@ -36,8 +36,8 @@ namespace M4_Website.Receptionist
                 {
                     conn.Open();
 
-                    // Pending Payments
-                    string pendingPaymentsQuery = "SELECT COUNT(*) FROM PaymentMJ WHERE Status = 'Processing'";
+                    // Pending Payments (Bank Transfer only - Credit Card is auto-processed)
+                    string pendingPaymentsQuery = "SELECT COUNT(*) FROM PaymentMJ WHERE Status = 'Processing' AND PaymentMethod = 'Bank Transfer'";
                     using (SqlCommand cmd = new SqlCommand(pendingPaymentsQuery, conn))
                     {
                         lblPendingPayments.Text = cmd.ExecuteScalar().ToString();
