@@ -58,7 +58,7 @@ namespace M4_Website
             string rating = RatingDDL.SelectedValue;
 
             UpdateStudentProgress(studentID, skillColumn, rating);
-            //GVProgress.DataBind();
+            GVProgress.DataBind();
 
         }
 
@@ -89,6 +89,54 @@ namespace M4_Website
                 catch (Exception ex)
                 {
                     StatusLbl.Text = "Error updating skill: " + ex.Message;
+                }
+            }
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+           
+            if (GVProgress.SelectedIndex < 0)
+            {
+                StatusLbl.Text = "Please select a student first.";
+                return;
+            }
+
+            int studentID = Convert.ToInt32(GVProgress.SelectedRow.Cells[1].Text);
+            string newComment = TextBox1.Text.Trim();
+            if (string.IsNullOrEmpty(newComment))
+            {
+                StatusLbl.Text = "Please enter a comment.";
+                return;
+            }
+
+            AddCommentToStudentProgress(studentID, newComment);
+            TextBox1.Text = "";
+        }
+        
+
+        private void AddCommentToStudentProgress(int studentID, string newComment)
+        {
+            string query = @"
+        UPDATE StudentProgress
+        SET Comments = @NewComment + CHAR(13) + CHAR(10) + ISNULL(Comments, '')
+        WHERE StudentID = @StudentID";
+
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["WstGrp24ConnectionString"].ConnectionString))
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@StudentID", studentID);
+                cmd.Parameters.AddWithValue("@NewComment", $"[{DateTime.Now:yyyy-MM-dd HH:mm}] {newComment}");
+
+                try
+                {
+                    con.Open();
+                    int rows = cmd.ExecuteNonQuery();
+                    StatusLbl.Text = rows > 0 ? "Comment added." : "Student not found.";
+                }
+                catch (Exception ex)
+                {
+                    StatusLbl.Text = "Error: " + ex.Message;
                 }
             }
         }
