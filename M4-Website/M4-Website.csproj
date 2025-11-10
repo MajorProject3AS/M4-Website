@@ -183,6 +183,9 @@
     <Content Include="Booking\Web.config" />
     <Content Include="Payment\Payment.aspx" />
     <Content Include="Payment\Web.config" />
+    <Content Include="Receptionist\ManageBookings.aspx" />
+    <Content Include="Receptionist\ProcessPayments.aspx" />
+    <Content Include="Receptionist\ReceptionistDashboard.aspx" />
     <Content Include="Student\Dashboard.aspx" />
     <Content Include="Instructor\Attendance.ascx" />
     <Content Include="Contact.aspx" />
@@ -410,6 +413,27 @@
     </Compile>
     <Compile Include="Payment\Payment.aspx.designer.cs">
       <DependentUpon>Payment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Receptionist\ManageBookings.aspx.cs">
+      <DependentUpon>ManageBookings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Receptionist\ManageBookings.aspx.designer.cs">
+      <DependentUpon>ManageBookings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Receptionist\ProcessPayments.aspx.cs">
+      <DependentUpon>ProcessPayments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Receptionist\ProcessPayments.aspx.designer.cs">
+      <DependentUpon>ProcessPayments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Receptionist\ReceptionistDashboard.aspx.cs">
+      <DependentUpon>ReceptionistDashboard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Receptionist\ReceptionistDashboard.aspx.designer.cs">
+      <DependentUpon>ReceptionistDashboard.aspx</DependentUpon>
     </Compile>
     <Compile Include="Student\Dashboard.aspx.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>

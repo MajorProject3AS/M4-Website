@@ -20,6 +20,18 @@ namespace M4_Website.Booking
                 if (User.Identity.IsAuthenticated)
                 {
                     string userEmail = User.Identity.Name;
+                    
+                    // Check if student has incomplete lessons before allowing new package booking
+                    if (HasIncompletePackage(userEmail))
+                    {
+                        string script = @"
+                            alert('You cannot book another package until you complete all lessons in your current package.\n\nPlease complete your ongoing lessons first.');
+                            window.location.href = '/Student/Dashboard.aspx';
+                        ";
+                        ClientScript.RegisterStartupScript(this.GetType(), "IncompleteLessons", script, true);
+                        return;
+                    }
+                    
                     txtEmail.Text = userEmail;
                     txtEmail.Enabled = false; // Grey out the email field
                     txtEmail.CssClass = "form-control bg-light"; // Add grey background
@@ -61,6 +73,104 @@ namespace M4_Website.Booking
                 // Set default status to New for first-time students
                 ddlStatus.SelectedValue = "New";
             }
+        }
+
+        private bool HasIncompletePackage(string email)
+        {
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["WstGrp24ConnectionString"].ConnectionString;
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    // Get student's current package info
+                    string query = "SELECT StudentID, PackageName, Status FROM StudentMJ WHERE Email = @Email";
+                    int studentId = 0;
+                    string packageName = "";
+                    string studentStatus = "";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Email", email);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                studentId = Convert.ToInt32(reader["StudentID"]);
+                                packageName = reader["PackageName"]?.ToString().ToUpper() ?? "";
+                                studentStatus = reader["Status"]?.ToString() ?? "";
+                            }
+                            else
+                            {
+                                // No existing student record - allow booking
+                                return false;
+                            }
+                        }
+                    }
+
+                    // If student status is "New", they haven't started yet - allow booking
+                    if (studentStatus.Equals("New", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return false;
+                    }
+
+                    // Determine total lessons based on package
+                    int totalLessons = GetTotalLessonsForPackage(packageName);
+
+                    if (totalLessons == 0)
+                    {
+                        // Unknown package or no package - allow booking
+                        return false;
+                    }
+
+                    // Count completed lessons
+                    string completedQuery = @"SELECT COUNT(*) FROM LessonBookingMJ 
+                                            WHERE StudentID = @StudentID 
+                                            AND Status IN ('Completed', 'Confirmed')";
+
+                    int completedLessons = 0;
+                    using (SqlCommand cmd = new SqlCommand(completedQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@StudentID", studentId);
+                        completedLessons = (int)cmd.ExecuteScalar();
+                    }
+
+                    // Check if there are incomplete lessons
+                    if (completedLessons < totalLessons)
+                    {
+                        return true; // Has incomplete lessons - block new booking
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error but allow booking to prevent blocking legitimate users
+                System.Diagnostics.Debug.WriteLine("Error checking incomplete package: " + ex.Message);
+                return false;
+            }
+
+            return false; // All lessons completed - allow new booking
+        }
+
+        private int GetTotalLessonsForPackage(string packageName)
+        {
+            if (string.IsNullOrEmpty(packageName))
+                return 0;
+
+            packageName = packageName.ToUpper();
+
+            if (packageName.Contains("STEWARD"))
+                return 10;
+            else if (packageName.Contains("PRINCE"))
+                return 15;
+            else if (packageName.Contains("ROYALTY"))
+                return 20;
+            else if (packageName.Contains("FULL") || packageName.Contains("PRINCESS"))
+                return 25;
+
+            return 0;
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)

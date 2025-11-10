@@ -449,6 +449,15 @@ namespace M4_Website.Booking
 
                             cmd.ExecuteNonQuery();
                         }
+
+                        // Update student status to Active after booking confirmation
+                        string updateStatusQuery = "UPDATE StudentMJ SET Status = 'Active' WHERE StudentID = @StudentID";
+                        
+                        using (SqlCommand updateCmd = new SqlCommand(updateStatusQuery, conn))
+                        {
+                            updateCmd.Parameters.AddWithValue("@StudentID", studentId);
+                            updateCmd.ExecuteNonQuery();
+                        }
                     }
 
                     // Show success message

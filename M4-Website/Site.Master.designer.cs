@@ -33,6 +33,15 @@ namespace M4_Website
         protected global::System.Web.UI.HtmlControls.HtmlAnchor PrivateInstructor;
 
         /// <summary>
+        /// PrivateReceptionist control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor PrivateReceptionist;
+
+        /// <summary>
         /// StudentDashboard control.
         /// </summary>
         /// <remarks>

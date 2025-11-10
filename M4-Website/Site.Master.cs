@@ -83,6 +83,7 @@ namespace M4_Website
                 // Reset both first
                 PrivateManager.Visible = false;
                 PrivateInstructor.Visible = false;
+                PrivateReceptionist.Visible = false;
                 StudentDashboard.Visible = false;
 
                 // Then set based on roles
@@ -94,6 +95,10 @@ namespace M4_Website
                 {
                     PrivateInstructor.Visible = true;
                 }
+                else if (Context.User.IsInRole("Receptionist"))
+                {
+                    PrivateReceptionist.Visible = true;
+                }
                 else
                 {
                     // Regular logged-in user (student) - show dashboard
@@ -104,6 +109,7 @@ namespace M4_Website
             {
                 PrivateManager.Visible = false;
                 PrivateInstructor.Visible = false;
+                PrivateReceptionist.Visible = false;
                 StudentDashboard.Visible = false;
             }
         }
@@ -111,7 +117,15 @@ namespace M4_Website
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
         {
+            // Sign out from OWIN Identity
             Context.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            
+            // Also sign out from Forms Authentication (for receptionist login)
+            FormsAuthentication.SignOut();
+            
+            // Clear session
+            Session.Clear();
+            Session.Abandon();
         }
     }
 
