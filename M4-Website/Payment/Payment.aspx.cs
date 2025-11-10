@@ -243,15 +243,12 @@ namespace M4_Website.Payment
                     // Clear session
                     Session.Remove("LastStudentID");
 
-                    // Show success message based on payment method
+                    // Show success message based on payment method and redirect
                     string successMessage = (paymentMethod == "Credit Card" || paymentMethod == "Debit Card") 
-                        ? "Payment processed successfully!\n\nAmount Paid: R" + amountPaid.ToString("N2") + "\nPayment Method: " + paymentMethod + "\n\nYou can now book your lessons!"
-                        : "Payment submitted successfully!\n\nAmount Paid: R" + amountPaid.ToString("N2") + "\nPayment Method: " + paymentMethod + "\n\nStatus: Processing\n\nYou will be able to book lessons once your payment has been confirmed by our receptionist.\n\nPlease check back later or contact us for more information.";
+                        ? "Payment processed successfully!\\n\\nAmount Paid: R" + amountPaid.ToString("N2") + "\\nPayment Method: " + paymentMethod + "\\n\\nYou can now book your lessons!"
+                        : "Payment submitted successfully!\\n\\nAmount Paid: R" + amountPaid.ToString("N2") + "\\nPayment Method: " + paymentMethod + "\\n\\nStatus: Processing\\n\\nYou will be able to book lessons once your payment has been confirmed by our receptionist.";
 
-                    string script = @"
-                        alert('" + successMessage + @"');
-                        window.location.href = '/Default.aspx';
-                    ";
+                    string script = "alert('" + successMessage + "'); window.location.href = '/Default.aspx';";
                     ClientScript.RegisterStartupScript(this.GetType(), "PaymentSuccess", script, true);
                 }
                 catch (Exception ex)

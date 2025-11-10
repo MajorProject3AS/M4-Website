@@ -38,7 +38,7 @@ namespace M4_Website.Receptionist
                             p.Status
                         FROM PaymentMJ p
                         INNER JOIN StudentMJ s ON p.StudentID = s.StudentID
-                        WHERE p.PaymentMethod = 'Bank Transfer'";
+                        WHERE 1=1";
 
                     // Apply status filter
                     string statusFilter = ddlStatusFilter.SelectedValue;
@@ -104,19 +104,61 @@ namespace M4_Website.Receptionist
 
             if (e.CommandName == "ApprovePayment")
             {
-                UpdatePaymentStatus(paymentId, "Paid");
-                ShowMessage("Payment approved successfully!", "success");
-                LoadPayments();
+                // Only allow approval for Bank Transfer payments
+                if (IsPaymentBankTransfer(paymentId))
+                {
+                    UpdatePaymentStatus(paymentId, "Paid");
+                    ShowMessage("Payment approved successfully!", "success");
+                    LoadPayments();
+                }
+                else
+                {
+                    ShowMessage("Only Bank Transfer payments can be manually approved.", "warning");
+                }
             }
             else if (e.CommandName == "RejectPayment")
             {
-                UpdatePaymentStatus(paymentId, "Rejected");
-                ShowMessage("Payment rejected.", "warning");
-                LoadPayments();
+                // Only allow rejection for Bank Transfer payments
+                if (IsPaymentBankTransfer(paymentId))
+                {
+                    UpdatePaymentStatus(paymentId, "Rejected");
+                    ShowMessage("Payment rejected.", "warning");
+                    LoadPayments();
+                }
+                else
+                {
+                    ShowMessage("Only Bank Transfer payments can be manually rejected.", "warning");
+                }
             }
             else if (e.CommandName == "ViewDetails")
             {
                 ShowPaymentDetails(paymentId);
+            }
+        }
+
+        private bool IsPaymentBankTransfer(int paymentId)
+        {
+            try
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["WstGrp24ConnectionString"].ConnectionString;
+
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT PaymentMethod FROM PaymentMJ WHERE PaymentID = @PaymentID";
+                    
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@PaymentID", paymentId);
+                        conn.Open();
+                        
+                        string paymentMethod = cmd.ExecuteScalar()?.ToString();
+                        return paymentMethod == "Bank Transfer";
+                    }
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
 

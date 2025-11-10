@@ -91,7 +91,7 @@ namespace M4_Website.Receptionist
                             Status
                         FROM (
                             SELECT 
-                                p.PaymentDate as ActivityDate,
+                                CAST(p.PaymentDate as DATETIME2) as ActivityDate,
                                 'Payment' as ActivityType,
                                 s.Name + ' ' + s.Surname as StudentName,
                                 'Amount: R' + CAST(p.AmountPaid as VARCHAR) as Details,
@@ -102,7 +102,7 @@ namespace M4_Website.Receptionist
                             UNION ALL
                             
                             SELECT 
-                                lb.Date as ActivityDate,
+                                CAST(lb.Date as DATETIME2) as ActivityDate,
                                 'Booking' as ActivityType,
                                 s.Name + ' ' + s.Surname as StudentName,
                                 'Lesson with ' + i.FirstName + ' ' + i.LastName as Details,

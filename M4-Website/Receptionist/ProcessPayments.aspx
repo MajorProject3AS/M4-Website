@@ -79,14 +79,14 @@
                                     CssClass="btn btn-success btn-sm me-1" 
                                     CommandName="ApprovePayment" 
                                     CommandArgument='<%# Eval("PaymentID") %>'
-                                    Visible='<%# Eval("Status").ToString() == "Processing" %>'
+                                    Visible='<%# Eval("Status").ToString() == "Processing" && Eval("PaymentMethod").ToString() == "Bank Transfer" %>'
                                     OnClientClick="return confirm('Are you sure you want to approve this payment?');" />
                                 <asp:Button ID="btnReject" runat="server" 
                                     Text="Reject" 
                                     CssClass="btn btn-danger btn-sm" 
                                     CommandName="RejectPayment" 
                                     CommandArgument='<%# Eval("PaymentID") %>'
-                                    Visible='<%# Eval("Status").ToString() == "Processing" %>'
+                                    Visible='<%# Eval("Status").ToString() == "Processing" && Eval("PaymentMethod").ToString() == "Bank Transfer" %>'
                                     OnClientClick="return confirm('Are you sure you want to reject this payment?');" />
                                 <asp:Button ID="btnViewDetails" runat="server" 
                                     Text="View" 
