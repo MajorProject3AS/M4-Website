@@ -1,34 +1,129 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="StudentProgress.ascx.cs" Inherits="M4_Website.StudentProgress" %>
-<div>
 
-</div>
-<div>
-    <div>
-        <asp:GridView ID="GVStu" runat="server" AutoGenerateColumns="False" DataKeyNames="StudentID" DataSourceID="DSStudent" Width="940px">
+<style>
+        .wrapper {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+
+}
+        .Gwrap {
+   overflow-x: auto;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 5px;
+background-color: #fff;
+    max-height: 300px;
+
+}
+        .Gwrapper {
+       overflow-x: auto;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 5px;
+background-color: #fff;
+    max-height: 300px;
+
+
+}
+        .GV {
+    width: max-content; /* allows horizontal scroll if content exceeds container */
+    border-collapse: collapse;
+    font-size: 13px;
+    
+
+
+    
+}
+
+.GV th, .GV td {
+     border: 1px solid #ccc;
+    padding: 4px 8px;
+    text-align: left;
+    white-space: nowrap; /* prevents wrapping */
+
+}
+.GV th {
+   background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+
+}
+.GP {
+   width: max-content; /* allows horizontal scroll if content exceeds container */
+    border-collapse: collapse;
+    font-size: 13px;
+    background-color: #fff;
+
+}
+
+.GP th, .GP td {
+     border: 1px solid #ccc;
+padding: 4px 8px;
+text-align: left;
+white-space: nowrap; /* prevents wrapping */
+
+}
+.GP th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+
+}
+/* Submit buttons */
+.BTN {
+    padding: 8px 16px;
+    background-color: #c00;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.BTN:hover {
+    background-color: #900;
+}
+/* Dropdown styling inside GridView */
+.DD {
+    padding: 4px;
+    font-size: 13px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* Comment box styling */
+.comment-box {
+    width: 100%;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+</style>
+<div class="wrapper">
+    <div class="Gwrap">
+        <asp:GridView ID="GVStu" runat="server" AutoGenerateColumns="False" DataKeyNames="StudentID" DataSourceID="DSStudent" Width="940px" CssClass="GV">
             <Columns>
                 <asp:CommandField ShowSelectButton="True" />
                 <asp:BoundField DataField="StudentID" HeaderText="StudentID" ReadOnly="True" InsertVisible="False" SortExpression="StudentID"></asp:BoundField>
                 <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name"></asp:BoundField>
                 <asp:BoundField DataField="Surname" HeaderText="Surname" SortExpression="Surname"></asp:BoundField>
-                <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email"></asp:BoundField>
-                <asp:BoundField DataField="PhoneNumber" HeaderText="PhoneNumber" SortExpression="PhoneNumber" />
-                <asp:BoundField DataField="IDNo" HeaderText="IDNo" SortExpression="IDNo" />
-                <asp:BoundField DataField="Gender" HeaderText="Gender" SortExpression="Gender" />
-                <asp:BoundField DataField="StreetNumber" HeaderText="StreetNumber" SortExpression="StreetNumber" />
-                <asp:BoundField DataField="StreetName" HeaderText="StreetName" SortExpression="StreetName" />
-                <asp:BoundField DataField="City" HeaderText="City" SortExpression="City" />
-                <asp:BoundField DataField="PostalCode" HeaderText="PostalCode" SortExpression="PostalCode" />
-                <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status" />
                 <asp:BoundField DataField="PackageName" HeaderText="PackageName" SortExpression="PackageName" />
             </Columns>
         </asp:GridView>
         <asp:SqlDataSource runat="server" ID="DSStudent" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString2 %>' SelectCommand="SELECT * FROM [StudentMJ]"></asp:SqlDataSource>
-        <asp:Button ID="Addbtn" runat="server" Text="Add Student to Evaluations" Width="198px" OnClick="Addbtn_Click1" />
+        <asp:Button ID="Addbtn" runat="server" Text="Add Student to Evaluations" Width="198px" OnClick="Addbtn_Click1" CssClass="BTN" />
         <asp:Label ID="StatusLbl" runat="server" Text=" "></asp:Label>
     </div>
     <div>
-        <div>
-            <asp:GridView ID="GVProgress" runat="server" AutoGenerateColumns="False" DataKeyNames="StudentID" DataSourceID="DSProgress" CellPadding="4" ForeColor="#333333" GridLines="None">
+        <div class="Gwrapper">
+            <asp:GridView ID="GVProgress" runat="server" AutoGenerateColumns="False" DataKeyNames="StudentID" DataSourceID="DSProgress" CellPadding="4" ForeColor="#333333" GridLines="None" CssClass="GP">
                 <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                 <Columns>
                     <asp:CommandField ShowSelectButton="True" />
@@ -116,7 +211,7 @@
             </asp:SqlDataSource>
         </div>
         <span>
-            <asp:DropDownList ID="SkillDDL" runat="server" AutoPostBack="True">
+            <asp:DropDownList ID="SkillDDL" runat="server" AutoPostBack="True" CssClass="DD">
                 <asp:ListItem Text="Pre Trip Checks" Value="PreTripChecks"></asp:ListItem>
                 <asp:ListItem Text="Vehicle Control" Value="VehicleControl"></asp:ListItem>
                 <asp:ListItem Text="Speed and Gear Control" Value="SpeedNGearControl"></asp:ListItem>
@@ -132,7 +227,7 @@
         </span>
         <br /><br />
          <span>
-             <asp:DropDownList ID="RatingDDL" runat="server" AutoPostBack="True">
+             <asp:DropDownList ID="RatingDDL" runat="server" AutoPostBack="True" CssClass="DD">
                  <asp:ListItem Text="Excellent" Value="Excellent"></asp:ListItem>
                 <asp:ListItem Text="Satisfactory" Value="Satisfactory"></asp:ListItem>
                 <asp:ListItem Text="Unsatisfactory" Value="Unsatisfactory"></asp:ListItem>
@@ -141,15 +236,15 @@
  </span>
         
         <span style="float:right;width:40%;">
-            <asp:TextBox ID="TextBox1" runat="server" Height="55px" TextMode="MultiLine" Width="363px"></asp:TextBox>
-           <asp:Button ID="Button1" runat="server" Text="Submit Comment" OnClick="Button1_Click" />
+            <asp:TextBox ID="TextBox1" runat="server" Height="55px" TextMode="MultiLine" Width="363px" CssClass="TX"></asp:TextBox>
+           <asp:Button ID="Button1" runat="server" Text="Submit Comment" OnClick="Button1_Click" CssClass="BTN" />
         </span>
         
     </div>
-</div>
-
 <div>
      
-    <asp:Button ID="SubmitBtn" runat="server" Text="Submit Rating" OnClick="SubmitBtn_Click" />
+    <asp:Button ID="SubmitBtn" runat="server" Text="Submit Rating" OnClick="SubmitBtn_Click" CssClass="BTN" />
      
 </div>
+</div>
+

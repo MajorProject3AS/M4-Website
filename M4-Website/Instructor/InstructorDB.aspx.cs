@@ -13,8 +13,9 @@ namespace M4_Website
         {
             if (Session["CurrentControl"] != null)
             {
-                string controlPath = Session["CurrentControl"].ToString();
+                string controlPath = Session["CurrentControl"] as string ?? "~/Instructor/Dash.ascx";
                 LoadUserControl(controlPath);
+
             }
         }
 
