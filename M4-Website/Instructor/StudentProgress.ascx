@@ -108,6 +108,7 @@ white-space: nowrap; /* prevents wrapping */
 </style>
 <div class="wrapper">
     <div class="Gwrap">
+        <asp:Label ID="Instr" runat="server" Text="*Select student to add to evaluations." ForeColor="#CC0000" Font-Italic="True" Font-Size="Small"></asp:Label>
         <asp:GridView ID="GVStu" runat="server" AutoGenerateColumns="False" DataKeyNames="StudentID" DataSourceID="DSStudent" Width="940px" CssClass="GV">
             <Columns>
                 <asp:CommandField ShowSelectButton="True" />
@@ -118,11 +119,18 @@ white-space: nowrap; /* prevents wrapping */
             </Columns>
         </asp:GridView>
         <asp:SqlDataSource runat="server" ID="DSStudent" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString2 %>' SelectCommand="SELECT * FROM [StudentMJ]"></asp:SqlDataSource>
-        <asp:Button ID="Addbtn" runat="server" Text="Add Student to Evaluations" Width="198px" OnClick="Addbtn_Click1" CssClass="BTN" />
-        <asp:Label ID="StatusLbl" runat="server" Text=" "></asp:Label>
+        
     </div>
+    <span>
+<asp:Button ID="Addbtn" runat="server" Text="Add Student to Evaluations" Width="198px" OnClick="Addbtn_Click1" CssClass="BTN" />
+    </span>
+  <asp:Label ID="StatusLbl" runat="server" Text=" "></asp:Label>
     <div>
         <div class="Gwrapper">
+            <h3>
+                <asp:Label ID="Label1" runat="server" Text="Student Evaluations" Font-Bold="True" ForeColor="Black" Font-Size="Large"></asp:Label>
+            </h3>
+            <asp:Label ID="In" runat="server" Text="*Select student to submit rating or comment." Font-Italic="True" ForeColor="#CC0000" Font-Size="Small"></asp:Label>
             <asp:GridView ID="GVProgress" runat="server" AutoGenerateColumns="False" DataKeyNames="StudentID" DataSourceID="DSProgress" CellPadding="4" ForeColor="#333333" GridLines="None" CssClass="GP">
                 <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                 <Columns>
@@ -234,6 +242,12 @@ white-space: nowrap; /* prevents wrapping */
                 
              </asp:DropDownList>
  </span>
+       <div>
+     
+    <asp:Button ID="SubmitBtn" runat="server" Text="Submit Rating" OnClick="SubmitBtn_Click" CssClass="BTN" />
+     
+</div> 
+        
         
         <span style="float:right;width:40%;">
             <asp:TextBox ID="TextBox1" runat="server" Height="55px" TextMode="MultiLine" Width="363px" CssClass="TX"></asp:TextBox>
@@ -241,10 +255,6 @@ white-space: nowrap; /* prevents wrapping */
         </span>
         
     </div>
-<div>
-     
-    <asp:Button ID="SubmitBtn" runat="server" Text="Submit Rating" OnClick="SubmitBtn_Click" CssClass="BTN" />
-     
-</div>
+
 </div>
 
