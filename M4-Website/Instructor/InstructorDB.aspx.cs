@@ -64,5 +64,13 @@ namespace M4_Website
             pnlMain.Controls.Add(ctrl);
         }
 
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            
+            Session.Clear(); // Clears all session variables
+            Session.Abandon(); // Ends the session
+            Response.Redirect("~/Default.aspx"); // Redirects to your default page
+       
+    }
     }
 }
