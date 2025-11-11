@@ -112,6 +112,7 @@ namespace M4_Website
 
             AddCommentToStudentProgress(studentID, newComment);
             TextBox1.Text = "";
+            GVProgress.DataBind();
         }
         
 
