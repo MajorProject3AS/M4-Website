@@ -27,6 +27,7 @@ namespace M4_Website
             BKPac.DataBind();
             DSAttendance.SelectParameters["instructorId"].DefaultValue = instructorID.ToString();
             AttendanceGV.DataBind();
+           
         }
         private int GetStaffIdByUsername(string username)
         {
@@ -64,11 +65,11 @@ namespace M4_Website
                 DSAttendance.InsertParameters["StudentName"].DefaultValue = BKPac.SelectedRow.Cells[3].Text;
                 DSAttendance.InsertParameters["StudentSurname"].DefaultValue = BKPac.SelectedRow.Cells[4].Text;
                 DSAttendance.InsertParameters["InstructorId"].DefaultValue = instructorID;
-                DSAttendance.InsertParameters["BookingDate"].DefaultValue = BKPac.SelectedRow.Cells[6].Text;
-                DSAttendance.InsertParameters["BookingTime"].DefaultValue = BKPac.SelectedRow.Cells[7].Text;
+                DSAttendance.InsertParameters["BookingDate"].DefaultValue = BKPac.SelectedRow.Cells[5].Text;
+                DSAttendance.InsertParameters["BookingTime"].DefaultValue = BKPac.SelectedRow.Cells[6].Text;
                 DSAttendance.InsertParameters["Attendance"].DefaultValue = attendance;
                 DSAttendance.InsertParameters["Date"].DefaultValue = date;
-                DSAttendance.InsertParameters["PackageID"].DefaultValue = BKPac.SelectedRow.Cells[8].Text;
+                DSAttendance.InsertParameters["PackageID"].DefaultValue = BKPac.SelectedRow.Cells[7].Text;
                 DSAttendance.Insert();
                 AttendanceGV.DataBind();
 
@@ -98,11 +99,11 @@ namespace M4_Website
                     DSAttendance.InsertParameters["StudentName"].DefaultValue = BKPac.SelectedRow.Cells[3].Text;
                     DSAttendance.InsertParameters["StudentSurname"].DefaultValue = BKPac.SelectedRow.Cells[4].Text;
                     DSAttendance.InsertParameters["instructorId"].DefaultValue = instructorID;
-                    DSAttendance.InsertParameters["BookingDate"].DefaultValue = BKPac.SelectedRow.Cells[6].Text;
-                    DSAttendance.InsertParameters["BookingTime"].DefaultValue = BKPac.SelectedRow.Cells[7].Text;
+                    DSAttendance.InsertParameters["BookingDate"].DefaultValue = BKPac.SelectedRow.Cells[5].Text;
+                    DSAttendance.InsertParameters["BookingTime"].DefaultValue = BKPac.SelectedRow.Cells[6].Text;
                     DSAttendance.InsertParameters["Attendance"].DefaultValue = attendanc;
                     DSAttendance.InsertParameters["Date"].DefaultValue = date;
-                    DSAttendance.InsertParameters["PackageID"].DefaultValue = BKPac.SelectedRow.Cells[8].Text;
+                    DSAttendance.InsertParameters["PackageID"].DefaultValue = BKPac.SelectedRow.Cells[7].Text;
                     DSAttendance.Insert();
                     AttendanceGV.DataBind();
                 }
@@ -113,5 +114,9 @@ namespace M4_Website
                 }
             }
         }
+        
+
+
+       
     }
 }
