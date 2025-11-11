@@ -16,7 +16,7 @@ namespace M4_Website
         {
             if (!IsPostBack)
             {
-                GVProgress.DataSource = DSProgress; // your data source
+                //GVProgress.DataSource = DSProgress; // your data source
                 GVProgress.DataBind();
             }
 
