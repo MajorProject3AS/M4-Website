@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace M4_Website
 {
@@ -15,6 +16,7 @@ namespace M4_Website
         protected void Page_Load(object sender, EventArgs e)
         {
             
+            
                 string username = HttpContext.Current.User.Identity.Name;
                 Id = GetStaffIdByUsername(username);
                
@@ -23,11 +25,13 @@ namespace M4_Website
             string instructorID = Id.ToString();
             if (string.IsNullOrEmpty(instructorID)) return;
 
-            DSBP.SelectParameters["instructorId"].DefaultValue = instructorID.ToString();
+            DSBP.SelectParameters["instructorId"].DefaultValue = instructorID;
             BKPac.DataBind();
-            DSAttendance.SelectParameters["instructorId"].DefaultValue = instructorID.ToString();
+            DSAttendance.SelectParameters["instructorId"].DefaultValue = instructorID;
+            DSAttendance.SelectParameters["Search"].DefaultValue = " ";
             AttendanceGV.DataBind();
            
+
         }
         private int GetStaffIdByUsername(string username)
         {
@@ -120,6 +124,43 @@ namespace M4_Website
             string name = BKPac.SelectedRow.Cells[3].Text;
             string surname = BKPac.SelectedRow.Cells[4].Text;
             hfStudentName.Value = name + " " + surname;
+        }
+
+       
+
+        protected void btnReloa_Click(object sender, EventArgs e)
+        {
+           
+            string instructorID = Id.ToString();
+            if (string.IsNullOrEmpty(instructorID)) return;
+            DSAttendance.SelectParameters["instructorId"].DefaultValue = instructorID;
+            DSAttendance.SelectParameters["Search"].DefaultValue =" ";
+
+            AttendanceGV.DataBind();
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            string input = txtSearch.Text.Trim();
+                string instructorID = Id.ToString();
+                if (string.IsNullOrEmpty(instructorID)) return;
+
+            if (string.IsNullOrEmpty(input))
+            {
+                // Show all students
+                string emp = " ";
+               
+                DSAttendance.SelectParameters["Search"].DefaultValue = emp;
+                DSAttendance.SelectParameters["instructorId"].DefaultValue = instructorID;
+            }
+            else
+            {
+                // Wildcard search for name or ID
+                DSAttendance.SelectParameters["Search"].DefaultValue = input;
+                DSAttendance.SelectParameters["instructorId"].DefaultValue = instructorID;
+            }
+
+            AttendanceGV.DataBind();
         }
     }
 }

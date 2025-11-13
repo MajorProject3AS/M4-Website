@@ -106,7 +106,8 @@
 
 <div style="float:left;width:70%">
     <asp:Label ID="Label4" runat="server" Text="*Select booking to mark attendance" ForeColor="#CC0000" Font-Size="Small" Font-Italic="True"></asp:Label>
-<div class="GBWrap">
+    
+    <div class="GBWrap">
     <asp:GridView ID="BKPac" runat="server" AutoGenerateColumns="False" DataSourceID="DSBP" CssClass="GB" CellPadding="4" ForeColor="#333333" GridLines="None" OnSelectedIndexChanged="BKPac_SelectedIndexChanged">
         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
         <Columns>
@@ -150,6 +151,14 @@
 <h3>
 <asp:Label ID="Label2" runat="server" Text="Lesson Attendance" Font-Bold="True" Font-Size="Large" ForeColor="Black"></asp:Label>
         </h3>
+     <asp:TextBox ID="txtSearch" runat="server" CssClass="input-box" placeholder="Enter name or surname..." />
+<asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="butn" />
+     <span style="float:right;width:7%;">
+         <asp:Button ID="btnReloa" runat="server" Text="&#x21bb;" 
+    ToolTip="Reload Grid"
+    CssClass="reload-button"
+    OnClick="btnReloa_Click" />
+     </span>
     <asp:GridView ID="AttendanceGV" runat="server" Width="918px" AutoGenerateColumns="False" DataKeyNames="BookingID" DataSourceID="DSAttendance" CssClass="GA" CellPadding="4" ForeColor="#333333" GridLines="None">
         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
         <Columns>
@@ -174,7 +183,7 @@
         <SortedDescendingCellStyle BackColor="#FFFDF8" />
         <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
     </asp:GridView>
-    <asp:SqlDataSource runat="server" ID="DSAttendance" ConflictDetection="CompareAllValues" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString %>' DeleteCommand="DELETE FROM [LA_Sheet] WHERE [BookingID] = @original_BookingID AND (([StudentID] = @original_StudentID) OR ([StudentID] IS NULL AND @original_StudentID IS NULL)) AND (([StudentName] = @original_StudentName) OR ([StudentName] IS NULL AND @original_StudentName IS NULL)) AND (([StudentSurname] = @original_StudentSurname) OR ([StudentSurname] IS NULL AND @original_StudentSurname IS NULL)) AND (([InstructorID] = @original_InstructorID) OR ([InstructorID] IS NULL AND @original_InstructorID IS NULL)) AND (([BookingDate] = @original_BookingDate) OR ([BookingDate] IS NULL AND @original_BookingDate IS NULL)) AND (([BookingTime] = @original_BookingTime) OR ([BookingTime] IS NULL AND @original_BookingTime IS NULL)) AND (([Attendance] = @original_Attendance) OR ([Attendance] IS NULL AND @original_Attendance IS NULL)) AND (([Date] = @original_Date) OR ([Date] IS NULL AND @original_Date IS NULL)) AND (([PackageID] = @original_PackageID) OR ([PackageID] IS NULL AND @original_PackageID IS NULL))" InsertCommand="INSERT INTO [LA_Sheet] ([BookingID], [StudentID], [StudentName], [StudentSurname], [InstructorID], [BookingDate], [BookingTime], [Attendance], [Date], [PackageID]) VALUES (@BookingID, @StudentID, @StudentName, @StudentSurname, @InstructorID, @BookingDate, @BookingTime, @Attendance, @Date, @PackageID)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT BookingID, StudentID, StudentName, StudentSurname, InstructorID, BookingDate, BookingTime, Attendance, Date, PackageID FROM LA_Sheet WHERE (InstructorID = @instructorId)" UpdateCommand="UPDATE [LA_Sheet] SET [StudentID] = @StudentID, [StudentName] = @StudentName, [StudentSurname] = @StudentSurname, [InstructorID] = @InstructorID, [BookingDate] = @BookingDate, [BookingTime] = @BookingTime, [Attendance] = @Attendance, [Date] = @Date, [PackageID] = @PackageID WHERE [BookingID] = @original_BookingID AND (([StudentID] = @original_StudentID) OR ([StudentID] IS NULL AND @original_StudentID IS NULL)) AND (([StudentName] = @original_StudentName) OR ([StudentName] IS NULL AND @original_StudentName IS NULL)) AND (([StudentSurname] = @original_StudentSurname) OR ([StudentSurname] IS NULL AND @original_StudentSurname IS NULL)) AND (([InstructorID] = @original_InstructorID) OR ([InstructorID] IS NULL AND @original_InstructorID IS NULL)) AND (([BookingDate] = @original_BookingDate) OR ([BookingDate] IS NULL AND @original_BookingDate IS NULL)) AND (([BookingTime] = @original_BookingTime) OR ([BookingTime] IS NULL AND @original_BookingTime IS NULL)) AND (([Attendance] = @original_Attendance) OR ([Attendance] IS NULL AND @original_Attendance IS NULL)) AND (([Date] = @original_Date) OR ([Date] IS NULL AND @original_Date IS NULL)) AND (([PackageID] = @original_PackageID) OR ([PackageID] IS NULL AND @original_PackageID IS NULL))">
+    <asp:SqlDataSource runat="server" ID="DSAttendance" ConflictDetection="CompareAllValues" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString %>' DeleteCommand="DELETE FROM [LA_Sheet] WHERE [BookingID] = @original_BookingID AND (([StudentID] = @original_StudentID) OR ([StudentID] IS NULL AND @original_StudentID IS NULL)) AND (([StudentName] = @original_StudentName) OR ([StudentName] IS NULL AND @original_StudentName IS NULL)) AND (([StudentSurname] = @original_StudentSurname) OR ([StudentSurname] IS NULL AND @original_StudentSurname IS NULL)) AND (([InstructorID] = @original_InstructorID) OR ([InstructorID] IS NULL AND @original_InstructorID IS NULL)) AND (([BookingDate] = @original_BookingDate) OR ([BookingDate] IS NULL AND @original_BookingDate IS NULL)) AND (([BookingTime] = @original_BookingTime) OR ([BookingTime] IS NULL AND @original_BookingTime IS NULL)) AND (([Attendance] = @original_Attendance) OR ([Attendance] IS NULL AND @original_Attendance IS NULL)) AND (([Date] = @original_Date) OR ([Date] IS NULL AND @original_Date IS NULL)) AND (([PackageID] = @original_PackageID) OR ([PackageID] IS NULL AND @original_PackageID IS NULL))" InsertCommand="INSERT INTO [LA_Sheet] ([BookingID], [StudentID], [StudentName], [StudentSurname], [InstructorID], [BookingDate], [BookingTime], [Attendance], [Date], [PackageID]) VALUES (@BookingID, @StudentID, @StudentName, @StudentSurname, @InstructorID, @BookingDate, @BookingTime, @Attendance, @Date, @PackageID)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT BookingID, StudentID, StudentName, StudentSurname, InstructorID, BookingDate, BookingTime, Attendance, Date, PackageID FROM LA_Sheet WHERE (InstructorID = @instructorId) AND (@Search IS NULL OR @Search = '') OR (InstructorID = @instructorId) AND (StudentName LIKE @Search) OR (InstructorID = @instructorId) AND (StudentSurname LIKE @Search)" UpdateCommand="UPDATE [LA_Sheet] SET [StudentID] = @StudentID, [StudentName] = @StudentName, [StudentSurname] = @StudentSurname, [InstructorID] = @InstructorID, [BookingDate] = @BookingDate, [BookingTime] = @BookingTime, [Attendance] = @Attendance, [Date] = @Date, [PackageID] = @PackageID WHERE [BookingID] = @original_BookingID AND (([StudentID] = @original_StudentID) OR ([StudentID] IS NULL AND @original_StudentID IS NULL)) AND (([StudentName] = @original_StudentName) OR ([StudentName] IS NULL AND @original_StudentName IS NULL)) AND (([StudentSurname] = @original_StudentSurname) OR ([StudentSurname] IS NULL AND @original_StudentSurname IS NULL)) AND (([InstructorID] = @original_InstructorID) OR ([InstructorID] IS NULL AND @original_InstructorID IS NULL)) AND (([BookingDate] = @original_BookingDate) OR ([BookingDate] IS NULL AND @original_BookingDate IS NULL)) AND (([BookingTime] = @original_BookingTime) OR ([BookingTime] IS NULL AND @original_BookingTime IS NULL)) AND (([Attendance] = @original_Attendance) OR ([Attendance] IS NULL AND @original_Attendance IS NULL)) AND (([Date] = @original_Date) OR ([Date] IS NULL AND @original_Date IS NULL)) AND (([PackageID] = @original_PackageID) OR ([PackageID] IS NULL AND @original_PackageID IS NULL))">
         <DeleteParameters>
             <asp:Parameter Name="original_BookingID" Type="Int32"></asp:Parameter>
             <asp:Parameter Name="original_StudentID" Type="Int32"></asp:Parameter>
@@ -201,6 +210,7 @@
         </InsertParameters>
         <SelectParameters>
             <asp:Parameter Name="instructorId" />
+            <asp:Parameter Name="Search" />
         </SelectParameters>
         <UpdateParameters>
             <asp:Parameter Name="StudentID" Type="Int32"></asp:Parameter>
