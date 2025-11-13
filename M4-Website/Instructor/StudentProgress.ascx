@@ -109,7 +109,8 @@ white-space: nowrap; /* prevents wrapping */
 <div class="wrapper">
     <div class="Gwrap">
         <asp:Label ID="Instr" runat="server" Text="*Select student to add to evaluations." ForeColor="#CC0000" Font-Italic="True" Font-Size="Small"></asp:Label>
-        <asp:GridView ID="GVStu" runat="server" AutoGenerateColumns="False" DataKeyNames="StudentID" DataSourceID="DSStudent" Width="940px" CssClass="GV">
+        <asp:GridView ID="GVStu" runat="server" AutoGenerateColumns="False" DataKeyNames="StudentID" DataSourceID="DSStudent" Width="940px" CssClass="GV" OnSelectedIndexChanged="GVStu_SelectedIndexChanged" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical">
+            <AlternatingRowStyle BackColor="#DCDCDC" />
             <Columns>
                 <asp:CommandField ShowSelectButton="True" />
                 <asp:BoundField DataField="StudentID" HeaderText="StudentID" ReadOnly="True" InsertVisible="False" SortExpression="StudentID"></asp:BoundField>
@@ -117,12 +118,22 @@ white-space: nowrap; /* prevents wrapping */
                 <asp:BoundField DataField="Surname" HeaderText="Surname" SortExpression="Surname"></asp:BoundField>
                 <asp:BoundField DataField="PackageName" HeaderText="PackageName" SortExpression="PackageName" />
             </Columns>
+            <FooterStyle BackColor="#CCCCCC" ForeColor="Black" />
+            <HeaderStyle BackColor="#000084" Font-Bold="True" ForeColor="White" />
+            <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
+            <RowStyle BackColor="#EEEEEE" ForeColor="Black" />
+            <SelectedRowStyle BackColor="#008A8C" Font-Bold="True" ForeColor="White" />
+            <SortedAscendingCellStyle BackColor="#F1F1F1" />
+            <SortedAscendingHeaderStyle BackColor="#0000A9" />
+            <SortedDescendingCellStyle BackColor="#CAC9C9" />
+            <SortedDescendingHeaderStyle BackColor="#000065" />
         </asp:GridView>
         <asp:SqlDataSource runat="server" ID="DSStudent" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString2 %>' SelectCommand="SELECT * FROM [StudentMJ]"></asp:SqlDataSource>
         
     </div>
     <span>
-<asp:Button ID="Addbtn" runat="server" Text="Add Student to Evaluations" Width="198px" OnClick="Addbtn_Click1" CssClass="BTN" />
+<asp:Button ID="Addbtn" runat="server" Text="Add Student to Evaluations" Width="198px" OnClientClick="return confirmProgressAction('add');"
+ OnClick="Addbtn_Click1" CssClass="BTN" />
     </span>
   <asp:Label ID="StatusLbl" runat="server" Text=" "></asp:Label>
     <div>
@@ -131,7 +142,7 @@ white-space: nowrap; /* prevents wrapping */
                 <asp:Label ID="Label1" runat="server" Text="Student Evaluations" Font-Bold="True" ForeColor="Black" Font-Size="Large"></asp:Label>
             </h3>
             <asp:Label ID="In" runat="server" Text="*Select student to submit rating or comment." Font-Italic="True" ForeColor="#CC0000" Font-Size="Small"></asp:Label>
-            <asp:GridView ID="GVProgress" runat="server" AutoGenerateColumns="False" DataKeyNames="StudentID" DataSourceID="DSProgress" CellPadding="4" ForeColor="#333333" GridLines="None" CssClass="GP">
+            <asp:GridView ID="GVProgress" runat="server" AutoGenerateColumns="False" DataKeyNames="StudentID" DataSourceID="DSProgress" CellPadding="4" ForeColor="#333333" GridLines="None" CssClass="GP" OnSelectedIndexChanged="GVProgress_SelectedIndexChanged">
                 <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                 <Columns>
                     <asp:CommandField ShowSelectButton="True" />
@@ -244,17 +255,40 @@ white-space: nowrap; /* prevents wrapping */
  </span>
        <div>
      
-    <asp:Button ID="SubmitBtn" runat="server" Text="Submit Rating" OnClick="SubmitBtn_Click" CssClass="BTN" />
+    <asp:Button ID="SubmitBtn" runat="server" Text="Submit Rating"  OnClientClick="return confirmProgressAction('rating');"
+ OnClick="SubmitBtn_Click" CssClass="BTN" />
      
 </div> 
         
         
         <span style="float:right;width:40%;">
             <asp:TextBox ID="TextBox1" runat="server" Height="55px" TextMode="MultiLine" Width="363px" CssClass="TX"></asp:TextBox>
-           <asp:Button ID="Button1" runat="server" Text="Submit Comment" OnClick="Button1_Click" CssClass="BTN" />
+           <asp:Button ID="Button1" runat="server" Text="Submit Comment" OnClientClick="return confirmProgressAction('comment');"
+ OnClick="Button1_Click" CssClass="BTN" />
         </span>
         
     </div>
 
 </div>
+<asp:HiddenField ID="StudentName" runat="server" />
+<script type="text/javascript">
+    function confirmProgressAction(actionType) {
+        var studentName = document.getElementById('<%= StudentName.ClientID %>').value;
+        var message = "";
+
+        switch (actionType) {
+            case 'add':
+                message = "⚠️ You are about to add " + studentName + " to Student Evaluations. Do you want to continue?";
+                break;
+            case 'rating':
+                message = "⚠️ You are about to submit skill ratings for " + studentName + ". Do you want to continue?";
+                break;
+            case 'comment':
+                message = "⚠️ You are about to submit a comment for " + studentName + ". Do you want to continue?";
+                break;
+        }
+
+        return confirm(message);
+    }
+</script>
 

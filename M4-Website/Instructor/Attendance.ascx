@@ -107,7 +107,7 @@
 <div style="float:left;width:70%">
     <asp:Label ID="Label4" runat="server" Text="*Select booking to mark attendance" ForeColor="#CC0000" Font-Size="Small" Font-Italic="True"></asp:Label>
 <div class="GBWrap">
-    <asp:GridView ID="BKPac" runat="server" AutoGenerateColumns="False" DataSourceID="DSBP" CssClass="GB" CellPadding="4" ForeColor="#333333" GridLines="None">
+    <asp:GridView ID="BKPac" runat="server" AutoGenerateColumns="False" DataSourceID="DSBP" CssClass="GB" CellPadding="4" ForeColor="#333333" GridLines="None" OnSelectedIndexChanged="BKPac_SelectedIndexChanged">
         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
         <Columns>
             <asp:CommandField ShowSelectButton="True" />
@@ -137,8 +137,10 @@
         </SelectParameters>
     </asp:SqlDataSource>
     </div>
-    <asp:Button ID="PresentBtn" runat="server" Text="Present" OnClick="PresentBtn_Click" CssClass="butn" />
-    <asp:Button ID="AbsentBtn" runat="server" Text="Absent" OnClick="AbsentBtn_Click" CssClass="butn" />
+    <asp:Button ID="PresentBtn" runat="server" Text="Present" OnClientClick="return confirmMark('Present');"
+ OnClick="PresentBtn_Click" CssClass="butn" />
+    <asp:Button ID="AbsentBtn" runat="server" Text="Absent" OnClientClick="return confirmMark('Absent');"
+ OnClick="AbsentBtn_Click" CssClass="butn" />
     <asp:Label ID="statusLbl" runat="server" Text=" "></asp:Label>
 </div>
     </div>
@@ -224,6 +226,13 @@
     </asp:SqlDataSource>
      
 </div>
+<asp:HiddenField ID="hfStudentName" runat="server" />
+<script type="text/javascript">
+    function confirmMark(status) {
+        var studentName = document.getElementById('<%= hfStudentName.ClientID %>').value;
+    return confirm("⚠️ You are about to mark " +studentName+ " as " + status + ". Do you want to continue?");
+}
+</script>
    
     
 
