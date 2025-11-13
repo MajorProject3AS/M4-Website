@@ -16,8 +16,14 @@ namespace M4_Website
         {
             if (!IsPostBack)
             {
-                //GVProgress.DataSource = DSProgress; // your data source
+                string emp = " ";
+                DSStudent.SelectParameters["Search"].DefaultValue = emp;
+                GVStu.DataBind();
+
+                DSProgress.SelectParameters["Search"].DefaultValue = emp;
                 GVProgress.DataBind();
+                DDLSearch.DataBind();
+               DDLSearch.Items.Insert(0, new ListItem("None", ""));
             }
 
         }
@@ -154,6 +160,57 @@ namespace M4_Website
             string name = GVProgress.SelectedRow.Cells[2].Text;
             string surname = GVProgress.SelectedRow.Cells[3].Text;
             StudentName.Value = name + " " + surname;
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+           
+            string input = txtSearch.Text.Trim();
+
+            if (string.IsNullOrEmpty(input))
+            {
+                // Show all students
+                string emp = " ";
+                DSStudent.SelectParameters["Search"].DefaultValue = emp;
+            }
+            else
+            {
+                // Wildcard search for name or ID
+                DSStudent.SelectParameters["Search"].DefaultValue =  input;
+            }
+
+            GVStu.DataBind();
+        }
+
+        protected void btnReload_Click(object sender, EventArgs e)
+        {
+           
+            // Clear search box
+            txtSearch.Text = " ";
+
+            // Reset parameter to show all students
+            string not = " ";
+            DSStudent.SelectParameters["Search"].DefaultValue = not;
+
+            GVStu.DataBind();
+        
+        }
+
+        protected void DDLSearch_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+           
+               
+                DSProgress.SelectParameters["Search"].DefaultValue = DDLSearch.Text;
+            
+            GVProgress.DataBind();
+        }
+
+        protected void btnReloadd_Click(object sender, EventArgs e)
+        {
+            string emp = " ";
+            DSProgress.SelectParameters["Search"].DefaultValue = emp;
+            GVProgress.DataBind();
         }
     }
 }

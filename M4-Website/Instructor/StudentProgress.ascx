@@ -103,12 +103,27 @@ white-space: nowrap; /* prevents wrapping */
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+.reload-button {
+    font-size: 18px;
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+}
 
 
 </style>
 <div class="wrapper">
     <div class="Gwrap">
         <asp:Label ID="Instr" runat="server" Text="*Select student to add to evaluations." ForeColor="#CC0000" Font-Italic="True" Font-Size="Small"></asp:Label>
+        <asp:TextBox ID="txtSearch" runat="server" CssClass="input-box" placeholder="Enter name or ID..." />
+        <asp:Button ID="btnSearch" runat="server" Text="Search" OnClick="btnSearch_Click" CssClass="BTN" />
+        <span style="float:right;width:7%;">
+            <asp:Button ID="btnReload" runat="server" Text="&#x21bb;" 
+    ToolTip="Reload Grid"
+    CssClass="reload-button"
+    OnClick="btnReload_Click" />
+        </span>
         <asp:GridView ID="GVStu" runat="server" AutoGenerateColumns="False" DataKeyNames="StudentID" DataSourceID="DSStudent" Width="940px" CssClass="GV" OnSelectedIndexChanged="GVStu_SelectedIndexChanged" BackColor="White" BorderColor="#999999" BorderStyle="None" BorderWidth="1px" CellPadding="3" GridLines="Vertical">
             <AlternatingRowStyle BackColor="#DCDCDC" />
             <Columns>
@@ -128,7 +143,11 @@ white-space: nowrap; /* prevents wrapping */
             <SortedDescendingCellStyle BackColor="#CAC9C9" />
             <SortedDescendingHeaderStyle BackColor="#000065" />
         </asp:GridView>
-        <asp:SqlDataSource runat="server" ID="DSStudent" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString2 %>' SelectCommand="SELECT * FROM [StudentMJ]"></asp:SqlDataSource>
+        <asp:SqlDataSource runat="server" ID="DSStudent" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString2 %>' SelectCommand="SELECT StudentID, Name, Surname, Email, PhoneNumber, IDNo, Gender, StreetNumber, StreetName, City, PostalCode, Status, PackageName FROM StudentMJ WHERE (@Search IS NULL)OR (@Search = ' ' ) OR (Name LIKE @Search) OR (CAST(StudentID AS VARCHAR) LIKE @Search)">
+            <SelectParameters>
+                <asp:Parameter Name="Search" />
+            </SelectParameters>
+        </asp:SqlDataSource>
         
     </div>
     <span>
@@ -142,6 +161,16 @@ white-space: nowrap; /* prevents wrapping */
                 <asp:Label ID="Label1" runat="server" Text="Student Evaluations" Font-Bold="True" ForeColor="Black" Font-Size="Large"></asp:Label>
             </h3>
             <asp:Label ID="In" runat="server" Text="*Select student to submit rating or comment." Font-Italic="True" ForeColor="#CC0000" Font-Size="Small"></asp:Label>
+            <asp:DropDownList ID="DDLSearch" runat="server"  ToolTip="Select studentId to search" AutoPostBack="True" DataSourceID="DSDDL" DataTextField="StudentID" DataValueField="StudentID" OnSelectedIndexChanged="DDLSearch_SelectedIndexChanged" CssClass="DD">
+            
+            </asp:DropDownList>
+            <asp:SqlDataSource runat="server" ID="DSDDL" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString3 %>' ProviderName='<%$ ConnectionStrings:WstGrp24ConnectionString3.ProviderName %>' SelectCommand="SELECT * FROM [StudentProgress]"></asp:SqlDataSource>
+                 <span style="float:right;width:7%;">   
+            <asp:Button ID="btnReloadd" runat="server" Text="&#x21bb;" 
+                        ToolTip="Reload Grid"
+                        CssClass="reload-button"
+                        OnClick="btnReloadd_Click" />
+                     </span>
             <asp:GridView ID="GVProgress" runat="server" AutoGenerateColumns="False" DataKeyNames="StudentID" DataSourceID="DSProgress" CellPadding="4" ForeColor="#333333" GridLines="None" CssClass="GP" OnSelectedIndexChanged="GVProgress_SelectedIndexChanged">
                 <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                 <Columns>
@@ -173,7 +202,7 @@ white-space: nowrap; /* prevents wrapping */
                 <SortedDescendingCellStyle BackColor="#FFFDF8" />
                 <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
             </asp:GridView>
-            <asp:SqlDataSource runat="server" ID="DSProgress" ConflictDetection="CompareAllValues" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString2 %>' DeleteCommand="DELETE FROM [StudentProgress] WHERE [StudentID] = @original_StudentID AND [StudentName] = @original_StudentName AND [StudentSurname] = @original_StudentSurname AND (([PreTripChecks] = @original_PreTripChecks) OR ([PreTripChecks] IS NULL AND @original_PreTripChecks IS NULL)) AND (([VehicleControl] = @original_VehicleControl) OR ([VehicleControl] IS NULL AND @original_VehicleControl IS NULL)) AND (([SpeedNGearControl] = @original_SpeedNGearControl) OR ([SpeedNGearControl] IS NULL AND @original_SpeedNGearControl IS NULL)) AND (([ObservationalNDefensiveDriving] = @original_ObservationalNDefensiveDriving) OR ([ObservationalNDefensiveDriving] IS NULL AND @original_ObservationalNDefensiveDriving IS NULL)) AND (([ControlledIntersections] = @original_ControlledIntersections) OR ([ControlledIntersections] IS NULL AND @original_ControlledIntersections IS NULL)) AND (([UncontrolledIntersections] = @original_UncontrolledIntersections) OR ([UncontrolledIntersections] IS NULL AND @original_UncontrolledIntersections IS NULL)) AND (([HillStartsNGradientControl] = @original_HillStartsNGradientControl) OR ([HillStartsNGradientControl] IS NULL AND @original_HillStartsNGradientControl IS NULL)) AND (([ParkingNReversing] = @original_ParkingNReversing) OR ([ParkingNReversing] IS NULL AND @original_ParkingNReversing IS NULL)) AND (([LaneChangingNOvertaking] = @original_LaneChangingNOvertaking) OR ([LaneChangingNOvertaking] IS NULL AND @original_LaneChangingNOvertaking IS NULL)) AND (([FreewayDriving] = @original_FreewayDriving) OR ([FreewayDriving] IS NULL AND @original_FreewayDriving IS NULL)) AND (([MockTest] = @original_MockTest) OR ([MockTest] IS NULL AND @original_MockTest IS NULL)) AND (([Comments] = @original_Comments) OR ([Comments] IS NULL AND @original_Comments IS NULL))" InsertCommand="INSERT INTO StudentProgress(StudentID, StudentName, StudentSurname) VALUES (@StudentID, @StudentName, @StudentSurname)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT * FROM [StudentProgress]" UpdateCommand="UPDATE [StudentProgress] SET [StudentName] = @StudentName, [StudentSurname] = @StudentSurname, [PreTripChecks] = @PreTripChecks, [VehicleControl] = @VehicleControl, [SpeedNGearControl] = @SpeedNGearControl, [ObservationalNDefensiveDriving] = @ObservationalNDefensiveDriving, [ControlledIntersections] = @ControlledIntersections, [UncontrolledIntersections] = @UncontrolledIntersections, [HillStartsNGradientControl] = @HillStartsNGradientControl, [ParkingNReversing] = @ParkingNReversing, [LaneChangingNOvertaking] = @LaneChangingNOvertaking, [FreewayDriving] = @FreewayDriving, [MockTest] = @MockTest, [Comments] = @Comments WHERE [StudentID] = @original_StudentID AND [StudentName] = @original_StudentName AND [StudentSurname] = @original_StudentSurname AND (([PreTripChecks] = @original_PreTripChecks) OR ([PreTripChecks] IS NULL AND @original_PreTripChecks IS NULL)) AND (([VehicleControl] = @original_VehicleControl) OR ([VehicleControl] IS NULL AND @original_VehicleControl IS NULL)) AND (([SpeedNGearControl] = @original_SpeedNGearControl) OR ([SpeedNGearControl] IS NULL AND @original_SpeedNGearControl IS NULL)) AND (([ObservationalNDefensiveDriving] = @original_ObservationalNDefensiveDriving) OR ([ObservationalNDefensiveDriving] IS NULL AND @original_ObservationalNDefensiveDriving IS NULL)) AND (([ControlledIntersections] = @original_ControlledIntersections) OR ([ControlledIntersections] IS NULL AND @original_ControlledIntersections IS NULL)) AND (([UncontrolledIntersections] = @original_UncontrolledIntersections) OR ([UncontrolledIntersections] IS NULL AND @original_UncontrolledIntersections IS NULL)) AND (([HillStartsNGradientControl] = @original_HillStartsNGradientControl) OR ([HillStartsNGradientControl] IS NULL AND @original_HillStartsNGradientControl IS NULL)) AND (([ParkingNReversing] = @original_ParkingNReversing) OR ([ParkingNReversing] IS NULL AND @original_ParkingNReversing IS NULL)) AND (([LaneChangingNOvertaking] = @original_LaneChangingNOvertaking) OR ([LaneChangingNOvertaking] IS NULL AND @original_LaneChangingNOvertaking IS NULL)) AND (([FreewayDriving] = @original_FreewayDriving) OR ([FreewayDriving] IS NULL AND @original_FreewayDriving IS NULL)) AND (([MockTest] = @original_MockTest) OR ([MockTest] IS NULL AND @original_MockTest IS NULL)) AND (([Comments] = @original_Comments) OR ([Comments] IS NULL AND @original_Comments IS NULL))">
+            <asp:SqlDataSource runat="server" ID="DSProgress" ConflictDetection="CompareAllValues" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString2 %>' DeleteCommand="DELETE FROM [StudentProgress] WHERE [StudentID] = @original_StudentID AND [StudentName] = @original_StudentName AND [StudentSurname] = @original_StudentSurname AND (([PreTripChecks] = @original_PreTripChecks) OR ([PreTripChecks] IS NULL AND @original_PreTripChecks IS NULL)) AND (([VehicleControl] = @original_VehicleControl) OR ([VehicleControl] IS NULL AND @original_VehicleControl IS NULL)) AND (([SpeedNGearControl] = @original_SpeedNGearControl) OR ([SpeedNGearControl] IS NULL AND @original_SpeedNGearControl IS NULL)) AND (([ObservationalNDefensiveDriving] = @original_ObservationalNDefensiveDriving) OR ([ObservationalNDefensiveDriving] IS NULL AND @original_ObservationalNDefensiveDriving IS NULL)) AND (([ControlledIntersections] = @original_ControlledIntersections) OR ([ControlledIntersections] IS NULL AND @original_ControlledIntersections IS NULL)) AND (([UncontrolledIntersections] = @original_UncontrolledIntersections) OR ([UncontrolledIntersections] IS NULL AND @original_UncontrolledIntersections IS NULL)) AND (([HillStartsNGradientControl] = @original_HillStartsNGradientControl) OR ([HillStartsNGradientControl] IS NULL AND @original_HillStartsNGradientControl IS NULL)) AND (([ParkingNReversing] = @original_ParkingNReversing) OR ([ParkingNReversing] IS NULL AND @original_ParkingNReversing IS NULL)) AND (([LaneChangingNOvertaking] = @original_LaneChangingNOvertaking) OR ([LaneChangingNOvertaking] IS NULL AND @original_LaneChangingNOvertaking IS NULL)) AND (([FreewayDriving] = @original_FreewayDriving) OR ([FreewayDriving] IS NULL AND @original_FreewayDriving IS NULL)) AND (([MockTest] = @original_MockTest) OR ([MockTest] IS NULL AND @original_MockTest IS NULL)) AND (([Comments] = @original_Comments) OR ([Comments] IS NULL AND @original_Comments IS NULL))" InsertCommand="INSERT INTO StudentProgress(StudentID, StudentName, StudentSurname) VALUES (@StudentID, @StudentName, @StudentSurname)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT StudentID, StudentName, StudentSurname, PreTripChecks, VehicleControl, SpeedNGearControl, ObservationalNDefensiveDriving, ControlledIntersections, UncontrolledIntersections, HillStartsNGradientControl, ParkingNReversing, LaneChangingNOvertaking, FreewayDriving, MockTest, Comments FROM StudentProgress WHERE (@Search IS NULL) OR (@Search = '') OR (CAST(StudentID AS VARCHAR) LIKE @Search)" UpdateCommand="UPDATE [StudentProgress] SET [StudentName] = @StudentName, [StudentSurname] = @StudentSurname, [PreTripChecks] = @PreTripChecks, [VehicleControl] = @VehicleControl, [SpeedNGearControl] = @SpeedNGearControl, [ObservationalNDefensiveDriving] = @ObservationalNDefensiveDriving, [ControlledIntersections] = @ControlledIntersections, [UncontrolledIntersections] = @UncontrolledIntersections, [HillStartsNGradientControl] = @HillStartsNGradientControl, [ParkingNReversing] = @ParkingNReversing, [LaneChangingNOvertaking] = @LaneChangingNOvertaking, [FreewayDriving] = @FreewayDriving, [MockTest] = @MockTest, [Comments] = @Comments WHERE [StudentID] = @original_StudentID AND [StudentName] = @original_StudentName AND [StudentSurname] = @original_StudentSurname AND (([PreTripChecks] = @original_PreTripChecks) OR ([PreTripChecks] IS NULL AND @original_PreTripChecks IS NULL)) AND (([VehicleControl] = @original_VehicleControl) OR ([VehicleControl] IS NULL AND @original_VehicleControl IS NULL)) AND (([SpeedNGearControl] = @original_SpeedNGearControl) OR ([SpeedNGearControl] IS NULL AND @original_SpeedNGearControl IS NULL)) AND (([ObservationalNDefensiveDriving] = @original_ObservationalNDefensiveDriving) OR ([ObservationalNDefensiveDriving] IS NULL AND @original_ObservationalNDefensiveDriving IS NULL)) AND (([ControlledIntersections] = @original_ControlledIntersections) OR ([ControlledIntersections] IS NULL AND @original_ControlledIntersections IS NULL)) AND (([UncontrolledIntersections] = @original_UncontrolledIntersections) OR ([UncontrolledIntersections] IS NULL AND @original_UncontrolledIntersections IS NULL)) AND (([HillStartsNGradientControl] = @original_HillStartsNGradientControl) OR ([HillStartsNGradientControl] IS NULL AND @original_HillStartsNGradientControl IS NULL)) AND (([ParkingNReversing] = @original_ParkingNReversing) OR ([ParkingNReversing] IS NULL AND @original_ParkingNReversing IS NULL)) AND (([LaneChangingNOvertaking] = @original_LaneChangingNOvertaking) OR ([LaneChangingNOvertaking] IS NULL AND @original_LaneChangingNOvertaking IS NULL)) AND (([FreewayDriving] = @original_FreewayDriving) OR ([FreewayDriving] IS NULL AND @original_FreewayDriving IS NULL)) AND (([MockTest] = @original_MockTest) OR ([MockTest] IS NULL AND @original_MockTest IS NULL)) AND (([Comments] = @original_Comments) OR ([Comments] IS NULL AND @original_Comments IS NULL))">
                 <DeleteParameters>
                     <asp:Parameter Name="original_StudentID" Type="Int32"></asp:Parameter>
                     <asp:Parameter Name="original_StudentName" Type="String"></asp:Parameter>
@@ -196,6 +225,9 @@ white-space: nowrap; /* prevents wrapping */
                     <asp:Parameter Name="StudentName" Type="String"></asp:Parameter>
                     <asp:Parameter Name="StudentSurname" Type="String"></asp:Parameter>
                 </InsertParameters>
+                <SelectParameters>
+                    <asp:Parameter Name="Search" />
+                </SelectParameters>
                 <UpdateParameters>
                     <asp:Parameter Name="StudentName" Type="String"></asp:Parameter>
                     <asp:Parameter Name="StudentSurname" Type="String"></asp:Parameter>
@@ -257,15 +289,16 @@ white-space: nowrap; /* prevents wrapping */
      
     <asp:Button ID="SubmitBtn" runat="server" Text="Submit Rating"  OnClientClick="return confirmProgressAction('rating');"
  OnClick="SubmitBtn_Click" CssClass="BTN" />
-     
-</div> 
-        
-        
-        <span style="float:right;width:40%;">
+      <span style="float:right;width:40%;">
             <asp:TextBox ID="TextBox1" runat="server" Height="55px" TextMode="MultiLine" Width="363px" CssClass="TX"></asp:TextBox>
            <asp:Button ID="Button1" runat="server" Text="Submit Comment" OnClientClick="return confirmProgressAction('comment');"
  OnClick="Button1_Click" CssClass="BTN" />
         </span>
+
+</div> 
+        
+        
+       
         
     </div>
 
