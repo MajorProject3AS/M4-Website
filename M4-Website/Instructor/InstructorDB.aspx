@@ -71,8 +71,8 @@
     <form id="form1" runat="server">
         <!-- Top Panel -->
 <div class="top-panel">
-    <h1>TLG Driving Academy
-
+    <h1>
+        <asp:Label ID="Hlbl" runat="server" Text=" "></asp:Label>
     </h1>
     
 </div>
