@@ -76,8 +76,8 @@ namespace M4_Website
             
             Session.Clear(); 
             Session.Abandon(); 
-            Response.Redirect("~/Default.aspx"); /
+            Response.Redirect("~/Default.aspx"); 
        
-    }
+        }
     }
 }
