@@ -120,7 +120,7 @@ body {
             font-weight: bold !important;
         }
         
-        .status-pending {
+        .status-confirmed {
             color: orange !important;
             font-weight: bold !important;
         }
@@ -137,9 +137,9 @@ body {
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
         <div class="main-content" style="background-color: #FFFFFF">
         <div class="cards">
-            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString %>' ProviderName='<%$ ConnectionStrings:WstGrp24ConnectionString.ProviderName %>' SelectCommand="SELECT COUNT(*) AS Bookings FROM LessonBookingMJ WHERE (Status = 'Scheduled')"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString %>' SelectCommand="SELECT COUNT(*) AS Bookings FROM LessonBookingMJ WHERE (Status = 'Scheduled') OR (Status = 'Processing')"></asp:SqlDataSource>
             <div class="card">
-                <h3>Scheduled Bookings</h3>
+                <h3>Total Bookings</h3>
                 <p>
                                       <asp:DetailsView 
     ID="DVbookings" 
@@ -152,7 +152,7 @@ body {
     BorderStyle="None"
     GridLines="None" Font-Size="X-Large" Font-Bold="True">
     <Fields>
-        <asp:BoundField DataField="Bookings" HeaderText="" />
+        <asp:BoundField DataField="Bookings" HeaderText="" ReadOnly="True" SortExpression="Bookings" />
     </Fields>
 </asp:DetailsView>
                 </p>
@@ -222,7 +222,8 @@ body {
     <h2>Bookings Histroy</h2>
 
    <div class="grid-container" style="background-color: #FFFFFF">
-       <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="BookingID" DataSourceID="DSLessonBookings" AllowPaging="True">
+       <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="BookingID" DataSourceID="DSLessonBookings" AllowPaging="True" CellPadding="4" ForeColor="#333333" GridLines="None">
+           <AlternatingRowStyle BackColor="White"></AlternatingRowStyle>
            <Columns>
                <asp:BoundField DataField="BookingID" HeaderText="BookingID" ReadOnly="True" InsertVisible="False" SortExpression="BookingID"></asp:BoundField>
                <asp:BoundField DataField="StudentID" HeaderText="StudentID" SortExpression="StudentID"></asp:BoundField>
@@ -234,23 +235,117 @@ body {
                <asp:BoundField DataField="Time" HeaderText="Time" SortExpression="Time"></asp:BoundField>
                <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status"></asp:BoundField>
 
-                <asp:TemplateField HeaderText="Status">
-                  <ItemTemplate>
-                      <asp:Label ID="lblStatus" runat="server" 
-                          Text='<%# Eval("Status") %>'
-                          CssClass='<%# "status-" + Eval("Status").ToString().ToLower() %>'>
-                      </asp:Label>
-                  </ItemTemplate>
-              </asp:TemplateField>
+               <asp:TemplateField HeaderText="Status">
+                   <ItemTemplate>
+                       <asp:Label ID="lblStatus" runat="server"
+                           Text='<%# Eval("Status") %>'
+                           CssClass='<%# "status-" + Eval("Status").ToString().ToLower() %>'>
+                       </asp:Label>
+                   </ItemTemplate>
+               </asp:TemplateField>
            </Columns>
+           <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White"></FooterStyle>
+
+           <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White"></HeaderStyle>
+
+           <PagerStyle HorizontalAlign="Center" BackColor="#FFCC66" ForeColor="#333333"></PagerStyle>
+
+           <RowStyle BackColor="#FFFBD6" ForeColor="#333333"></RowStyle>
+
+           <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="Navy"></SelectedRowStyle>
+
+           <SortedAscendingCellStyle BackColor="#FDF5AC"></SortedAscendingCellStyle>
+
+           <SortedAscendingHeaderStyle BackColor="#4D0000"></SortedAscendingHeaderStyle>
+
+           <SortedDescendingCellStyle BackColor="#FCF6C0"></SortedDescendingCellStyle>
+
+           <SortedDescendingHeaderStyle BackColor="#820000"></SortedDescendingHeaderStyle>
        </asp:GridView>
 
        <asp:SqlDataSource runat="server" ID="DSLessonBookings" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString %>' SelectCommand="SELECT * FROM [LessonBookingMJ]"></asp:SqlDataSource>
       
                 
            </div>
-        
-    </div>
+             <h2>Lesson Attendance </h2>
+            <div class="grid-container" style="background-color: #FFFFFF">
+                <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" DataKeyNames="BookingID" DataSourceID="DSlessonAttendance" AllowPaging="True" CellPadding="4" ForeColor="#333333" GridLines="None">
+                    <AlternatingRowStyle BackColor="White"></AlternatingRowStyle>
+                    <Columns>
+                        <asp:BoundField DataField="BookingID" HeaderText="BookingID" ReadOnly="True" SortExpression="BookingID"></asp:BoundField>
+                        <asp:BoundField DataField="StudentID" HeaderText="StudentID" SortExpression="StudentID"></asp:BoundField>
+                        <asp:BoundField DataField="StudentName" HeaderText="StudentName" SortExpression="StudentName"></asp:BoundField>
+                        <asp:BoundField DataField="StudentSurname" HeaderText="StudentSurname" SortExpression="StudentSurname"></asp:BoundField>
+                        <asp:BoundField DataField="InstructorID" HeaderText="InstructorID" SortExpression="InstructorID"></asp:BoundField>
+                        <asp:BoundField DataField="BookingDate" HeaderText="BookingDate" SortExpression="BookingDate"></asp:BoundField>
+                        <asp:BoundField DataField="BookingTime" HeaderText="BookingTime" SortExpression="BookingTime"></asp:BoundField>
+                        <asp:BoundField DataField="Attendance" HeaderText="Attendance" SortExpression="Attendance"></asp:BoundField>
+                        <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date"></asp:BoundField>
+                        <asp:BoundField DataField="PackageID" HeaderText="PackageID" SortExpression="PackageID"></asp:BoundField>
+                    </Columns>
+                    <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White"></FooterStyle>
+
+                    <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White"></HeaderStyle>
+
+                    <PagerStyle HorizontalAlign="Center" BackColor="#FFCC66" ForeColor="#333333"></PagerStyle>
+
+                    <RowStyle BackColor="#FFFBD6" ForeColor="#333333"></RowStyle>
+
+                    <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="Navy"></SelectedRowStyle>
+
+                    <SortedAscendingCellStyle BackColor="#FDF5AC"></SortedAscendingCellStyle>
+
+                    <SortedAscendingHeaderStyle BackColor="#4D0000"></SortedAscendingHeaderStyle>
+
+                    <SortedDescendingCellStyle BackColor="#FCF6C0"></SortedDescendingCellStyle>
+
+                    <SortedDescendingHeaderStyle BackColor="#820000"></SortedDescendingHeaderStyle>
+                </asp:GridView>
+
+                <asp:SqlDataSource runat="server" ID="DSlessonAttendance" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString %>' SelectCommand="SELECT * FROM [LA_Sheet]"></asp:SqlDataSource>
+                </div>
+            <h2> Student Progress sheet </h2>
+            <div class="grid-container" style="background-color: #FFFFFF">
+                <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" DataKeyNames="StudentID" DataSourceID="SqlDataSource5" AllowPaging="True" CellPadding="4" ForeColor="#333333" GridLines="None">
+                    <AlternatingRowStyle BackColor="White"></AlternatingRowStyle>
+                    <Columns>
+                        <asp:BoundField DataField="StudentID" HeaderText="StudentID" ReadOnly="True" SortExpression="StudentID"></asp:BoundField>
+                        <asp:BoundField DataField="StudentName" HeaderText="StudentName" SortExpression="StudentName"></asp:BoundField>
+                        <asp:BoundField DataField="StudentSurname" HeaderText="StudentSurname" SortExpression="StudentSurname"></asp:BoundField>
+                        <asp:BoundField DataField="PreTripChecks" HeaderText="PreTripChecks" SortExpression="PreTripChecks"></asp:BoundField>
+                        <asp:BoundField DataField="VehicleControl" HeaderText="VehicleControl" SortExpression="VehicleControl"></asp:BoundField>
+                        <asp:BoundField DataField="SpeedNGearControl" HeaderText="SpeedNGearControl" SortExpression="SpeedNGearControl"></asp:BoundField>
+                        <asp:BoundField DataField="ObservationalNDefensiveDriving" HeaderText="ObservationalNDefensiveDriving" SortExpression="ObservationalNDefensiveDriving"></asp:BoundField>
+                        <asp:BoundField DataField="ControlledIntersections" HeaderText="ControlledIntersections" SortExpression="ControlledIntersections"></asp:BoundField>
+                        <asp:BoundField DataField="UncontrolledIntersections" HeaderText="UncontrolledIntersections" SortExpression="UncontrolledIntersections"></asp:BoundField>
+                        <asp:BoundField DataField="HillStartsNGradientControl" HeaderText="HillStartsNGradientControl" SortExpression="HillStartsNGradientControl"></asp:BoundField>
+                        <asp:BoundField DataField="ParkingNReversing" HeaderText="ParkingNReversing" SortExpression="ParkingNReversing"></asp:BoundField>
+                        <asp:BoundField DataField="LaneChangingNOvertaking" HeaderText="LaneChangingNOvertaking" SortExpression="LaneChangingNOvertaking"></asp:BoundField>
+                        <asp:BoundField DataField="FreewayDriving" HeaderText="FreewayDriving" SortExpression="FreewayDriving"></asp:BoundField>
+                        <asp:BoundField DataField="MockTest" HeaderText="MockTest" SortExpression="MockTest"></asp:BoundField>
+                        <asp:BoundField DataField="Comments" HeaderText="Comments" SortExpression="Comments"></asp:BoundField>
+                    </Columns>
+                    <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White"></FooterStyle>
+
+                    <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White"></HeaderStyle>
+
+                    <PagerStyle HorizontalAlign="Center" BackColor="#FFCC66" ForeColor="#333333"></PagerStyle>
+
+                    <RowStyle BackColor="#FFFBD6" ForeColor="#333333"></RowStyle>
+
+                    <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="Navy"></SelectedRowStyle>
+
+                    <SortedAscendingCellStyle BackColor="#FDF5AC"></SortedAscendingCellStyle>
+
+                    <SortedAscendingHeaderStyle BackColor="#4D0000"></SortedAscendingHeaderStyle>
+
+                    <SortedDescendingCellStyle BackColor="#FCF6C0"></SortedDescendingCellStyle>
+
+                    <SortedDescendingHeaderStyle BackColor="#820000"></SortedDescendingHeaderStyle>
+                </asp:GridView>
+                <asp:SqlDataSource runat="server" ID="SqlDataSource5" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString %>' SelectCommand="SELECT * FROM [StudentProgress]"></asp:SqlDataSource>
+            </div>
+            </div>
 
 
 </asp:Content>
