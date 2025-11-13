@@ -141,5 +141,19 @@ namespace M4_Website
                 }
             }
         }
+
+        protected void GVStu_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string name = GVStu.SelectedRow.Cells[2].Text;
+            string surname = GVStu.SelectedRow.Cells[3].Text;
+            StudentName.Value = name + " " + surname;
+        }
+
+        protected void GVProgress_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string name = GVProgress.SelectedRow.Cells[2].Text;
+            string surname = GVProgress.SelectedRow.Cells[3].Text;
+            StudentName.Value = name + " " + surname;
+        }
     }
 }

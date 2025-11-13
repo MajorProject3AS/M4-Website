@@ -114,9 +114,12 @@ namespace M4_Website
                 }
             }
         }
-        
 
-
-       
+        protected void BKPac_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string name = BKPac.SelectedRow.Cells[3].Text;
+            string surname = BKPac.SelectedRow.Cells[4].Text;
+            hfStudentName.Value = name + " " + surname;
+        }
     }
 }
