@@ -222,17 +222,7 @@
             <asp:Parameter Name="original_PackageID" Type="String"></asp:Parameter>
         </UpdateParameters>
     </asp:SqlDataSource>
-     <div style="float:left;width:25%">
-<asp:DetailsView ID="DetailsView1" runat="server" Height="50px" Width="125px">
-    <Fields>
-        <asp:BoundField DataField="StudentID" HeaderText="Student ID" />
-        <asp:BoundField DataField="TotalLessons" HeaderText="Total Lessons" />
-        <asp:BoundField DataField="Attended" HeaderText="Attended" />
-        <asp:BoundField DataField="Missed" HeaderText="Missed" />
-        <asp:BoundField DataField="Remaining" HeaderText="Remaining" />
-    </Fields>
-</asp:DetailsView>
-</div>
+     
 </div>
    
     
