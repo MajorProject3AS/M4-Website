@@ -13,7 +13,7 @@ namespace M4_Website
         {
             if (Session["CurrentControl"] != null)
             {
-                string controlPath = Session["CurrentControl"] as string ?? "~/Instructor/Dash.ascx";
+                string controlPath = Session["CurrentControl"].ToString();
                 LoadUserControl(controlPath);
 
             }
@@ -25,7 +25,8 @@ namespace M4_Website
             if (!IsPostBack && Session["CurrentControl"] == null)
             {
                 Session["CurrentControl"] = "~/Instructor/Dash.ascx";
-                LoadUserControl("~/Instructor/Dash.ascx");
+                
+                Response.Redirect(Request.RawUrl);
             }
         }
 
@@ -34,7 +35,8 @@ namespace M4_Website
         protected void btnDashboard_Click(object sender, EventArgs e)
         {
             Session["CurrentControl"] = "~/Instructor/Dash.ascx";
-            LoadUserControl("~/Instructor/Dash.ascx");
+           
+            Response.Redirect(Request.RawUrl);
 
         }
 
@@ -42,9 +44,9 @@ namespace M4_Website
         {
             
             Session["CurrentControl"] = "~/Instructor/Attendance.ascx";
-            LoadUserControl("~/Instructor/Attendance.ascx");
             
-               
+            Response.Redirect(Request.RawUrl);
+
 
         }
 
@@ -52,24 +54,29 @@ namespace M4_Website
         {
             
             Session["CurrentControl"] = "~/Instructor/StudentProgress.ascx";
-            LoadUserControl("~/Instructor/StudentProgress.ascx");
-            
-            
+           
+            Response.Redirect(Request.RawUrl);
+
 
         }
         private void LoadUserControl(string controlPath)
         {
             pnlMain.Controls.Clear();
+
             Control ctrl = LoadControl(controlPath);
+            ctrl.ID = "DynamicControl"; 
+
             pnlMain.Controls.Add(ctrl);
+
+           
         }
 
         protected void btnLogout_Click(object sender, EventArgs e)
         {
             
-            Session.Clear(); // Clears all session variables
-            Session.Abandon(); // Ends the session
-            Response.Redirect("~/Default.aspx"); // Redirects to your default page
+            Session.Clear(); 
+            Session.Abandon(); 
+            Response.Redirect("~/Default.aspx"); /
        
     }
     }

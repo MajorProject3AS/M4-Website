@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="InstructorDB.aspx.cs" Inherits="M4_Website.InstructorDB" %>
+﻿<%@ Page Language="C#"  AutoEventWireup="true" CodeBehind="InstructorDB.aspx.cs" Inherits="M4_Website.InstructorDB" %>
 
 <!DOCTYPE html>
 
@@ -89,7 +89,7 @@
 
     <!-- Main Panel -->
     <div class="main-panel">
-        <asp:Panel ID="pnlMain" runat="server" CssClass="user-control-panel"></asp:Panel>
+        <asp:Panel ID="pnlMain" runat="server"  CssClass="user-control-panel"></asp:Panel>
         <asp:Panel ID="Panel1" runat="server"></asp:Panel>
     </div>
 </div>
