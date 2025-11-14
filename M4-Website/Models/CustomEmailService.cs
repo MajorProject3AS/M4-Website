@@ -103,8 +103,8 @@ namespace M4_Website.Models
                 emailBody.AppendLine("<h3>Contact Us</h3>");
                 emailBody.AppendLine("<p>If you have any questions about your payment or need assistance, please contact us:</p>");
                 emailBody.AppendLine("<ul>");
-                emailBody.AppendLine("<li><strong>Email:</strong> info@tlgdrivingschool.co.za</li>");
-                emailBody.AppendLine("<li><strong>Phone:</strong> +27 XX XXX XXXX</li>");
+                emailBody.AppendLine("<li><strong>Email:</strong> takananilg@gmail.com</li>");
+                emailBody.AppendLine("<li><strong>Phone:</strong>074 667 2974 / 061 585 0684</li>");
                 emailBody.AppendLine("<li><strong>Address:</strong> TLG Driving School, South Africa</li>");
                 emailBody.AppendLine("</ul>");
                 
