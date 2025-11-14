@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Web.UI.WebControls;
+using M4_Website.Models;
 
 namespace M4_Website.Receptionist
 {
@@ -167,10 +168,46 @@ namespace M4_Website.Receptionist
             try
             {
                 string connectionString = ConfigurationManager.ConnectionStrings["WstGrp24ConnectionString"].ConnectionString;
+                int studentId = 0;
+                string studentEmail = "";
+                string studentName = "";
+                string packageName = "";
+                decimal amountPaid = 0;
+                string paymentMethod = "";
+                DateTime paymentDate = DateTime.Now;
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
+
+                    // Get payment and student details before updating
+                    if (status == "Paid")
+                    {
+                        string getDetailsQuery = @"
+                            SELECT p.StudentID, p.AmountPaid, p.PaymentMethod, p.PaymentDate,
+                                   s.Email, s.Name + ' ' + s.Surname AS FullName, s.PackageName
+                            FROM PaymentMJ p
+                            INNER JOIN StudentMJ s ON p.StudentID = s.StudentID
+                            WHERE p.PaymentID = @PaymentID";
+
+                        using (SqlCommand cmd = new SqlCommand(getDetailsQuery, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@PaymentID", paymentId);
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    studentId = Convert.ToInt32(reader["StudentID"]);
+                                    studentEmail = reader["Email"].ToString();
+                                    studentName = reader["FullName"].ToString();
+                                    packageName = reader["PackageName"].ToString();
+                                    amountPaid = Convert.ToDecimal(reader["AmountPaid"]);
+                                    paymentMethod = reader["PaymentMethod"].ToString();
+                                    paymentDate = Convert.ToDateTime(reader["PaymentDate"]);
+                                }
+                            }
+                        }
+                    }
 
                     // Update payment status
                     string updateQuery = "UPDATE PaymentMJ SET Status = @Status WHERE PaymentID = @PaymentID";
@@ -185,13 +222,14 @@ namespace M4_Website.Receptionist
                     // If approved, update student status to Active
                     if (status == "Paid")
                     {
-                        string getStudentQuery = "SELECT StudentID FROM PaymentMJ WHERE PaymentID = @PaymentID";
-                        int studentId = 0;
-
-                        using (SqlCommand cmd = new SqlCommand(getStudentQuery, conn))
+                        if (studentId == 0)
                         {
-                            cmd.Parameters.AddWithValue("@PaymentID", paymentId);
-                            studentId = (int)cmd.ExecuteScalar();
+                            string getStudentQuery = "SELECT StudentID FROM PaymentMJ WHERE PaymentID = @PaymentID";
+                            using (SqlCommand cmd = new SqlCommand(getStudentQuery, conn))
+                            {
+                                cmd.Parameters.AddWithValue("@PaymentID", paymentId);
+                                studentId = (int)cmd.ExecuteScalar();
+                            }
                         }
 
                         string updateStudentQuery = "UPDATE StudentMJ SET Status = 'Active' WHERE StudentID = @StudentID";
@@ -199,6 +237,29 @@ namespace M4_Website.Receptionist
                         {
                             cmd.Parameters.AddWithValue("@StudentID", studentId);
                             cmd.ExecuteNonQuery();
+                        }
+
+                        // Send email receipt for approved bank transfer
+                        if (!string.IsNullOrEmpty(studentEmail))
+                        {
+                            try
+                            {
+                                CustomEmailService.SendPaymentReceipt(
+                                    studentEmail,
+                                    studentName,
+                                    studentId,
+                                    packageName,
+                                    amountPaid,
+                                    paymentMethod,
+                                    paymentDate,
+                                    paymentId
+                                );
+                            }
+                            catch (Exception emailEx)
+                            {
+                                // Log email error but don't fail the approval process
+                                System.Diagnostics.Debug.WriteLine($"Error sending email: {emailEx.Message}");
+                            }
                         }
                     }
                 }
