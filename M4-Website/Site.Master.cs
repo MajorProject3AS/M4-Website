@@ -85,15 +85,33 @@ namespace M4_Website
                 PrivateInstructor.Visible = false;
                 PrivateReceptionist.Visible = false;
                 StudentDashboard.Visible = false;
+                // Show public pages by default for authenticated users
+                HomeNavItem.Visible = true;
+                CoursesNavItem.Visible = true;
+                FAQNavItem.Visible = true;
+                AboutNavItem.Visible = true;
+                ContactNavItem.Visible = true;
 
                 // Then set based on roles
                 if (Context.User.IsInRole("Manager"))
                 {
                     PrivateManager.Visible = true;
+                    // Hide public pages for Manager
+                    HomeNavItem.Visible = false;
+                    CoursesNavItem.Visible = false;
+                    FAQNavItem.Visible = false;
+                    AboutNavItem.Visible = false;
+                    ContactNavItem.Visible = false;
                 }
                 else if (Context.User.IsInRole("Instructor"))
                 {
                     PrivateInstructor.Visible = true;
+                    // Hide public pages for Instructor
+                    HomeNavItem.Visible = false;
+                    CoursesNavItem.Visible = false;
+                    FAQNavItem.Visible = false;
+                    AboutNavItem.Visible = false;
+                    ContactNavItem.Visible = false;
                 }
                 else if (Context.User.IsInRole("Receptionist"))
                 {

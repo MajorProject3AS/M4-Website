@@ -135,13 +135,6 @@
     <!-- Extras and Contact -->
     <section class="extras-section">
         <div class="container">
-            <h3>Extras</h3>
-            <p><strong>Special Car Hire:</strong> R600</p>
-            <p><strong>Special Truck Hire:</strong> R1000</p>
-            <p><strong>Learner’s Licence + Booking Fee:</strong> R550</p>
-
-            <hr class="my-4" />
-
             <h3>Trading Hours</h3>
             <p>Monday – Friday: <strong>08:00 – 17:30</strong></p>
             <p>Saturday: <strong>08:00 – 12:00</strong></p>

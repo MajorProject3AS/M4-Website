@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="InstructorDB.aspx.cs" Inherits="M4_Website.InstructorDB" %>
+﻿<%@ Page Language="C#"  AutoEventWireup="true" CodeBehind="InstructorDB.aspx.cs" Inherits="M4_Website.InstructorDB" %>
 
 <!DOCTYPE html>
 
@@ -71,7 +71,10 @@
     <form id="form1" runat="server">
         <!-- Top Panel -->
 <div class="top-panel">
-    <h1>TLG Driving Academy</h1>
+    <h1>
+        <asp:Label ID="Hlbl" runat="server" Text=" "></asp:Label>
+    </h1>
+    
 </div>
 
 <!-- Container for Sidebar and Main Panel -->
@@ -81,11 +84,12 @@
         <asp:Button ID="btnDashboard" runat="server" Text="Dashboard" CssClass="nav-button" OnClick="btnDashboard_Click" />
         <asp:Button ID="btnAttendance" runat="server" Text="Attendance" CssClass="nav-button" OnClick="btnAttendance_Click" />
         <asp:Button ID="btnProgress" runat="server" Text="Student Progress" CssClass="nav-button" OnClick="btnProgress_Click" />
+        <asp:Button ID="btnLogout" runat="server" Text="Back to main dashboard" CssClass="nav-button" OnClick="btnLogout_Click" />
     </div>
 
     <!-- Main Panel -->
     <div class="main-panel">
-        <asp:Panel ID="pnlMain" runat="server" CssClass="user-control-panel"></asp:Panel>
+        <asp:Panel ID="pnlMain" runat="server"  CssClass="user-control-panel"></asp:Panel>
         <asp:Panel ID="Panel1" runat="server"></asp:Panel>
     </div>
 </div>

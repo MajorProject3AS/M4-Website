@@ -254,6 +254,46 @@
     background-color: #7e0000;
 }
 
+/* HOW IT WORKS SECTION */
+.how-it-works {
+    background-color: #f4f4f4; /* soft grey background */
+    padding: 60px 20px;
+    text-align: center;
+    border-radius: 8px;
+    margin-top: 60px;
+}
+
+.how-it-works h2 {
+    font-size: 2rem;
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.how-it-works .intro {
+    color: #555;
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+}
+
+.how-it-works .steps-text {
+    color: #333;
+    font-size: 1rem;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: left;
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.how-it-works strong {
+    color: #a60000; /* your theme red */
+}
+
+
     </style>
 
     <main>
@@ -354,7 +394,7 @@
 
 
         <!--ADDITIONAL SERVICES--->
-      <section class="additional-services">
+     <%-- <section class="additional-services">
     <h2>Additional Services</h2>
     <p class="subtitle">Extra services available for your convenience</p>
 
@@ -377,6 +417,18 @@
             <button class="enquire-btn">Enquire Now</button>
         </div>
     </div>
+</section>--%>
+
+        <!-- HOW IT WORKS SECTION -->
+<section class="how-it-works">
+    <h2>How It Works</h2>
+    <p class="intro">Getting started with your driving lessons is quick and simple!</p>
+
+    <div class="steps-text">
+        <p>* <strong>Create an account</strong> and book your first lesson online.</p>
+        <p>* <strong>Meet your instructor</strong> and start learning with confidence.</p>
+        <p>* <strong>Get ready for your test</strong> and earn your driver’s licence!</p>
+    </div>
 </section>
 
 
@@ -384,7 +436,7 @@
         <section class="courses-cta">
             <h2>Ready to Start Your Journey?</h2>
             <p>Book your lessons today and drive with the experts!</p>
-            <a href="Booking.aspx" class="cta-btn book">Book Now</a>
+            <a href="Account/Login.aspx" class="cta-btn book">Book Now</a>
             <a href="Contact.aspx" class="cta-btn contact">Contact Us</a>
         </section>
 
