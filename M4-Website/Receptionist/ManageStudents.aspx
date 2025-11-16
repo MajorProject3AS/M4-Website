@@ -135,10 +135,6 @@
                                         <td><strong>Gender:</strong></td>
                                         <td><asp:Label ID="lblDetailGender" runat="server"></asp:Label></td>
                                     </tr>
-                                    <tr>
-                                        <td><strong>Date of Birth:</strong></td>
-                                        <td><asp:Label ID="lblDetailDOB" runat="server"></asp:Label></td>
-                                    </tr>
                                 </table>
                             </div>
                             <div class="col-md-6">
@@ -151,10 +147,6 @@
                                     <tr>
                                         <td><strong>Status:</strong></td>
                                         <td><asp:Label ID="lblDetailStatus" runat="server"></asp:Label></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Registration Date:</strong></td>
-                                        <td><asp:Label ID="lblDetailRegDate" runat="server"></asp:Label></td>
                                     </tr>
                                     <tr>
                                         <td><strong>Address:</strong></td>

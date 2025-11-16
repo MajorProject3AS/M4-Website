@@ -167,7 +167,6 @@ namespace M4_Website.Receptionist
                                 lblDetailPhone.Text = reader["PhoneNumber"].ToString();
                                 lblDetailIDNo.Text = reader["IDNo"].ToString();
                                 lblDetailGender.Text = reader["Gender"].ToString();
-                                lblDetailDOB.Text = "N/A";
                                 
                                 // Build address from street number, street name, city, and postal code
                                 string address = "";
@@ -183,7 +182,6 @@ namespace M4_Website.Receptionist
                                 lblDetailAddress.Text = !string.IsNullOrEmpty(address.Trim()) ? address.Trim() : "N/A";
                                 lblDetailPackage.Text = reader["PackageName"].ToString();
                                 lblDetailStatus.Text = reader["Status"].ToString();
-                                lblDetailRegDate.Text = "N/A";
                             }
                         }
                     }

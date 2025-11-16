@@ -177,15 +177,6 @@ namespace M4_Website.Receptionist
         protected global::System.Web.UI.WebControls.Label lblDetailGender;
 
         /// <summary>
-        /// lblDetailDOB control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDetailDOB;
-
-        /// <summary>
         /// lblDetailPackage control.
         /// </summary>
         /// <remarks>
@@ -202,15 +193,6 @@ namespace M4_Website.Receptionist
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblDetailStatus;
-
-        /// <summary>
-        /// lblDetailRegDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDetailRegDate;
 
         /// <summary>
         /// lblDetailAddress control.
