@@ -113,7 +113,7 @@ body {
          
          <div class="grid-container" style="background-color: #FFFFFF">
              <div class=".dashboard-grid td, .dashboard-grid th">
-                 <asp:GridView ID="GVInstructorsActive" runat="server" AutoGenerateColumns="False" DataKeyNames="InstructorID" DataSourceID="GVinstructors" AllowPaging="True" SelectedRowStyle-ForeColor="#CCCCCC" SelectedRowStyle-BorderWidth="3px" SelectedRowStyle-BorderStyle="Dotted" SelectedRowStyle-BorderColor="Black" OnRowCancelingEdit="GVInstructorsActive_RowCancelingEdit" OnRowEditing="GVInstructorsActive_RowEditing" OnRowUpdating="GVInstructorsActive_RowUpdating" OnSelectedIndexChanged="GVInstructorsActive_SelectedIndexChanged">
+                 <asp:GridView ID="GVInstructorsActive" runat="server" AutoGenerateColumns="False" DataKeyNames="InstructorID"  AllowPaging="True" SelectedRowStyle-ForeColor="#CCCCCC" SelectedRowStyle-BorderWidth="3px" SelectedRowStyle-BorderStyle="Dotted" SelectedRowStyle-BorderColor="Black" OnRowCancelingEdit="GVInstructorsActive_RowCancelingEdit" OnRowEditing="GVInstructorsActive_RowEditing" OnRowUpdating="GVInstructorsActive_RowUpdating" OnSelectedIndexChanged="GVInstructorsActive_SelectedIndexChanged">
                      <Columns>
                          <asp:CommandField ShowEditButton="True" ShowSelectButton="True">
                              <HeaderStyle BackColor="#CC0000" Font-Bold="True" ForeColor="Black"></HeaderStyle>
