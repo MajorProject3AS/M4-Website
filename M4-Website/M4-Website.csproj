@@ -184,6 +184,7 @@
     <Content Include="Payment\Payment.aspx" />
     <Content Include="Payment\Web.config" />
     <Content Include="Receptionist\ManageBookings.aspx" />
+    <Content Include="Receptionist\ManageStudents.aspx" />
     <Content Include="Receptionist\ProcessPayments.aspx" />
     <Content Include="Receptionist\ReceptionistDashboard.aspx" />
     <Content Include="Student\Dashboard.aspx" />
@@ -420,6 +421,13 @@
     </Compile>
     <Compile Include="Receptionist\ManageBookings.aspx.designer.cs">
       <DependentUpon>ManageBookings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Receptionist\ManageStudents.aspx.cs">
+      <DependentUpon>ManageStudents.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Receptionist\ManageStudents.aspx.designer.cs">
+      <DependentUpon>ManageStudents.aspx</DependentUpon>
     </Compile>
     <Compile Include="Receptionist\ProcessPayments.aspx.cs">
       <DependentUpon>ProcessPayments.aspx</DependentUpon>
