@@ -19,9 +19,25 @@ namespace M4_Website.Manager
         }
         private void BindGridView()
         {
-            // Get data from your data source
-           
-            GVInstructorsActive.DataBind();
+            try
+            {
+                string query = "SELECT InstructorID, LicensePlateID, LicenseNumber, ExpertiseLevel, FirstName, LastName, Gender, ContactNumber, Email, Status FROM InstructorMJ";
+
+                using (SqlConnection con = new SqlConnection("Data Source=146.230.177.46;Initial Catalog=WstGrp24;User ID=WstGrp24;Password=6wefi;TrustServerCertificate=True"))
+                {
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    System.Data.DataTable dt = new System.Data.DataTable(); // Fully qualified name
+                    da.Fill(dt);
+
+                    GVInstructorsActive.DataSource = dt;
+                    GVInstructorsActive.DataBind();
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowMessage($"Error loading data: {ex.Message}", "error");
+            }
         }
        
 
@@ -40,64 +56,77 @@ namespace M4_Website.Manager
 
         protected void GVInstructorsActive_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-            string instructorID = GVInstructorsActive.SelectedRow.Cells[1].Text.Trim();
-            string licensePlateID = GVInstructorsActive.SelectedRow.Cells[2].Text.Trim();
-
-            // Validate vehicle before updating
-            string validationResult = ValidateVehicle(licensePlateID, instructorID);
-
-            if (validationResult != "VALID")
+            try
             {
-                ShowMessage(validationResult, "error");
-                return; // Stop the update process
-            }
-            // Proceed with update if validation passes
-            string licenseNumber = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].FindControl("txtLicenseNumber")).Text;
-            string expertiseLevel = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].FindControl("txtExpertiseLevel")).Text;
-            string firstName = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].FindControl("txtFirstName")).Text;
-            string lastName = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].FindControl("txtLastName")).Text;
-            string gender = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].FindControl("txtGender")).Text;
-            string contactNumber = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].FindControl("txtContactNumber")).Text;
-            string email = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].FindControl("txtEmail")).Text;
-            string status = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].FindControl("txtStatus")).Text;
+                // Get the primary key value
+                string instructorID = GVInstructorsActive.DataKeys[e.RowIndex].Value.ToString();
 
-            string updateQuery = @"UPDATE InstructorMJ SET 
-                             LicensePlateID = @LicensePlateID, 
-                             LicenseNumber = @LicenseNumber, 
-                             ExpertiseLevel = @ExpertiseLevel, 
-                             FirstName = @FirstName, 
-                             LastName = @LastName, 
-                             Gender = @Gender, 
-                             ContactNumber = @ContactNumber, 
-                             Email = @Email, 
-                             Status = @Status 
-                             WHERE InstructorID = @InstructorID";
-            using (SqlConnection con = new SqlConnection("Data Source=146.230.177.46;Initial Catalog=WstGrp24;User ID=WstGrp24;Password=6wefi;TrustServerCertificate=True"))
-            {
-                SqlCommand cmd = new SqlCommand(updateQuery, con);
-                cmd.Parameters.AddWithValue("@LicensePlateID", licensePlateID);
-                cmd.Parameters.AddWithValue("@LicenseNumber", licenseNumber);
-                cmd.Parameters.AddWithValue("@ExpertiseLevel", expertiseLevel);
-                cmd.Parameters.AddWithValue("@FirstName", firstName);
-                cmd.Parameters.AddWithValue("@LastName", lastName);
-                cmd.Parameters.AddWithValue("@Gender", gender);
-                cmd.Parameters.AddWithValue("@ContactNumber", contactNumber);
-                cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Status", status);
-                cmd.Parameters.AddWithValue("@InstructorID", instructorID);
+                // Use Cells index for BoundFields (adjust indices based on your column order)
+                // Skip the CommandField (index 0) and InstructorID (index 1, which is read-only)
+                string licensePlateID = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].Cells[2].Controls[0]).Text.Trim();
+                string licenseNumber = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].Cells[3].Controls[0]).Text.Trim();
+                string expertiseLevel = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].Cells[4].Controls[0]).Text.Trim();
+                string firstName = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].Cells[5].Controls[0]).Text.Trim();
+                string lastName = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].Cells[6].Controls[0]).Text.Trim();
+                string gender = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].Cells[7].Controls[0]).Text.Trim();
+                string contactNumber = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].Cells[8].Controls[0]).Text.Trim();
+                string email = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].Cells[9].Controls[0]).Text.Trim();
+                string status = ((TextBox)GVInstructorsActive.Rows[e.RowIndex].Cells[10].Controls[0]).Text.Trim();
+                // Validate vehicle before updating
+                string validationResult = ValidateVehicle(licensePlateID, instructorID);
 
-                con.Open();
-                int rowsAffected = cmd.ExecuteNonQuery();
-                con.Close();
-
-                if (rowsAffected > 0)
+                if (validationResult != "VALID")
                 {
-                    ShowMessage("Instructor updated successfully!", "success");
+                    ShowMessage(validationResult, "error");
+                    return; // Stop the update process
                 }
-            }
+                // Proceed with update if validation passes
+                string updateQuery = @"UPDATE InstructorMJ SET 
+                                 LicensePlateID = @LicensePlateID, 
+                                 LicenseNumber = @LicenseNumber, 
+                                 ExpertiseLevel = @ExpertiseLevel, 
+                                 FirstName = @FirstName, 
+                                 LastName = @LastName, 
+                                 Gender = @Gender, 
+                                 ContactNumber = @ContactNumber, 
+                                 Email = @Email, 
+                                 Status = @Status 
+                                 WHERE InstructorID = @InstructorID";
 
-            GVInstructorsActive.EditIndex = -1;
-            BindGridView();
+                using (SqlConnection con = new SqlConnection("Data Source=146.230.177.46;Initial Catalog=WstGrp24;User ID=WstGrp24;Password=6wefi;TrustServerCertificate=True"))
+                {
+                    SqlCommand cmd = new SqlCommand(updateQuery, con);
+                    cmd.Parameters.AddWithValue("@LicensePlateID", licensePlateID);
+                    cmd.Parameters.AddWithValue("@LicenseNumber", licenseNumber);
+                    cmd.Parameters.AddWithValue("@ExpertiseLevel", expertiseLevel);
+                    cmd.Parameters.AddWithValue("@FirstName", firstName);
+                    cmd.Parameters.AddWithValue("@LastName", lastName);
+                    cmd.Parameters.AddWithValue("@Gender", gender);
+                    cmd.Parameters.AddWithValue("@ContactNumber", contactNumber);
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@Status", status);
+                    cmd.Parameters.AddWithValue("@InstructorID", instructorID);
+
+                    con.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    con.Close();
+                    if (rowsAffected > 0)
+                    {
+                        ShowMessage("Instructor updated successfully!", "success");
+                    }
+                    else
+                    {
+                        ShowMessage("No records were updated. Please check if the instructor exists.", "warning");
+                    }
+                }
+
+                GVInstructorsActive.EditIndex = -1;
+                BindGridView();
+            }
+            catch (Exception ex)
+            {
+                ShowMessage($"Error updating instructor: {ex.Message}", "error");
+            }
         }
 
         protected void GVInstructorsActive_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
@@ -109,8 +138,8 @@ namespace M4_Website.Manager
         }
         private string ValidateVehicle(string licensePlateID, string currentInstructorID)
         {
-            using (SqlConnection con = new SqlConnection("Data Source=146.230.177.46;Initial Catalog=WstGrp24;User ID=WstGrp24;Password=6wefi;TrustServerCertificate=True")
-)
+            // Your existing validation logic (unchanged)
+            using (SqlConnection con = new SqlConnection("Data Source=146.230.177.46;Initial Catalog=WstGrp24;User ID=WstGrp24;Password=6wefi;TrustServerCertificate=True"))
             {
                 // Check if vehicle exists in vehicleMJ table
                 string checkVehicleQuery = @"SELECT COUNT(*) FROM VehicleMJ WHERE LicensePlateID = @LicensePlateID";
@@ -124,6 +153,7 @@ namespace M4_Website.Manager
                 {
                     return "Vehicle does not exist in the system!";
                 }
+
                 // Check vehicle status
                 string checkStatusQuery = @"SELECT Status FROM VehicleMJ WHERE LicensePlateID = @LicensePlateID";
                 cmd.CommandText = checkStatusQuery;
@@ -170,5 +200,9 @@ namespace M4_Website.Manager
             }
         }
 
+        protected void GVInstructorsActive_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+
+        }
     }
  }
