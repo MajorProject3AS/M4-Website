@@ -108,6 +108,12 @@
     <asp:Label ID="Label4" runat="server" Text="*Select booking to mark attendance" ForeColor="#CC0000" Font-Size="Small" Font-Italic="True"></asp:Label>
     
     <div class="GBWrap">
+         <span style="float:right;width:7%;">
+     <asp:Button ID="loadBtn" runat="server" Text="&#x21bb;" 
+ToolTip="Reload Grid"
+CssClass="reload-button"
+OnClick="loadBtn_Click" />
+ </span>
     <asp:GridView ID="BKPac" runat="server" AutoGenerateColumns="False" DataSourceID="DSBP" CssClass="GB" CellPadding="4" ForeColor="#333333" GridLines="None" OnSelectedIndexChanged="BKPac_SelectedIndexChanged">
         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
         <Columns>
@@ -131,7 +137,7 @@
         <SortedDescendingCellStyle BackColor="#FFFDF8" />
         <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
     </asp:GridView>
-    <asp:SqlDataSource runat="server" ID="DSBP" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString %>' SelectCommand="SELECT LessonBookingMJ.BookingID, LessonBookingMJ.StudentID, StudentMJ.Name, StudentMJ.Surname, LessonBookingMJ.InstructorID, LessonBookingMJ.Date, LessonBookingMJ.Time, PackageMJ.PackageName, LessonBookingMJ.Status FROM LessonBookingMJ INNER JOIN StudentMJ ON LessonBookingMJ.StudentID = StudentMJ.StudentID INNER JOIN PackageMJ ON LessonBookingMJ.PackageID = PackageMJ.PackageName AND StudentMJ.PackageName = PackageMJ.PackageName WHERE (LessonBookingMJ.InstructorID = @instructorId) AND (LessonBookingMJ.Date = @date) AND (LessonBookingMJ.Status = @status)">
+    <asp:SqlDataSource runat="server" ID="DSBP" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString %>' SelectCommand="SELECT LessonBookingMJ.BookingID, LessonBookingMJ.StudentID, StudentMJ.Name, StudentMJ.Surname, LessonBookingMJ.InstructorID, LessonBookingMJ.Date, LessonBookingMJ.Time, PackageMJ.PackageName, LessonBookingMJ.Status FROM LessonBookingMJ INNER JOIN StudentMJ ON LessonBookingMJ.StudentID = StudentMJ.StudentID INNER JOIN PackageMJ ON LessonBookingMJ.PackageID = PackageMJ.PackageName AND StudentMJ.PackageName = PackageMJ.PackageName WHERE (LessonBookingMJ.InstructorID = @instructorId) AND (LessonBookingMJ.Status = @status) AND (@date IS NULL OR @date = ' ') OR (LessonBookingMJ.InstructorID = @instructorId) AND (LessonBookingMJ.Date = @date) AND (LessonBookingMJ.Status = @status)">
         <SelectParameters>
             <asp:Parameter Name="instructorId"></asp:Parameter>
             <asp:ControlParameter ControlID="Calendar1" Name="date" PropertyName="SelectedDate" />
