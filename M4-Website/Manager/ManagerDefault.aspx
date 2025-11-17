@@ -137,7 +137,7 @@ body {
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
         <div class="main-content" style="background-color: #FFFFFF">
         <div class="cards">
-            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString %>' SelectCommand="SELECT COUNT(*) AS Bookings FROM LessonBookingMJ WHERE (Status = 'Scheduled') OR (Status = 'Processing')"></asp:SqlDataSource>
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString %>' SelectCommand="SELECT COUNT(*) AS Bookings FROM LessonBookingMJ WHERE (Status = 'Processing') OR (Status = 'Confirmed')"></asp:SqlDataSource>
             <div class="card">
                 <h3>Total Bookings</h3>
                 <p>
