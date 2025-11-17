@@ -56,66 +56,87 @@ namespace M4_Website
         }
         protected void PresentBtn_Click(object sender, EventArgs e)
         {
-            if (BKPac.SelectedIndex > -1)
+            DateTime bookingDate = Convert.ToDateTime(BKPac.SelectedRow.Cells[5].Text);
+            if(bookingDate.Date > DateTime.Today)
             {
-                try
+                statusLbl.Text = "Cannot mark attendance for future bookings.";
+               
+            }
+            else
+            {
+                statusLbl.Text = " ";
+                if (BKPac.SelectedIndex > -1)
                 {
-                string date = DateTime.Now.ToString("yyyy-MM-dd");
-                string attendance = "Present";
-                    string instructorID = Id.ToString();
-                    if (string.IsNullOrEmpty(instructorID)) return;
+                    try
+                    {
+                        string date = DateTime.Now.ToString("yyyy-MM-dd");
+                        string attendance = "Present";
+                        string instructorID = Id.ToString();
+                        if (string.IsNullOrEmpty(instructorID)) return;
 
-                    DSAttendance.InsertParameters["BookingID"].DefaultValue = BKPac.SelectedRow.Cells[1].Text;
-                DSAttendance.InsertParameters["StudentID"].DefaultValue = BKPac.SelectedRow.Cells[2].Text;
-                DSAttendance.InsertParameters["StudentName"].DefaultValue = BKPac.SelectedRow.Cells[3].Text;
-                DSAttendance.InsertParameters["StudentSurname"].DefaultValue = BKPac.SelectedRow.Cells[4].Text;
-                DSAttendance.InsertParameters["InstructorId"].DefaultValue = instructorID;
-                DSAttendance.InsertParameters["BookingDate"].DefaultValue = BKPac.SelectedRow.Cells[5].Text;
-                DSAttendance.InsertParameters["BookingTime"].DefaultValue = BKPac.SelectedRow.Cells[6].Text;
-                DSAttendance.InsertParameters["Attendance"].DefaultValue = attendance;
-                DSAttendance.InsertParameters["Date"].DefaultValue = date;
-                DSAttendance.InsertParameters["PackageID"].DefaultValue = BKPac.SelectedRow.Cells[7].Text;
-                DSAttendance.Insert();
-                AttendanceGV.DataBind();
+                        DSAttendance.InsertParameters["BookingID"].DefaultValue = BKPac.SelectedRow.Cells[1].Text;
+                        DSAttendance.InsertParameters["StudentID"].DefaultValue = BKPac.SelectedRow.Cells[2].Text;
+                        DSAttendance.InsertParameters["StudentName"].DefaultValue = BKPac.SelectedRow.Cells[3].Text;
+                        DSAttendance.InsertParameters["StudentSurname"].DefaultValue = BKPac.SelectedRow.Cells[4].Text;
+                        DSAttendance.InsertParameters["InstructorId"].DefaultValue = instructorID;
+                        DSAttendance.InsertParameters["BookingDate"].DefaultValue = BKPac.SelectedRow.Cells[5].Text;
+                        DSAttendance.InsertParameters["BookingTime"].DefaultValue = BKPac.SelectedRow.Cells[6].Text;
+                        DSAttendance.InsertParameters["Attendance"].DefaultValue = attendance;
+                        DSAttendance.InsertParameters["Date"].DefaultValue = date;
+                        DSAttendance.InsertParameters["PackageID"].DefaultValue = BKPac.SelectedRow.Cells[7].Text;
+                        DSAttendance.Insert();
+                        AttendanceGV.DataBind();
+                        statusLbl.Text = "Attendance marked successfully";
 
-
+                    }
+                    catch (Exception ex)
+                    {
+                        statusLbl.Text = "Error: " + ex.Message;
+                    }
                 }
-                catch (Exception ex)
-                {
-                   statusLbl.Text = "Error: " + ex.Message;
-                }
-
             }
         }
 
         protected void AbsentBtn_Click(object sender, EventArgs e)
         {
-            if (BKPac.SelectedIndex > -1)
+            DateTime bookingDate = Convert.ToDateTime(BKPac.SelectedRow.Cells[5].Text);
+            if (bookingDate.Date > DateTime.Today)
             {
-                try
+                statusLbl.Text = "Cannot mark attendance for future bookings.";
+                return;
+            }
+            else
+            {
+                statusLbl.Text = " ";
+                if (BKPac.SelectedIndex > -1)
                 {
-                    string date = DateTime.Now.ToString("yyyy-MM-dd");
-                    string attendanc = "Absent";
-                    string instructorID = Id.ToString();
-                    if (string.IsNullOrEmpty(instructorID)) return;
+                    try
+                    {
+                        string date = DateTime.Now.ToString("yyyy-MM-dd");
+                        string attendanc = "Absent";
+                        string instructorID = Id.ToString();
+                        if (string.IsNullOrEmpty(instructorID)) return;
 
-                    DSAttendance.InsertParameters["BookingID"].DefaultValue = BKPac.SelectedRow.Cells[1].Text;
-                    DSAttendance.InsertParameters["StudentID"].DefaultValue = BKPac.SelectedRow.Cells[2].Text;
-                    DSAttendance.InsertParameters["StudentName"].DefaultValue = BKPac.SelectedRow.Cells[3].Text;
-                    DSAttendance.InsertParameters["StudentSurname"].DefaultValue = BKPac.SelectedRow.Cells[4].Text;
-                    DSAttendance.InsertParameters["instructorId"].DefaultValue = instructorID;
-                    DSAttendance.InsertParameters["BookingDate"].DefaultValue = BKPac.SelectedRow.Cells[5].Text;
-                    DSAttendance.InsertParameters["BookingTime"].DefaultValue = BKPac.SelectedRow.Cells[6].Text;
-                    DSAttendance.InsertParameters["Attendance"].DefaultValue = attendanc;
-                    DSAttendance.InsertParameters["Date"].DefaultValue = date;
-                    DSAttendance.InsertParameters["PackageID"].DefaultValue = BKPac.SelectedRow.Cells[7].Text;
-                    DSAttendance.Insert();
-                    AttendanceGV.DataBind();
-                }
-                catch (Exception ex)
-                {
-                    statusLbl.Text = "Error: " + ex.Message;
+                        DSAttendance.InsertParameters["BookingID"].DefaultValue = BKPac.SelectedRow.Cells[1].Text;
+                        DSAttendance.InsertParameters["StudentID"].DefaultValue = BKPac.SelectedRow.Cells[2].Text;
+                        DSAttendance.InsertParameters["StudentName"].DefaultValue = BKPac.SelectedRow.Cells[3].Text;
+                        DSAttendance.InsertParameters["StudentSurname"].DefaultValue = BKPac.SelectedRow.Cells[4].Text;
+                        DSAttendance.InsertParameters["instructorId"].DefaultValue = instructorID;
+                        DSAttendance.InsertParameters["BookingDate"].DefaultValue = BKPac.SelectedRow.Cells[5].Text;
+                        DSAttendance.InsertParameters["BookingTime"].DefaultValue = BKPac.SelectedRow.Cells[6].Text;
+                        DSAttendance.InsertParameters["Attendance"].DefaultValue = attendanc;
+                        DSAttendance.InsertParameters["Date"].DefaultValue = date;
+                        DSAttendance.InsertParameters["PackageID"].DefaultValue = BKPac.SelectedRow.Cells[7].Text;
+                        DSAttendance.Insert();
+                        AttendanceGV.DataBind();
+                        statusLbl.Text = "Attendance marked successfully";
+                    }
+                    catch (Exception ex)
+                    {
+                        statusLbl.Text = "Error: " + ex.Message;
 
+
+                    }
                 }
             }
         }
