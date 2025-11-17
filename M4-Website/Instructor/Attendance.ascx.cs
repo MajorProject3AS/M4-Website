@@ -27,6 +27,7 @@ namespace M4_Website
 
             DSBP.SelectParameters["instructorId"].DefaultValue = instructorID;
             DSBP.SelectParameters["status"].DefaultValue = status;
+            DSBP.SelectParameters["date"].DefaultValue = " ";
             BKPac.DataBind();
             DSAttendance.SelectParameters["instructorId"].DefaultValue = instructorID;
             DSAttendance.SelectParameters["Search"].DefaultValue = " ";
@@ -183,6 +184,18 @@ namespace M4_Website
             }
 
             AttendanceGV.DataBind();
+        }
+
+        protected void loadBtn_Click(object sender, EventArgs e)
+        {
+            Calendar1.SelectedDate = DateTime.MinValue;
+            string instructorID = Id.ToString();
+            if (string.IsNullOrEmpty(instructorID)) return;
+            string status = "Confirmed";
+            DSBP.SelectParameters["instructorId"].DefaultValue = instructorID;
+            DSBP.SelectParameters["status"].DefaultValue = status;
+            DSBP.SelectParameters["date"].DefaultValue = " ";
+            BKPac.DataBind();
         }
     }
 }
