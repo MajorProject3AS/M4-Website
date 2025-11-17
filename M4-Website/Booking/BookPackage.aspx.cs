@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Configuration;
 using Microsoft.AspNet.Identity;
+using M4_Website.Models;
 
 namespace M4_Website.Booking
 {
@@ -192,6 +193,21 @@ namespace M4_Website.Booking
                     string postalCode = txtPostalCode.Text.Trim();
                     string status = ddlStatus.SelectedValue;
                     string packageName = lblPackageName.Text;
+
+                    // Validate student data
+                    var validationErrors = ValidationHelper.ValidateStudentData(
+                        name, surname, email, phoneNumber, idNo, postalCode
+                    );
+
+                    if (validationErrors.Count > 0)
+                    {
+                        // Show validation errors
+                        string errorMessage = "Please correct the following errors:\\n\\n" + 
+                                            string.Join("\\n", validationErrors);
+                        ClientScript.RegisterStartupScript(this.GetType(), "ValidationError", 
+                            $"alert('{errorMessage}');", true);
+                        return;
+                    }
 
                     // Trim package name - remove everything after the dash and convert to uppercase
                     int dashIndex = packageName.IndexOf(" -");

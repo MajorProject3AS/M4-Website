@@ -46,25 +46,36 @@
 
         <!-- Navigation Cards -->
         <div class="row">
-            <div class="col-md-6 mb-4">
+            <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body text-center">
                         <i class="bi bi-credit-card" style="font-size: 3rem; color: #ffc107;"></i>
                         <h4 class="card-title mt-3">Process Payments</h4>
                         <p class="card-text">Review and approve pending student payments</p>
-                        <asp:Button ID="btnGoToPayments" runat="server" Text="Manage Payments" 
+                        <asp:Button ID="btnGoToPayments" runat="server" Text="MANAGE PAYMENTS" 
                             CssClass="btn btn-warning btn-lg" OnClick="btnGoToPayments_Click" />
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 mb-4">
+            <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body text-center">
                         <i class="bi bi-calendar-check" style="font-size: 3rem; color: #0dcaf0;"></i>
                         <h4 class="card-title mt-3">Manage Bookings</h4>
                         <p class="card-text">View and manage all student lesson bookings</p>
-                        <asp:Button ID="btnGoToBookings" runat="server" Text="Manage Bookings" 
+                        <asp:Button ID="btnGoToBookings" runat="server" Text="MANAGE BOOKINGS" 
                             CssClass="btn btn-info btn-lg" OnClick="btnGoToBookings_Click" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="bi bi-people" style="font-size: 3rem; color: #198754;"></i>
+                        <h4 class="card-title mt-3">Manage Students</h4>
+                        <p class="card-text">View and manage all registered students</p>
+                        <asp:Button ID="btnGoToStudents" runat="server" Text="MANAGE STUDENTS" 
+                            CssClass="btn btn-success btn-lg" OnClick="btnGoToStudents_Click" />
                     </div>
                 </div>
             </div>

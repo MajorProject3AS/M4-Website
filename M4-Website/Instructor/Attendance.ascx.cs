@@ -15,8 +15,8 @@ namespace M4_Website
         public int Id;
         protected void Page_Load(object sender, EventArgs e)
         {
-            
-            
+
+            string status = "Confirmed";
                 string username = HttpContext.Current.User.Identity.Name;
                 Id = GetStaffIdByUsername(username);
                
@@ -26,6 +26,7 @@ namespace M4_Website
             if (string.IsNullOrEmpty(instructorID)) return;
 
             DSBP.SelectParameters["instructorId"].DefaultValue = instructorID;
+            DSBP.SelectParameters["status"].DefaultValue = status;
             BKPac.DataBind();
             DSAttendance.SelectParameters["instructorId"].DefaultValue = instructorID;
             DSAttendance.SelectParameters["Search"].DefaultValue = " ";

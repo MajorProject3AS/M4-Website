@@ -141,5 +141,10 @@ namespace M4_Website.Receptionist
         {
             Response.Redirect("~/Receptionist/ManageBookings.aspx");
         }
+
+        protected void btnGoToStudents_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Receptionist/ManageStudents.aspx");
+        }
     }
 }
