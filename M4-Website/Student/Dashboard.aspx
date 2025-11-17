@@ -3,7 +3,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container mt-5">
         <!-- Message Banner at the top -->
-        <asp:Label ID="lblMessage" runat="server" CssClass="d-block mb-3" />
+        <asp:Label ID="lblMessage" runat="server" CssClass="d-block mb-3" Visible="false" />
         
         <h2>Student Dashboard</h2>
         <hr />

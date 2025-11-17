@@ -73,7 +73,6 @@
 <div class="grid-wrapper">
     <asp:GridView ID="BookingsGV" runat="server" CssClass="booking-grid" AutoGenerateColumns="False" DataKeyNames="BookingID" DataSourceID="DSBookings">
         <Columns>
-            <asp:CommandField ShowSelectButton="True"></asp:CommandField>
             <asp:BoundField DataField="BookingID" HeaderText="BookingID" ReadOnly="True" InsertVisible="False" SortExpression="BookingID"></asp:BoundField>
             <asp:BoundField DataField="StudentID" HeaderText="StudentID" SortExpression="StudentID"></asp:BoundField>
             <asp:BoundField DataField="VehicleID" HeaderText="VehicleID" SortExpression="VehicleID"></asp:BoundField>
@@ -84,9 +83,10 @@
             <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status"></asp:BoundField>
         </Columns>
     </asp:GridView>
-    <asp:SqlDataSource runat="server" ID="DSBookings" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString2 %>' ProviderName='<%$ ConnectionStrings:WstGrp24ConnectionString2.ProviderName %>' SelectCommand="SELECT BookingID, StudentID, InstructorID, VehicleID, PackageID, TimeSlotID, Date, Time, Status FROM LessonBookingMJ WHERE (InstructorID = @instructorId)">
+    <asp:SqlDataSource runat="server" ID="DSBookings" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString2 %>' ProviderName='<%$ ConnectionStrings:WstGrp24ConnectionString2.ProviderName %>' SelectCommand="SELECT BookingID, StudentID, InstructorID, VehicleID, PackageID, TimeSlotID, Date, Time, Status FROM LessonBookingMJ WHERE (InstructorID = @instructorId) AND (Status = @status)">
         <SelectParameters>
             <asp:Parameter Name="instructorId" />
+            <asp:Parameter Name="status" />
         </SelectParameters>
     </asp:SqlDataSource>
 </div>

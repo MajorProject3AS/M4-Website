@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.UI.HtmlControls;
 using Microsoft.AspNet.Identity;
 
 namespace M4_Website
@@ -129,6 +130,123 @@ namespace M4_Website
                 PrivateInstructor.Visible = false;
                 PrivateReceptionist.Visible = false;
                 StudentDashboard.Visible = false;
+            }
+
+            // Set active nav item based on current page
+            SetActiveNavItem();
+        }
+
+        private void SetActiveNavItem()
+        {
+            string currentPage = Request.Url.AbsolutePath.ToLower();
+
+            // Check for Receptionist pages
+            if (currentPage.Contains("/receptionist/"))
+            {
+                if (PrivateReceptionist != null)
+                {
+                    PrivateReceptionist.Attributes["class"] = "nav-link active";
+                }
+            }
+            // Check for Manager pages
+            else if (currentPage.Contains("/manager/"))
+            {
+                if (PrivateManager != null)
+                {
+                    PrivateManager.Attributes["class"] = "nav-link active";
+                }
+            }
+            // Check for Instructor pages
+            else if (currentPage.Contains("/instructor/"))
+            {
+                if (PrivateInstructor != null)
+                {
+                    PrivateInstructor.Attributes["class"] = "nav-link active";
+                }
+            }
+            // Check for Student pages
+            else if (currentPage.Contains("/student/"))
+            {
+                if (StudentDashboard != null)
+                {
+                    StudentDashboard.Attributes["class"] = "nav-link active";
+                }
+            }
+            // Check public pages
+            else if (currentPage.EndsWith("/") || currentPage.Contains("/default"))
+            {
+                if (HomeNavItem != null)
+                {
+                    var homeLink = HomeNavItem.FindControl("HomeLink") as HtmlAnchor;
+                    if (homeLink == null)
+                    {
+                        // Find the anchor tag within the li
+                        foreach (System.Web.UI.Control ctrl in HomeNavItem.Controls)
+                        {
+                            if (ctrl is HtmlAnchor)
+                            {
+                                ((HtmlAnchor)ctrl).Attributes["class"] = "nav-link active";
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else if (currentPage.Contains("/courses"))
+            {
+                if (CoursesNavItem != null)
+                {
+                    foreach (System.Web.UI.Control ctrl in CoursesNavItem.Controls)
+                    {
+                        if (ctrl is HtmlAnchor)
+                        {
+                            ((HtmlAnchor)ctrl).Attributes["class"] = "nav-link active";
+                            break;
+                        }
+                    }
+                }
+            }
+            else if (currentPage.Contains("/faq"))
+            {
+                if (FAQNavItem != null)
+                {
+                    foreach (System.Web.UI.Control ctrl in FAQNavItem.Controls)
+                    {
+                        if (ctrl is HtmlAnchor)
+                        {
+                            ((HtmlAnchor)ctrl).Attributes["class"] = "nav-link active";
+                            break;
+                        }
+                    }
+                }
+            }
+            else if (currentPage.Contains("/about"))
+            {
+                if (AboutNavItem != null)
+                {
+                    foreach (System.Web.UI.Control ctrl in AboutNavItem.Controls)
+                    {
+                        if (ctrl is HtmlAnchor)
+                        {
+                            ((HtmlAnchor)ctrl).Attributes["class"] = "nav-link active";
+                            break;
+                        }
+                    }
+                }
+            }
+            else if (currentPage.Contains("/contact"))
+            {
+                if (ContactNavItem != null)
+                {
+                    foreach (System.Web.UI.Control ctrl in ContactNavItem.Controls)
+                    {
+                        if (ctrl is HtmlAnchor)
+                        {
+                            ((HtmlAnchor)ctrl).Attributes["class"] = "nav-link active";
+                            break;
+                        }
+                    }
+                }
             }
         }
             

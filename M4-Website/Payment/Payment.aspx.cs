@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Configuration;
+using M4_Website.Models;
 
 namespace M4_Website.Payment
 {
@@ -204,6 +205,10 @@ namespace M4_Website.Payment
                     // Save payment to database
                     string connectionString = ConfigurationManager.ConnectionStrings["WstGrp24ConnectionString"].ConnectionString;
 
+                    int paymentId = 0;
+                    string studentEmail = "";
+                    string studentName = "";
+
                     using (SqlConnection conn = new SqlConnection(connectionString))
                     {
                         conn.Open();
@@ -216,7 +221,8 @@ namespace M4_Website.Payment
                         string query = @"INSERT INTO PaymentMJ 
                                         (PaymentDate, AmountPaid, AmountDue, PaymentMethod, StudentID, Status) 
                                         VALUES 
-                                        (@PaymentDate, @AmountPaid, @AmountDue, @PaymentMethod, @StudentID, @Status)";
+                                        (@PaymentDate, @AmountPaid, @AmountDue, @PaymentMethod, @StudentID, @Status);
+                                        SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
                         using (SqlCommand cmd = new SqlCommand(query, conn))
                         {
@@ -227,7 +233,7 @@ namespace M4_Website.Payment
                             cmd.Parameters.AddWithValue("@StudentID", studentId);
                             cmd.Parameters.AddWithValue("@Status", paymentStatus);
 
-                            cmd.ExecuteNonQuery();
+                            paymentId = (int)cmd.ExecuteScalar();
                         }
 
                         // Update student status to Active after payment submission (for both payment types)
@@ -237,6 +243,44 @@ namespace M4_Website.Payment
                         {
                             updateCmd.Parameters.AddWithValue("@StudentID", studentId);
                             updateCmd.ExecuteNonQuery();
+                        }
+
+                        // Get student email and name for receipt
+                        string studentQuery = "SELECT Email, Name + ' ' + Surname AS FullName FROM StudentMJ WHERE StudentID = @StudentID";
+                        using (SqlCommand studentCmd = new SqlCommand(studentQuery, conn))
+                        {
+                            studentCmd.Parameters.AddWithValue("@StudentID", studentId);
+                            using (SqlDataReader reader = studentCmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    studentEmail = reader["Email"].ToString();
+                                    studentName = reader["FullName"].ToString();
+                                }
+                            }
+                        }
+                    }
+
+                    // Send email receipt for card payments (auto-approved)
+                    if ((paymentMethod == "Credit Card" || paymentMethod == "Debit Card") && !string.IsNullOrEmpty(studentEmail))
+                    {
+                        try
+                        {
+                            CustomEmailService.SendPaymentReceipt(
+                                studentEmail,
+                                studentName,
+                                studentId,
+                                ViewState["PackageName"].ToString(),
+                                amountPaid,
+                                paymentMethod,
+                                DateTime.Now,
+                                paymentId
+                            );
+                        }
+                        catch (Exception emailEx)
+                        {
+                            // Log email error but don't fail the payment process
+                            System.Diagnostics.Debug.WriteLine($"Error sending email: {emailEx.Message}");
                         }
                     }
 

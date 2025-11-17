@@ -13,9 +13,22 @@ namespace M4_Website.Account
     {
         protected void CreateUser_Click(object sender, EventArgs e)
         {
+            // Validate email format
+            string email = Email.Text.Trim();
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                ErrorMessage.Text = "Email is required";
+                return;
+            }
+            if (!ValidationHelper.IsValidEmail(email))
+            {
+                ErrorMessage.Text = "Please enter a valid email address";
+                return;
+            }
+
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var signInManager = Context.GetOwinContext().Get<ApplicationSignInManager>();
-            var user = new ApplicationUser() { UserName = Email.Text, Email = Email.Text };
+            var user = new ApplicationUser() { UserName = email, Email = email };
             IdentityResult result = manager.Create(user, Password.Text);
             if (result.Succeeded)
             {

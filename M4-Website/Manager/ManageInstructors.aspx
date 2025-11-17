@@ -113,48 +113,48 @@ body {
          
          <div class="grid-container" style="background-color: #FFFFFF">
              <div class=".dashboard-grid td, .dashboard-grid th">
-                 <asp:GridView ID="GVInstructorsActive" runat="server" AutoGenerateColumns="False" DataKeyNames="InstructorID" DataSourceID="GVinstructors" AllowPaging="True" SelectedRowStyle-ForeColor="#CCCCCC" SelectedRowStyle-BorderWidth="3px" SelectedRowStyle-BorderStyle="Dotted" SelectedRowStyle-BorderColor="Black">
-                 <Columns>
-                     <asp:CommandField ShowEditButton="True" ShowSelectButton="True">
-                         <HeaderStyle BackColor="#CC0000" Font-Bold="True" ForeColor="Black"></HeaderStyle>
-                     </asp:CommandField>
-                     <asp:BoundField DataField="InstructorID" HeaderText="InstructorID" ReadOnly="True" InsertVisible="False" SortExpression="InstructorID">
-                         <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
-                     </asp:BoundField>
-                     <asp:BoundField DataField="LicensePlateID" HeaderText="LicensePlateID" SortExpression="LicensePlateID">
-                         <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
-                     </asp:BoundField>
-                     <asp:BoundField DataField="LicenseNumber" HeaderText="LicenseNumber" SortExpression="LicenseNumber">
-                         <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
-                     </asp:BoundField>
-                     <asp:BoundField DataField="ExpertiseLevel" HeaderText="ExpertiseLevel" SortExpression="ExpertiseLevel">
-                         <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
-                     </asp:BoundField>
-                     <asp:BoundField DataField="FirstName" HeaderText="FirstName" SortExpression="FirstName">
-                         <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
-                     </asp:BoundField>
-                     <asp:BoundField DataField="LastName" HeaderText="LastName" SortExpression="LastName">
-                         <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
-                     </asp:BoundField>
-                     <asp:BoundField DataField="Gender" HeaderText="Gender" SortExpression="Gender">
-                         <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
+                 <asp:GridView ID="GVInstructorsActive" runat="server" AutoGenerateColumns="False" DataKeyNames="InstructorID"  AllowPaging="True" SelectedRowStyle-ForeColor="#CCCCCC" SelectedRowStyle-BorderWidth="3px" SelectedRowStyle-BorderStyle="Dotted" SelectedRowStyle-BorderColor="Black" OnRowCancelingEdit="GVInstructorsActive_RowCancelingEdit" OnRowEditing="GVInstructorsActive_RowEditing" OnRowUpdating="GVInstructorsActive_RowUpdating" OnSelectedIndexChanged="GVInstructorsActive_SelectedIndexChanged">
+                     <Columns>
+                         <asp:CommandField ShowEditButton="True" ShowSelectButton="True">
+                             <HeaderStyle BackColor="#CC0000" Font-Bold="True" ForeColor="Black"></HeaderStyle>
+                         </asp:CommandField>
+                         <asp:BoundField DataField="InstructorID" HeaderText="InstructorID" ReadOnly="True" InsertVisible="False" SortExpression="InstructorID">
+                             <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
+                         </asp:BoundField>
+                         <asp:BoundField DataField="LicensePlateID" HeaderText="LicensePlateID" SortExpression="LicensePlateID">
+                             <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
+                         </asp:BoundField>
+                         <asp:BoundField DataField="LicenseNumber" HeaderText="LicenseNumber" SortExpression="LicenseNumber">
+                             <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
+                         </asp:BoundField>
+                         <asp:BoundField DataField="ExpertiseLevel" HeaderText="ExpertiseLevel" SortExpression="ExpertiseLevel">
+                             <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
+                         </asp:BoundField>
+                         <asp:BoundField DataField="FirstName" HeaderText="FirstName" SortExpression="FirstName">
+                             <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
+                         </asp:BoundField>
+                         <asp:BoundField DataField="LastName" HeaderText="LastName" SortExpression="LastName">
+                             <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
+                         </asp:BoundField>
+                         <asp:BoundField DataField="Gender" HeaderText="Gender" SortExpression="Gender">
+                             <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
 
-                         <ItemStyle BackColor="White" Font-Bold="False"></ItemStyle>
-                     </asp:BoundField>
-                     <asp:BoundField DataField="ContactNumber" HeaderText="ContactNumber" SortExpression="ContactNumber">
-                         <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
-                     </asp:BoundField>
-                     <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email">
-                         <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
-                     </asp:BoundField>
-                     <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status">
-                         <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
-                     </asp:BoundField>
-                      
-                 </Columns>
+                             <ItemStyle BackColor="White" Font-Bold="False"></ItemStyle>
+                         </asp:BoundField>
+                         <asp:BoundField DataField="ContactNumber" HeaderText="ContactNumber" SortExpression="ContactNumber">
+                             <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
+                         </asp:BoundField>
+                         <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email">
+                             <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
+                         </asp:BoundField>
+                         <asp:BoundField DataField="Status" HeaderText="Status" SortExpression="Status">
+                             <HeaderStyle BackColor="#CC0000" Font-Bold="True"></HeaderStyle>
+                         </asp:BoundField>
 
-<SelectedRowStyle BorderColor="Black" BorderWidth="3px" BorderStyle="Dotted" ForeColor="#666666" BackColor="White"></SelectedRowStyle>
-             </asp:GridView>
+                     </Columns>
+
+                     <SelectedRowStyle BorderColor="Black" BorderWidth="3px" BorderStyle="Dotted"></SelectedRowStyle>
+                 </asp:GridView>
 
              <asp:SqlDataSource runat="server" ID="GVinstructors" ConnectionString='<%$ ConnectionStrings:WstGrp24ConnectionString %>' SelectCommand="SELECT * FROM [InstructorMJ]" ConflictDetection="CompareAllValues" DeleteCommand="DELETE FROM [InstructorMJ] WHERE [InstructorID] = @original_InstructorID AND (([LicensePlateID] = @original_LicensePlateID) OR ([LicensePlateID] IS NULL AND @original_LicensePlateID IS NULL)) AND (([LicenseNumber] = @original_LicenseNumber) OR ([LicenseNumber] IS NULL AND @original_LicenseNumber IS NULL)) AND (([ExpertiseLevel] = @original_ExpertiseLevel) OR ([ExpertiseLevel] IS NULL AND @original_ExpertiseLevel IS NULL)) AND (([FirstName] = @original_FirstName) OR ([FirstName] IS NULL AND @original_FirstName IS NULL)) AND (([LastName] = @original_LastName) OR ([LastName] IS NULL AND @original_LastName IS NULL)) AND (([Gender] = @original_Gender) OR ([Gender] IS NULL AND @original_Gender IS NULL)) AND (([ContactNumber] = @original_ContactNumber) OR ([ContactNumber] IS NULL AND @original_ContactNumber IS NULL)) AND (([Email] = @original_Email) OR ([Email] IS NULL AND @original_Email IS NULL)) AND (([Status] = @original_Status) OR ([Status] IS NULL AND @original_Status IS NULL))" InsertCommand="INSERT INTO [InstructorMJ] ([LicensePlateID], [LicenseNumber], [ExpertiseLevel], [FirstName], [LastName], [Gender], [ContactNumber], [Email], [Status]) VALUES (@LicensePlateID, @LicenseNumber, @ExpertiseLevel, @FirstName, @LastName, @Gender, @ContactNumber, @Email, @Status)" OldValuesParameterFormatString="original_{0}" UpdateCommand="UPDATE [InstructorMJ] SET [LicensePlateID] = @LicensePlateID, [LicenseNumber] = @LicenseNumber, [ExpertiseLevel] = @ExpertiseLevel, [FirstName] = @FirstName, [LastName] = @LastName, [Gender] = @Gender, [ContactNumber] = @ContactNumber, [Email] = @Email, [Status] = @Status WHERE [InstructorID] = @original_InstructorID AND (([LicensePlateID] = @original_LicensePlateID) OR ([LicensePlateID] IS NULL AND @original_LicensePlateID IS NULL)) AND (([LicenseNumber] = @original_LicenseNumber) OR ([LicenseNumber] IS NULL AND @original_LicenseNumber IS NULL)) AND (([ExpertiseLevel] = @original_ExpertiseLevel) OR ([ExpertiseLevel] IS NULL AND @original_ExpertiseLevel IS NULL)) AND (([FirstName] = @original_FirstName) OR ([FirstName] IS NULL AND @original_FirstName IS NULL)) AND (([LastName] = @original_LastName) OR ([LastName] IS NULL AND @original_LastName IS NULL)) AND (([Gender] = @original_Gender) OR ([Gender] IS NULL AND @original_Gender IS NULL)) AND (([ContactNumber] = @original_ContactNumber) OR ([ContactNumber] IS NULL AND @original_ContactNumber IS NULL)) AND (([Email] = @original_Email) OR ([Email] IS NULL AND @original_Email IS NULL)) AND (([Status] = @original_Status) OR ([Status] IS NULL AND @original_Status IS NULL))">
                  <DeleteParameters>
@@ -210,9 +210,6 @@ body {
          <br />
 
 
-         <asp:Button ID="UPDATEbtn" runat="server" Text="REASSIGN" BackColor="#FFFF66" ForeColor="Black" Font-Bold="True" Height="39px" Width="89px" OnClick="UPDATEbtn_Click" />
-
-             <asp:Label ID="lblError" runat="server" Text=""></asp:Label>
     </div>
     </div>
 </asp:Content>

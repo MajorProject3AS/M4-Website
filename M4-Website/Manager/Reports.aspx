@@ -97,7 +97,7 @@ body {
     <div class="main-content">
         
         <div class="report-table">
-            <iframe title="TLG ACADEMY ANALYSIS" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiNjEwODY1YzctNDcxMy00YjAzLWE1NTUtNmE2N2NiNjQyMzZjIiwidCI6IjIyNjgyN2Q2LWE5ZDAtNDcwZC04YzE1LWIxNDZiMDE5MmQ1MSIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>
-        </div>
+            <iframe title="power bi dashboard" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiNjMwOWNmMDgtOGUyNi00ZGY1LThhZmEtNzhiZGU0YWNkNzQ4IiwidCI6IjIyNjgyN2Q2LWE5ZDAtNDcwZC04YzE1LWIxNDZiMDE5MmQ1MSIsImMiOjh9" frameborder="0" allowFullScreen="true"></iframe>
+</div>
     </div>
 </asp:Content>

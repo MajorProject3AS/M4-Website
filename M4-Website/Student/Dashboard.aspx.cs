@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Web.UI.WebControls;
+using M4_Website.Models;
 
 namespace M4_Website.Student
 {
@@ -246,9 +247,10 @@ namespace M4_Website.Student
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
-                    string query = @"SELECT PaymentMethod, AmountPaid, PaymentDate
+                    string query = @"SELECT PaymentMethod, AmountPaid, PaymentDate, Status
                                     FROM PaymentMJ 
-                                    WHERE StudentID = @StudentID";
+                                    WHERE StudentID = @StudentID
+                                    ORDER BY PaymentDate DESC";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
@@ -260,16 +262,52 @@ namespace M4_Website.Student
                             if (reader.Read())
                             {
                                 lblPaymentMethod.Text = reader["PaymentMethod"].ToString();
-                                lblAmountPaid.Text = reader["AmountPaid"].ToString();
+                                
+                                // Format amount - handle both numeric and string with R prefix
+                                object amountObj = reader["AmountPaid"];
+                                decimal amount;
+                                if (amountObj != null && amountObj != DBNull.Value)
+                                {
+                                    string amountStr = amountObj.ToString().Replace("R", "").Replace(" ", "").Trim();
+                                    amount = Convert.ToDecimal(amountStr);
+                                }
+                                else
+                                {
+                                    amount = 0;
+                                }
+                                lblAmountPaid.Text = "" + amount.ToString("#,##0.00");
+                                
                                 lblPaymentDate.Text = Convert.ToDateTime(reader["PaymentDate"]).ToString("yyyy-MM-dd");
-                                lblPaymentStatus.Text = "<span class='badge bg-success'>Paid</span>";
+                                
+                                // Get status from database
+                                string status = reader["Status"].ToString();
+                                if (status == "Paid")
+                                {
+                                    lblPaymentStatus.Text = "<span class='badge bg-success'>Paid</span>";
+                                }
+                                else if (status == "Processing")
+                                {
+                                    lblPaymentStatus.Text = "<span class='badge bg-warning text-dark'>Processing</span>";
+                                }
+                                else if (status == "Pending")
+                                {
+                                    lblPaymentStatus.Text = "<span class='badge bg-info text-dark'>Pending</span>";
+                                }
+                                else if (status == "Failed")
+                                {
+                                    lblPaymentStatus.Text = "<span class='badge bg-danger'>Failed</span>";
+                                }
+                                else
+                                {
+                                    lblPaymentStatus.Text = "<span class='badge bg-secondary'>" + status + "</span>";
+                                }
                             }
                             else
                             {
                                 lblPaymentMethod.Text = "N/A";
-                                lblAmountPaid.Text = "0.00";
+                                lblAmountPaid.Text = "R0,00";
                                 lblPaymentDate.Text = "N/A";
-                                lblPaymentStatus.Text = "<span class='badge bg-warning'>Not Paid</span>";
+                                lblPaymentStatus.Text = "<span class='badge bg-warning text-dark'>Not Paid</span>";
                             }
                         }
                     }
@@ -315,6 +353,47 @@ namespace M4_Website.Student
                 if (ViewState["StudentID"] == null) return;
 
                 int studentId = Convert.ToInt32(ViewState["StudentID"]);
+
+                // Validate editable fields
+                var validationErrors = new System.Collections.Generic.List<string>();
+
+                string name = txtName.Text.Trim();
+                string surname = txtSurname.Text.Trim();
+                string phoneNumber = txtPhone.Text.Trim();
+                string postalCode = txtPostalCode.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(name))
+                    validationErrors.Add("Name is required");
+                else if (!ValidationHelper.IsValidName(name))
+                    validationErrors.Add("Name contains invalid characters");
+
+                if (string.IsNullOrWhiteSpace(surname))
+                    validationErrors.Add("Surname is required");
+                else if (!ValidationHelper.IsValidName(surname))
+                    validationErrors.Add("Surname contains invalid characters");
+
+                if (string.IsNullOrWhiteSpace(phoneNumber))
+                    validationErrors.Add("Phone number is required");
+                else if (!ValidationHelper.IsValidPhoneNumber(phoneNumber))
+                    validationErrors.Add("Phone number must be a valid SA number (e.g., 0123456789 or +27123456789)");
+
+                if (!string.IsNullOrWhiteSpace(postalCode) && !ValidationHelper.IsValidPostalCode(postalCode))
+                    validationErrors.Add("Postal code must be a 4-digit number");
+
+                if (validationErrors.Count > 0)
+                {
+                    var formattedErrors = new System.Collections.Generic.List<string>();
+                    foreach (var error in validationErrors)
+                    {
+                        formattedErrors.Add("• " + error);
+                    }
+                    lblMessage.Text = "<strong>Please correct the following errors:</strong><br/><br/>" +
+                                     string.Join("<br/>", formattedErrors);
+                    lblMessage.CssClass = "alert alert-danger";
+                    lblMessage.Visible = true;
+                    return;
+                }
+
                 string connectionString = ConfigurationManager.ConnectionStrings["WstGrp24ConnectionString"].ConnectionString;
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
@@ -347,8 +426,9 @@ namespace M4_Website.Student
                     }
                 }
 
-                lblMessage.Text = "Information updated successfully!";
+                lblMessage.Text = "<i class='bi bi-check-circle'></i> Information updated successfully!";
                 lblMessage.CssClass = "alert alert-success";
+                lblMessage.Visible = true;
 
                 pnlEdit.Visible = false;
                 pnlView.Visible = true;
@@ -356,8 +436,9 @@ namespace M4_Website.Student
             }
             catch (Exception ex)
             {
-                lblMessage.Text = "Error updating information: " + ex.Message;
+                lblMessage.Text = "<strong>Error:</strong> " + ex.Message;
                 lblMessage.CssClass = "alert alert-danger";
+                lblMessage.Visible = true;
             }
         }
 
@@ -377,20 +458,80 @@ namespace M4_Website.Student
                     int bookingId = Convert.ToInt32(e.CommandArgument);
                     string connectionString = ConfigurationManager.ConnectionStrings["WstGrp24ConnectionString"].ConnectionString;
 
+                    // Get booking details before cancelling
+                    string studentEmail = "";
+                    string studentName = "";
+                    DateTime lessonDate = DateTime.Now;
+                    string timeSlot = "";
+                    string instructorName = "";
+                    string vehicleId = "";
+
                     using (SqlConnection conn = new SqlConnection(connectionString))
                     {
+                        conn.Open();
+
+                        // Get booking and student details
+                        string detailsQuery = @"SELECT s.Email, s.Name, s.Surname, lb.Date, 
+                                               ts.StartTime, i.FirstName + ' ' + i.LastName AS InstructorName, 
+                                               i.LicensePlateID
+                                               FROM LessonBookingMJ lb
+                                               INNER JOIN StudentMJ s ON lb.StudentID = s.StudentID
+                                               INNER JOIN TimeSlotMJ ts ON lb.TimeSlotID = ts.TimeSlotID
+                                               INNER JOIN InstructorMJ i ON lb.InstructorID = i.InstructorID
+                                               WHERE lb.BookingID = @BookingID";
+
+                        using (SqlCommand detailsCmd = new SqlCommand(detailsQuery, conn))
+                        {
+                            detailsCmd.Parameters.AddWithValue("@BookingID", bookingId);
+                            using (SqlDataReader reader = detailsCmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    studentEmail = reader["Email"].ToString();
+                                    studentName = reader["Name"].ToString() + " " + reader["Surname"].ToString();
+                                    lessonDate = Convert.ToDateTime(reader["Date"]);
+                                    TimeSpan time = (TimeSpan)reader["StartTime"];
+                                    timeSlot = time.ToString(@"hh\:mm");
+                                    instructorName = reader["InstructorName"].ToString();
+                                    vehicleId = reader["LicensePlateID"].ToString();
+                                }
+                            }
+                        }
+
+                        // Cancel the booking
                         string query = "UPDATE LessonBookingMJ SET Status = 'Cancelled' WHERE BookingID = @BookingID";
 
                         using (SqlCommand cmd = new SqlCommand(query, conn))
                         {
                             cmd.Parameters.AddWithValue("@BookingID", bookingId);
-                            conn.Open();
                             cmd.ExecuteNonQuery();
+                        }
+
+                        // Send cancellation email
+                        if (!string.IsNullOrEmpty(studentEmail))
+                        {
+                            try
+                            {
+                                CustomEmailService.SendLessonBookingEmail(
+                                    studentEmail,
+                                    studentName,
+                                    lessonDate,
+                                    timeSlot,
+                                    instructorName,
+                                    vehicleId,
+                                    "Cancelled"
+                                );
+                            }
+                            catch (Exception emailEx)
+                            {
+                                System.Diagnostics.Debug.WriteLine("Email sending failed: " + emailEx.Message);
+                            }
                         }
                     }
 
-                    lblMessage.Text = "Booking cancelled successfully!";
+                    lblMessage.Text = "Booking cancelled successfully! A confirmation email has been sent.";
                     lblMessage.CssClass = "alert alert-success";
+                    lblMessage.Visible = true;
                     LoadBookings();
                     LoadPackageProgress();
                 }
@@ -398,6 +539,7 @@ namespace M4_Website.Student
                 {
                     lblMessage.Text = "Error cancelling booking: " + ex.Message;
                     lblMessage.CssClass = "alert alert-danger";
+                    lblMessage.Visible = true;
                 }
             }
         }

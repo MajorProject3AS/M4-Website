@@ -184,6 +184,7 @@
     <Content Include="Payment\Payment.aspx" />
     <Content Include="Payment\Web.config" />
     <Content Include="Receptionist\ManageBookings.aspx" />
+    <Content Include="Receptionist\ManageStudents.aspx" />
     <Content Include="Receptionist\ProcessPayments.aspx" />
     <Content Include="Receptionist\ReceptionistDashboard.aspx" />
     <Content Include="Student\Dashboard.aspx" />
@@ -421,6 +422,13 @@
     <Compile Include="Receptionist\ManageBookings.aspx.designer.cs">
       <DependentUpon>ManageBookings.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Receptionist\ManageStudents.aspx.cs">
+      <DependentUpon>ManageStudents.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Receptionist\ManageStudents.aspx.designer.cs">
+      <DependentUpon>ManageStudents.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Receptionist\ProcessPayments.aspx.cs">
       <DependentUpon>ProcessPayments.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -508,7 +516,9 @@
     <Compile Include="Manager\Reports.aspx.designer.cs">
       <DependentUpon>Reports.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomEmailService.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ValidationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
