@@ -3,45 +3,40 @@
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
     <main aria-labelledby="title">
         <h2 id="title"><%: Title %>.</h2>
-        <p class="text-danger">
-            <asp:Literal runat="server" ID="ErrorMessage" />
-        </p>
+
+        <p class="text-danger"><asp:Literal runat="server" ID="ErrorMessage" /></p>
 
         <div>
             <h4>Enter your new password</h4>
             <hr />
+
             <asp:ValidationSummary runat="server" CssClass="text-danger" />
-            <div class="row">
-                <asp:Label runat="server" AssociatedControlID="Email" CssClass="col-md-2 col-form-label">Email</asp:Label>
-                <div class="col-md-10">
-                    <asp:TextBox runat="server" ID="Email" CssClass="form-control" TextMode="Email" />
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="Email"
-                        CssClass="text-danger" ErrorMessage="The email field is required." />
-                </div>
-            </div>
+
             <div class="row">
                 <asp:Label runat="server" AssociatedControlID="Password" CssClass="col-md-2 col-form-label">Password</asp:Label>
                 <div class="col-md-10">
-                    <asp:TextBox runat="server" ID="Password" TextMode="Password" CssClass="form-control" />
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="Password"
-                        CssClass="text-danger" ErrorMessage="The password field is required." />
+                    <asp:TextBox ID="Password" runat="server" CssClass="form-control" TextMode="Password" />
+                    <asp:RequiredFieldValidator ControlToValidate="Password" runat="server"
+                        ErrorMessage="Required" CssClass="text-danger" />
                 </div>
             </div>
+
             <div class="row">
-                <asp:Label runat="server" AssociatedControlID="ConfirmPassword" CssClass="col-md-2 col-form-label">Confirm password</asp:Label>
+                <asp:Label runat="server" AssociatedControlID="ConfirmPassword" CssClass="col-md-2 col-form-label">Confirm Password</asp:Label>
                 <div class="col-md-10">
-                    <asp:TextBox runat="server" ID="ConfirmPassword" TextMode="Password" CssClass="form-control" />
-                    <asp:RequiredFieldValidator runat="server" ControlToValidate="ConfirmPassword"
-                        CssClass="text-danger" Display="Dynamic" ErrorMessage="The confirm password field is required." />
-                    <asp:CompareValidator runat="server" ControlToCompare="Password" ControlToValidate="ConfirmPassword"
-                        CssClass="text-danger" Display="Dynamic" ErrorMessage="The password and confirmation password do not match." />
+                    <asp:TextBox ID="ConfirmPassword" runat="server" CssClass="form-control" TextMode="Password" />
+                    <asp:CompareValidator runat="server" ControlToValidate="ConfirmPassword"
+                        ControlToCompare="Password" ErrorMessage="Passwords must match"
+                        CssClass="text-danger" />
                 </div>
             </div>
-            <div class="row">
+
+            <div class="row mt-3">
                 <div class="offset-md-2 col-md-10">
-                    <asp:Button runat="server" OnClick="Reset_Click" Text="Reset" CssClass="btn btn-outline-dark" />
+                    <asp:Button runat="server" Text="Reset Password" OnClick="Reset_Click" CssClass="btn btn-outline-dark" />
                 </div>
             </div>
         </div>
     </main>
 </asp:Content>
+

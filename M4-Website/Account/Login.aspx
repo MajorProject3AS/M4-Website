@@ -154,7 +154,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-offset-md-2 col-md-10">
+                        <div class="offset-md-2 col-md-10">
                             <asp:Button runat="server" OnClick="LogIn" Text="Log in" CssClass="btn btn-outline-dark" />
                         </div>
                     </div>
@@ -162,6 +162,11 @@
                 <p>
                     <asp:HyperLink runat="server" ID="RegisterHyperLink" ViewStateMode="Disabled">Register as a new user</asp:HyperLink>
                 </p>
+                 <p>
+                    <asp:HyperLink runat="server" ID="ForgotPasswordLink" NavigateUrl="~/Account/Forgot.aspx">Forgot password</asp:HyperLink>
+                </p>
+
+
                 <p>
                     <%-- Enable this once you have account confirmation enabled for password reset functionality
                     <asp:HyperLink runat="server" ID="ForgotPasswordHyperLink" ViewStateMode="Disabled">Forgot your password?</asp:HyperLink>

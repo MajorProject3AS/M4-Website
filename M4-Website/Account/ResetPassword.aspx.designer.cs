@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace M4_Website.Account {
-    
-    
-    public partial class ResetPassword {
-        
+namespace M4_Website.Account
+{
+
+
+    public partial class ResetPassword
+    {
+
         /// <summary>
         /// ErrorMessage control.
         /// </summary>
@@ -20,16 +22,7 @@ namespace M4_Website.Account {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Literal ErrorMessage;
-        
-        /// <summary>
-        /// Email control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Email;
-        
+
         /// <summary>
         /// Password control.
         /// </summary>
@@ -38,7 +31,7 @@ namespace M4_Website.Account {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Password;
-        
+
         /// <summary>
         /// ConfirmPassword control.
         /// </summary>
