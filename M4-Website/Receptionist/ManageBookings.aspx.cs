@@ -180,7 +180,7 @@ namespace M4_Website.Receptionist
 
                     // Get booking and student details
                     string detailsQuery = @"SELECT s.Email, s.Name, s.Surname, lb.Date, 
-                                           ts.StartTime, i.Name + ' ' + i.Surname AS InstructorName, 
+                                           ts.StartTime, i.FirstName + ' ' + i.LastName AS InstructorName, 
                                            i.LicensePlateID
                                            FROM LessonBookingMJ lb
                                            INNER JOIN StudentMJ s ON lb.StudentID = s.StudentID
