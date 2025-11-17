@@ -24,7 +24,7 @@ namespace M4_Website
                 Session["InstructorID"] = InstructorId; // Store for later use
             
 
-
+            string status = "Confirmed";
             string instructorID = InstructorId.ToString() ;
             if (string.IsNullOrEmpty(instructorID)) return;
 
@@ -32,6 +32,7 @@ namespace M4_Website
             BindMonthlySummary(instructorID);
             BindStudentSummary(instructorID);
             DSBookings.SelectParameters["instructorId"].DefaultValue = instructorID;
+            DSBookings.SelectParameters["status"].DefaultValue = status;
         }
 
         private int GetStaffIdByUsername(string username)
@@ -61,7 +62,7 @@ namespace M4_Website
         SELECT COUNT(*) AS BookingsToday
         FROM LessonBookingMJ
         WHERE CAST(Date AS DATE) = CAST(GETDATE() AS DATE)
-        AND InstructorID = @InstructorID";
+        AND InstructorID = @InstructorID AND Status = 'Confirmed'";
 
             DetailsViewToday.DataSource = GetSummary(query, instructorID);
             DetailsViewToday.DataBind();
@@ -75,7 +76,7 @@ namespace M4_Website
         FROM LessonBookingMJ
         WHERE MONTH(Date) = MONTH(GETDATE())
         AND YEAR(Date) = YEAR(GETDATE())
-        AND InstructorID = @InstructorID";
+        AND InstructorID = @InstructorID AND Status = 'Confirmed'";
 
             DetailsViewMonthly.DataSource = GetSummary(query, instructorID);
             DetailsViewMonthly.DataBind();
@@ -86,7 +87,7 @@ namespace M4_Website
             string query = @"
         SELECT COUNT(DISTINCT StudentID) AS TotalStudents
         FROM LessonBookingMJ
-        WHERE InstructorID = @InstructorID";
+        WHERE InstructorID = @InstructorID AND Status = 'Confirmed'";
 
             DetailsViewStudents.DataSource = GetSummary(query, instructorID);
             DetailsViewStudents.DataBind();
