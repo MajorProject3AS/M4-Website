@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Web.UI.WebControls;
+using M4_Website.Models;
 
 namespace M4_Website.Receptionist
 {
@@ -165,17 +166,75 @@ namespace M4_Website.Receptionist
             {
                 string connectionString = ConfigurationManager.ConnectionStrings["WstGrp24ConnectionString"].ConnectionString;
 
+                // Get booking details before updating (for email notification)
+                string studentEmail = "";
+                string studentName = "";
+                DateTime lessonDate = DateTime.Now;
+                string timeSlot = "";
+                string instructorName = "";
+                string vehicleId = "";
+
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
+                    conn.Open();
+
+                    // Get booking and student details
+                    string detailsQuery = @"SELECT s.Email, s.Name, s.Surname, lb.Date, 
+                                           ts.StartTime, i.Name + ' ' + i.Surname AS InstructorName, 
+                                           i.LicensePlateID
+                                           FROM LessonBookingMJ lb
+                                           INNER JOIN StudentMJ s ON lb.StudentID = s.StudentID
+                                           INNER JOIN TimeSlotMJ ts ON lb.TimeSlotID = ts.TimeSlotID
+                                           INNER JOIN InstructorMJ i ON lb.InstructorID = i.InstructorID
+                                           WHERE lb.BookingID = @BookingID";
+
+                    using (SqlCommand detailsCmd = new SqlCommand(detailsQuery, conn))
+                    {
+                        detailsCmd.Parameters.AddWithValue("@BookingID", bookingId);
+                        using (SqlDataReader reader = detailsCmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                studentEmail = reader["Email"].ToString();
+                                studentName = reader["Name"].ToString() + " " + reader["Surname"].ToString();
+                                lessonDate = Convert.ToDateTime(reader["Date"]);
+                                TimeSpan time = (TimeSpan)reader["StartTime"];
+                                timeSlot = time.ToString(@"hh\:mm");
+                                instructorName = reader["InstructorName"].ToString();
+                                vehicleId = reader["LicensePlateID"].ToString();
+                            }
+                        }
+                    }
+
+                    // Update booking status
                     string updateQuery = "UPDATE LessonBookingMJ SET Status = @Status WHERE BookingID = @BookingID";
                     
                     using (SqlCommand cmd = new SqlCommand(updateQuery, conn))
                     {
                         cmd.Parameters.AddWithValue("@Status", status);
                         cmd.Parameters.AddWithValue("@BookingID", bookingId);
-                        
-                        conn.Open();
                         cmd.ExecuteNonQuery();
+                    }
+
+                    // Send email notification if booking was cancelled
+                    if (status == "Cancelled" && !string.IsNullOrEmpty(studentEmail))
+                    {
+                        try
+                        {
+                            CustomEmailService.SendLessonBookingEmail(
+                                studentEmail,
+                                studentName,
+                                lessonDate,
+                                timeSlot,
+                                instructorName,
+                                vehicleId,
+                                "Cancelled"
+                            );
+                        }
+                        catch (Exception emailEx)
+                        {
+                            System.Diagnostics.Debug.WriteLine("Email sending failed: " + emailEx.Message);
+                        }
                     }
                 }
             }

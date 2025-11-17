@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Data;
 using Microsoft.AspNet.Identity;
+using M4_Website.Models;
 
 namespace M4_Website.Booking
 {
@@ -457,6 +458,47 @@ namespace M4_Website.Booking
                         {
                             updateCmd.Parameters.AddWithValue("@StudentID", studentId);
                             updateCmd.ExecuteNonQuery();
+                        }
+
+                        // Get student email and name for notification
+                        string studentEmail = "";
+                        string studentName = "";
+                        string getStudentQuery = "SELECT Email, Name, Surname FROM StudentMJ WHERE StudentID = @StudentID";
+                        using (SqlCommand studentCmd = new SqlCommand(getStudentQuery, conn))
+                        {
+                            studentCmd.Parameters.AddWithValue("@StudentID", studentId);
+                            using (SqlDataReader reader = studentCmd.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    studentEmail = reader["Email"].ToString();
+                                    studentName = reader["Name"].ToString() + " " + reader["Surname"].ToString();
+                                }
+                            }
+                        }
+
+                        // Send email notification
+                        if (!string.IsNullOrEmpty(studentEmail))
+                        {
+                            try
+                            {
+                                string bookingInstructorName = ddlInstructor.SelectedItem.Text;
+                                string bookingTimeSlot = ddlTimeSlot.SelectedItem.Text;
+
+                                CustomEmailService.SendLessonBookingEmail(
+                                    studentEmail,
+                                    studentName,
+                                    lessonDate,
+                                    bookingTimeSlot,
+                                    bookingInstructorName,
+                                    vehicleId,
+                                    "Confirmed"
+                                );
+                            }
+                            catch (Exception emailEx)
+                            {
+                                System.Diagnostics.Debug.WriteLine("Email sending failed: " + emailEx.Message);
+                            }
                         }
                     }
 

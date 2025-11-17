@@ -141,5 +141,150 @@ namespace M4_Website.Models
                 return false;
             }
         }
+
+        /// <summary>
+        /// Sends a lesson booking confirmation or cancellation email to the student
+        /// </summary>
+        public static bool SendLessonBookingEmail(
+            string studentEmail,
+            string studentName,
+            DateTime lessonDate,
+            string timeSlot,
+            string instructorName,
+            string vehicleId,
+            string status)
+        {
+            try
+            {
+                // Email configuration
+                string smtpHost = ConfigurationManager.AppSettings["SmtpHost"] ?? "smtp.gmail.com";
+                int smtpPort = int.Parse(ConfigurationManager.AppSettings["SmtpPort"] ?? "587");
+                string smtpUsername = ConfigurationManager.AppSettings["SmtpUsername"] ?? "";
+                string smtpPassword = ConfigurationManager.AppSettings["SmtpPassword"] ?? "";
+                string fromEmail = ConfigurationManager.AppSettings["FromEmail"] ?? smtpUsername;
+                string fromName = ConfigurationManager.AppSettings["FromName"] ?? "TLG Driving School";
+                bool enableSsl = bool.Parse(ConfigurationManager.AppSettings["SmtpEnableSsl"] ?? "true");
+
+                // Create email message
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(fromEmail, fromName);
+                mail.To.Add(studentEmail);
+
+                bool isCancellation = status == "Cancelled";
+                mail.Subject = isCancellation 
+                    ? "Lesson Cancelled - TLG Driving School" 
+                    : "Lesson Booking Confirmation - TLG Driving School";
+                mail.IsBodyHtml = true;
+
+                // Create email body
+                StringBuilder emailBody = new StringBuilder();
+                emailBody.AppendLine("<!DOCTYPE html>");
+                emailBody.AppendLine("<html>");
+                emailBody.AppendLine("<head>");
+                emailBody.AppendLine("<style>");
+                emailBody.AppendLine("body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }");
+                emailBody.AppendLine(".container { max-width: 600px; margin: 0 auto; padding: 20px; }");
+                emailBody.AppendLine(".header { background-color: " + (isCancellation ? "#dc3545" : "#28a745") + "; color: white; padding: 20px; text-align: center; }");
+                emailBody.AppendLine(".content { background-color: #f9f9f9; padding: 20px; border: 1px solid #ddd; }");
+                emailBody.AppendLine(".details-table { width: 100%; border-collapse: collapse; margin: 20px 0; }");
+                emailBody.AppendLine(".details-table td { padding: 10px; border-bottom: 1px solid #ddd; }");
+                emailBody.AppendLine(".details-table td:first-child { font-weight: bold; width: 40%; }");
+                emailBody.AppendLine(".highlight { background-color: " + (isCancellation ? "#f8d7da" : "#d4edda") + "; padding: 15px; border-radius: 5px; margin: 15px 0; }");
+                emailBody.AppendLine(".footer { text-align: center; margin-top: 20px; padding: 10px; font-size: 0.9em; color: #666; }");
+                emailBody.AppendLine("</style>");
+                emailBody.AppendLine("</head>");
+                emailBody.AppendLine("<body>");
+                emailBody.AppendLine("<div class='container'>");
+
+                // Header
+                emailBody.AppendLine("<div class='header'>");
+                emailBody.AppendLine("<h1>TLG Driving School</h1>");
+                emailBody.AppendLine("<h2>" + (isCancellation ? "Lesson Cancelled" : "Lesson Booking Confirmed") + "</h2>");
+                emailBody.AppendLine("</div>");
+
+                // Content
+                emailBody.AppendLine("<div class='content'>");
+                emailBody.AppendLine($"<p>Dear {studentName},</p>");
+
+                if (isCancellation)
+                {
+                    emailBody.AppendLine("<p>This email confirms that your driving lesson has been <strong>cancelled</strong>.</p>");
+                }
+                else
+                {
+                    emailBody.AppendLine("<p>Great news! Your driving lesson has been successfully booked.</p>");
+                }
+
+                // Lesson details table
+                emailBody.AppendLine("<table class='details-table'>");
+                emailBody.AppendLine($"<tr><td>Date:</td><td><strong>{lessonDate:dddd, dd MMMM yyyy}</strong></td></tr>");
+                emailBody.AppendLine($"<tr><td>Time:</td><td><strong>{timeSlot}</strong></td></tr>");
+                emailBody.AppendLine($"<tr><td>Instructor:</td><td>{instructorName}</td></tr>");
+                if (!string.IsNullOrEmpty(vehicleId))
+                {
+                    emailBody.AppendLine($"<tr><td>Vehicle:</td><td>{vehicleId}</td></tr>");
+                }
+                emailBody.AppendLine($"<tr><td>Status:</td><td><span style='color: " + (isCancellation ? "#dc3545" : "#28a745") + ";'><strong>{status}</strong></span></td></tr>");
+                emailBody.AppendLine("</table>");
+
+                if (!isCancellation)
+                {
+                    // Important reminders
+                    emailBody.AppendLine("<div class='highlight'>");
+                    emailBody.AppendLine("<h3>Important Reminders:</h3>");
+                    emailBody.AppendLine("<ul>");
+                    emailBody.AppendLine("<li>Please arrive <strong>15 minutes before</strong> your scheduled lesson time</li>");
+                    emailBody.AppendLine("<li>Bring your <strong>learner's license</strong></li>");
+                    emailBody.AppendLine("<li>Wear comfortable clothes and closed shoes</li>");
+                    emailBody.AppendLine("<li>If you need to cancel or reschedule, please do so at least <strong>24 hours in advance</strong></li>");
+                    emailBody.AppendLine("</ul>");
+                    emailBody.AppendLine("</div>");
+                }
+                else
+                {
+                    emailBody.AppendLine("<div class='highlight'>");
+                    emailBody.AppendLine("<p>If you wish to book another lesson, please visit your student dashboard or contact us.</p>");
+                    emailBody.AppendLine("</div>");
+                }
+
+                // Contact information
+                emailBody.AppendLine("<h3>Need Help?</h3>");
+                emailBody.AppendLine("<p>If you have any questions or need to make changes, please contact us:</p>");
+                emailBody.AppendLine("<ul>");
+                emailBody.AppendLine("<li><strong>Email:</strong> takananilg@gmail.com</li>");
+                emailBody.AppendLine("<li><strong>Phone:</strong> 074 667 2974 / 061 585 0684</li>");
+                emailBody.AppendLine("</ul>");
+
+                emailBody.AppendLine("<p>Best regards,<br/>TLG Driving School Team</p>");
+                emailBody.AppendLine("</div>");
+
+                // Footer
+                emailBody.AppendLine("<div class='footer'>");
+                emailBody.AppendLine("<p>This is an automated email. Please do not reply to this message.</p>");
+                emailBody.AppendLine($"<p>&copy; {DateTime.Now.Year} TLG Driving School. All rights reserved.</p>");
+                emailBody.AppendLine("</div>");
+
+                emailBody.AppendLine("</div>");
+                emailBody.AppendLine("</body>");
+                emailBody.AppendLine("</html>");
+
+                mail.Body = emailBody.ToString();
+
+                // Configure SMTP client
+                SmtpClient smtp = new SmtpClient(smtpHost, smtpPort);
+                smtp.Credentials = new NetworkCredential(smtpUsername, smtpPassword);
+                smtp.EnableSsl = enableSsl;
+
+                // Send email
+                smtp.Send(mail);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error sending lesson booking email: {ex.Message}");
+                return false;
+            }
+        }
     }
 }

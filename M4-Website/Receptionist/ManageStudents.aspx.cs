@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Web.UI.WebControls;
+using M4_Website.Models;
 
 namespace M4_Website.Receptionist
 {
