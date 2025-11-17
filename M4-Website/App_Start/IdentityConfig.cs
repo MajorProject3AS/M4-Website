@@ -1,12 +1,14 @@
-﻿using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using M4_Website.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using M4_Website.Models;
+using System;
+using System.Net;
+using System.Net.Mail;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace M4_Website
 {
@@ -14,8 +16,28 @@ namespace M4_Website
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            var mail = new MailMessage();
+            mail.From = new MailAddress("thumbezaandiswa@gmail.com");
+            mail.To.Add(message.Destination);
+            mail.Subject = message.Subject;
+            mail.Body = message.Body;
+            mail.IsBodyHtml = true;
+
+            var smtp = new SmtpClient("smtp.gmail.com", 587)
+            {
+                EnableSsl = true,
+                Credentials = new NetworkCredential(
+                    "thumbezaandiswa@gmail.com",
+                    "rrvriwadmcuyrtcb" // YOUR APP PASSWORD
+                )
+            };
+
+            return smtp.SendMailAsync(mail);
+
+            //mail.IsBodyHtml = true;
+
+            //// Plug in your email service here to send an email.
+            //return Task.FromResult(0);
         }
     }
 
