@@ -43,10 +43,11 @@ namespace M4_Website
                     DSProgress.InsertParameters["StudentSurname"].DefaultValue = GVStu.SelectedRow.Cells[3].Text;
                     DSProgress.Insert();
                     GVProgress.DataBind();
+                    DDLSearch.DataBind();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    StatusLbl.Text = "Error: " + ex.Message;
+                    StatusLbl.Text = "Error: Make sure student is selected or that the student is not already added. ";
                 }
             }
         }
@@ -92,9 +93,9 @@ namespace M4_Website
                         StatusLbl.Text = "No matching student found.";
                     }
                 }
-                catch (Exception ex)
+                catch 
                 {
-                    StatusLbl.Text = "Error updating skill: " + ex.Message;
+                    StatusLbl.Text = "Error updating skill";
                 }
             }
         }
@@ -141,9 +142,9 @@ namespace M4_Website
                     int rows = cmd.ExecuteNonQuery();
                     StatusLbl.Text = rows > 0 ? "Comment added." : "Student not found.";
                 }
-                catch (Exception ex)
+                catch 
                 {
-                    StatusLbl.Text = "Error: " + ex.Message;
+                    StatusLbl.Text = "Error adding comment";
                 }
             }
         }

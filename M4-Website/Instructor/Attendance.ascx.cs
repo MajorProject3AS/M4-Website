@@ -90,9 +90,9 @@ namespace M4_Website
                         statusLbl.Text = "Attendance marked successfully";
 
                     }
-                    catch (Exception ex)
+                    catch 
                     {
-                        statusLbl.Text = "Error: " + ex.Message;
+                        statusLbl.Text = "Error: Booking has already been marked.";
                     }
                 }
             }
@@ -132,9 +132,9 @@ namespace M4_Website
                         AttendanceGV.DataBind();
                         statusLbl.Text = "Attendance marked successfully";
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        statusLbl.Text = "Error: " + ex.Message;
+                        statusLbl.Text = "Error: Booking has already been marked. ";
 
 
                     }
