@@ -163,5 +163,26 @@
                 <p><strong>Status:</strong> <asp:Label ID="lblPaymentStatus" runat="server" /></p>
             </div>
         </div>
+
+        <!-- Quick Actions Section -->
+        <div class="card mb-4">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0">Quick Actions</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <a href="/Booking/BookLesson.aspx" class="btn btn-primary btn-lg w-100">
+                            <i class="bi bi-calendar-plus"></i> Book New Lesson
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a href="MyProgress.aspx" class="btn btn-secondary btn-lg w-100">
+                            <i class="bi bi-graph-up"></i> View My Progress
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </asp:Content>

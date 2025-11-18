@@ -246,6 +246,7 @@
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
     <Content Include="Instructor\StudentProgress.ascx" />
+    <Content Include="Student\MyProgress.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -542,6 +543,13 @@
     </Compile>
     <Compile Include="Instructor\StudentProgress.ascx.designer.cs">
       <DependentUpon>StudentProgress.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Student\MyProgress.aspx.cs">
+      <DependentUpon>MyProgress.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Student\MyProgress.aspx.designer.cs">
+      <DependentUpon>MyProgress.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
