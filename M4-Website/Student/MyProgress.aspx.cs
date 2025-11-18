@@ -104,16 +104,13 @@ namespace M4_Website.Student
                         da.Fill(dt);
 
                         // Combine StudentName and StudentSurname into one column
-                        if (dt.Rows.Count > 0)
+                        if (dt.Rows.Count > 0 && dt.Columns.Contains("StudentName") && dt.Columns.Contains("StudentSurname"))
                         {
-                            dt.Columns.Add("StudentFullName", typeof(string));
                             foreach (DataRow row in dt.Rows)
                             {
-                                row["StudentFullName"] = row["StudentName"].ToString() + " " + row["StudentSurname"].ToString();
+                                row["StudentName"] = row["StudentName"].ToString() + " " + row["StudentSurname"].ToString();
                             }
                             dt.Columns.Remove("StudentSurname");
-                            dt.Columns["StudentFullName"].SetOrdinal(0);
-                            dt.Columns["StudentFullName"].ColumnName = "StudentName";
                         }
 
                         gvProgressComments.DataSource = dt;
