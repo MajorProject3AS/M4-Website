@@ -205,7 +205,6 @@
     <Content Include="Manager\ManageVehicles.aspx" />
     <Content Include="Manager\ManageStaff.aspx" />
     <Content Include="Manager\Reports.aspx" />
-    <Content Include="Register.aspx" />
     <Content Include="Account\Web.config" />
     <Content Include="Manager\Manager.Master" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -216,6 +215,8 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Manager\ManagerWeb.config" />
     <Content Include="Instructor\InstructorWeb.config" />
+    <None Include="Properties\PublishProfiles\IST-WST-Group-24 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\IST-WST-Group-24 - Web Deploy1.pubxml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -552,6 +553,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="M4-Website\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
